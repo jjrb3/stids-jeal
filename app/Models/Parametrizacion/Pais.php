@@ -59,8 +59,8 @@ class Pais extends Model
         }
         catch (Exception $e) {
             return response()->json(array(
-                'resultado' => -2,
-                'mensaje'   => 'Grave error: ' . $e,
+                'resultado' => -1,
+                'mensaje'   => 'Se encontraron problemas al eliminar'
             ));
         }
     }

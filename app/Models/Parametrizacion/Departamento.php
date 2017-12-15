@@ -67,10 +67,10 @@ class Departamento extends Model
                 ));
             }
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             return response()->json(array(
-                'resultado' => -2,
-                'mensaje'   => 'Grave error: ' . $e,
+                'resultado' => -1,
+                'mensaje'   => 'Se encontraron problemas al eliminar'
             ));
         }
     }

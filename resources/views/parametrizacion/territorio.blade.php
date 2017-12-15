@@ -167,6 +167,6 @@
 
     <script>
         Api.permisos = [{{$permisos}}];
-        Api.Territorio.pruebas();
+        Api.Territorio.constructor();
     </script>
 @endsection
