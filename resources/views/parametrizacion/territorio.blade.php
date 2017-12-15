@@ -50,15 +50,14 @@
                             <div class="ibox-content inspinia-timeline" style="display: block;">
                                 <div class="timeline-item">
                                     <div class="row">
-                                        <div id="mensaje"></div>
                                         <div class="col-lg-12">
                                             @if($op->guardar)
                                                 <input type="text" id="nombre" class="form-control" placeholder="Digite el nombre para crear" onkeypress="enterPais(event)">
                                                 <br>
                                             @endif
                                         </div>
-                                        <div id='tablaPais'></div>
-                                        <div id='paginacionPais'></div>
+                                        <div class="col-lg-12" id="pais-mensaje"></div>
+                                        <div class="col-lg-12" id="pais-tabla"></div>
                                     </div>
                                 </div>       
                             </div>
@@ -152,5 +151,6 @@
 
     <script>
         Api.permisos = [{{$permisos}}];
+        Api.Territorio.constructor();
     </script>
 @endsection
