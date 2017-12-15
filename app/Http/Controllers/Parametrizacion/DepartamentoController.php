@@ -10,15 +10,27 @@ use App\Models\Parametrizacion\Departamento;
 
 class DepartamentoController extends Controller
 {
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-15 - 09:23 AM
+     * @see: 1. Departamento::consultarPorPais.
+     *
+     * Consultar los departamentos por pais
+     *
+     * @param request $request:     Peticiones realizadas.
+     *
+     * @return object
+     */
 	public static function ConsultarPorPais(Request $request) {
 
-        return Departamento::consultarPorPais($request->get('idPais'));
-    }
-
-
-    public static function Consultar(Request $request) {
-
-        return Departamento::consultar($request);
+        return Departamento::ConsultarPorPais(
+            $request,
+            $request->get('id_pais'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
     }
 
 

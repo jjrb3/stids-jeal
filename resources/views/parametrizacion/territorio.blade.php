@@ -89,8 +89,8 @@
                                         </div>                                                                         
                                     </div>
                                     <div class="row">
-                                        <div id='tablaDepartamento'></div>
-                                        <div id='paginacionDepartamento'></div>
+                                        <div class="col-lg-12" id="departamento-mensaje"></div>
+                                        <div class="col-lg-12" id="departamento-tabla"></div>
                                     </div>
                                 </div>       
                             </div>
@@ -122,8 +122,8 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div id='tablaMunicipio'></div>
-                                        <div id='paginacionMunicipio'></div>
+                                        <div class="col-lg-12" id="municipio-mensaje"></div>
+                                        <div class="col-lg-12" id="municipio-tabla"></div>
                                     </div>
                                 </div>       
                             </div>
@@ -151,6 +151,6 @@
 
     <script>
         Api.permisos = [{{$permisos}}];
-        Api.Territorio.constructor();
+        Api.Territorio.pruebas();
     </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
@@ -10,15 +11,41 @@ class Municipio extends Model
     public $timestamps = false;
     protected $table = "s_municipio";
 
-    public static function consultarPorDepartamento($idDepartamento) {
-        try {
-            $resultado = Municipio::where('id_departamento','=',(int)$idDepartamento)
-                                    ->orderBy('nombre','asc')->get();
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Municipio';
 
-            return isset($resultado[0]) ? $resultado : array();
-            
-        } catch (Exception $e) {
-            return array();
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-15 - 09:50 AM
+     *
+     * Consultar los municipios por departamento
+     *
+     * @param request $request:         Peticiones realizadas.
+     * @param integer $idDepartamento:  Id del departamento.
+     * @param integer $buscar:          Texto a buscar.
+     * @param integer $pagina:          Pagina actual.
+     * @param integer $tamanhio:        Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function ConsultarPorDepartamento($request, $idDepartamento, $buscar = null, $pagina = 1, $tamanhio = 10) {
+        try {
+            $currentPage = $pagina;
+
+            // Fuerza a estar en la pagina
+            Paginator::currentPageResolver(function() use ($currentPage) {
+                return $currentPage;
+            });
+
+            return Municipio::whereRaw("s_municipio.nombre like '%{$buscar}%'")
+                ->where('id_departamento',$idDepartamento)
+                ->orderBy('nombre')
+                ->paginate($tamanhio);
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorDepartamento', $e, $request);
         }
     }
 

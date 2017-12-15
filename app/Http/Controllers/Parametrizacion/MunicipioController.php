@@ -12,7 +12,13 @@ class MunicipioController extends Controller
 {
 	public static function ConsultarPorDepartamento(Request $request) {
 
-        return Municipio::ConsultarPorDepartamento($request->get('idMunicipio'));
+        return Municipio::ConsultarPorDepartamento(
+            $request,
+            $request->get('id_departamento'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
     }
 
 

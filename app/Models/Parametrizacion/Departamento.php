@@ -2,6 +2,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
@@ -10,36 +11,43 @@ class Departamento extends Model
     public $timestamps = false;
     protected $table = "s_departamento";
 
-    public static function consultarPorPais($idPais) {
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Departamento';
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-15 - 09:38 AM
+     *
+     * Consultar los departamentos por pais
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param integer $idPais:      Id del pais.
+     * @param integer $buscar:      Texto a buscar.
+     * @param integer $pagina:      Pagina actual.
+     * @param integer $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function ConsultarPorPais($request, $idPais, $buscar = null, $pagina = 1, $tamanhio = 10) {
         try {
-            $resultado = Departamento::where('id_pais','=',(int)$idPais)
-                                    ->orderBy('nombre','asc')->get();
-
-            return isset($resultado[0]) ? $resultado : array();
-            
-        } catch (Exception $e) {
-            return array();
-        }
-    }
-
-
-    public static function consultar($request) {
-        try {
-            $currentPage = $request->get('pagina');
+            $currentPage = $pagina;
 
             // Fuerza a estar en la pagina
             Paginator::currentPageResolver(function() use ($currentPage) {
                 return $currentPage;
             });
 
-            return Departamento::whereRaw("s_departamento.nombre like '%{$request->get('buscador')}%'")
-                ->where('id_pais','=',$request->get('id_pais'))
+            return Departamento::whereRaw("s_departamento.nombre like '%{$buscar}%'")
+                ->where('id_pais',$idPais)
                 ->orderBy('nombre')
-                ->paginate($request->get('tamanhioPagina'));
+                ->paginate($tamanhio);
 
-        } catch (Exception $e) {
-            return array();
-        } 
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarPorPais', $e, $request);
+        }
     }
 
 

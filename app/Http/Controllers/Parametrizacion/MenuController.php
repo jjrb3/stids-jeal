@@ -13,7 +13,7 @@ class MenuController extends Controller
 {
     public static function menuAdministrador(Request $request)
     {
-        $reduccion  = -1;  // -1: Local, 0: Servidor
+        $reduccion  = -2;  // -2: Local, -1: Servidor
         $aMenu      = array();
         $aUrl       = array_filter(explode('/', $_SERVER['REQUEST_URI']));
         $idUsuario  = $request->session()->get('idUsuario');
