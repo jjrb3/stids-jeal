@@ -52,13 +52,16 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             @if($op->guardar)
-                                                <input type="text"
-                                                       id="pais-nombre"
-                                                       class="form-control"
-                                                       placeholder="Digite el nombre para crear"
-                                                       onkeypress="Api.Territorio.Pais.guardarActualizar(event)"
-                                                       maxlength="50"
-                                                >
+                                                <div class="form-group">
+                                                    <label>País.</label>
+                                                    <input type="text"
+                                                           id="pais-nombre"
+                                                           class="form-control"
+                                                           placeholder="Digite el nombre para crear"
+                                                           onkeypress="Api.Territorio.Pais.guardarActualizar(event)"
+                                                           maxlength="50"
+                                                    >
+                                                </div>
                                                 <br>
                                             @endif
                                         </div>
@@ -88,13 +91,16 @@
                                         </div>
                                         <div class="col-lg-12">
                                             @if($op->guardar)
-                                                <input type="text"
-                                                       id="departamento-nombre"
-                                                       class="form-control"
-                                                       placeholder="Digite el nombre para crear"
-                                                       onkeypress="Api.Territorio.Departamento.guardarActualizar(event)"
-                                                       maxlength="50"
-                                                >
+                                                <div class="form-group">
+                                                    <label>Departamento.</label>
+                                                    <input type="text"
+                                                           id="departamento-nombre"
+                                                           class="form-control"
+                                                           placeholder="Digite el nombre para crear"
+                                                           onkeypress="Api.Territorio.Departamento.guardarActualizar(event)"
+                                                           maxlength="50"
+                                                    >
+                                                </div>
                                                 <br>
                                             @endif
                                         </div>                                                                         
@@ -126,13 +132,16 @@
                                         </div>
                                         <div class="col-lg-12">
                                             @if($op->guardar)
-                                                <input type="text"
-                                                       id="municipio-nombre"
-                                                       class="form-control"
-                                                       placeholder="Digite el nombre para crear"
-                                                       onkeypress="Api.Territorio.Municipio.guardarActualizar(event)"
-                                                       maxlength="50"
-                                                >
+                                                <div class="form-group">
+                                                    <label>Municipio.</label>
+                                                    <input type="text"
+                                                           id="municipio-nombre"
+                                                           class="form-control"
+                                                           placeholder="Digite el nombre para crear"
+                                                           onkeypress="Api.Territorio.Municipio.guardarActualizar(event)"
+                                                           maxlength="50"
+                                                    >
+                                                </div>
                                                 <br>
                                             @endif
                                         </div>

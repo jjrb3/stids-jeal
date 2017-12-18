@@ -53,7 +53,10 @@
                                         <div class="col-lg-12">
                                             @if($op->guardar)
                                                 <input type="hidden" id="id">
-                                                <input type="text" id="nombre" class="form-control" style="width:300px" placeholder="Digite el nombre para crear" onkeypress="Api.Identificacion.guardarActualizar(event)" maxlength="50">
+                                                <div class="form-group">
+                                                    <label>Tipo de identificación.</label>
+                                                    <input type="text" id="nombre" class="form-control" style="width:300px" placeholder="Digite el nombre para crear" onkeypress="Api.Identificacion.guardarActualizar(event)" maxlength="50">
+                                                </div>
                                                 <br>
                                             @endif
                                         </div>

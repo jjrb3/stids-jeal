@@ -1,9 +1,8 @@
 @extends('temas.'.$empresa['nombre_administrador'])
 
-@section('content') 
+@section('content')
     @php($idPadre = $_REQUEST['padre'])
     @php($idHijo = $_REQUEST['hijo'])
-    <input type="hidden" id="rutaImagen" value="../../../temas/{{$empresa['tema_nombre']}}">
     <input type="hidden" id="idPadre" value="{{$idPadre}}">
     <input type="hidden" id="idHijo" value="{{$idHijo}}">
 
@@ -11,33 +10,25 @@
         <div class="col-sm-12">
             <h2 style="font-weight: 500;">{{$menuAdministrador['menu'][$idPadre]['submenu'][$idHijo]['nombre']}}</h2>
             <small>{{$menuAdministrador['menu'][$idPadre]['submenu'][$idHijo]['descripcion']}}</small>
-            <div style="float:right;">
-                @php($cnt = 0)
-                @php($idsPermiso = '')
-                @foreach($permisos as $permiso)
-                    @if($cnt>0)
-                        @php($idsPermiso .= ',' . $permiso['id_permiso'])
-                    @else
-                        @php($idsPermiso .= $permiso['id_permiso'])
-                    @endif
-
-                    @if($permiso['id_permiso'] == 1)
-                        <button type="button" class="btn btn-primary" title="Crear"><i class="fa fa-floppy-o"></i></button>
-                    @elseif($permiso['id_permiso'] == 2)
-                        <button type="button" class="btn btn-success" title="Rapida actualización"><i class="fa fa-pencil"></i></button>
-                        <button type="button" class="btn btn-success" title="Actualizar"><i class="fa fa-pencil-square-o"></i></button>
-                    @elseif($permiso['id_permiso'] == 3)
-                        <button type="button" class="btn btn-warning" title="Activar y desactivar"><i class="fa fa-toggle-on"></i></button>
-                    @elseif($permiso['id_permiso'] == 4)
-                        <button type="button" class="btn btn-danger" title="Eliminar"><i class="fa fa-trash"></i></button>
-                    @elseif($permiso['id_permiso'] == 5)
-                        <button type="button" class="btn btn-info" title="Exportar archivo"><i class="fa fa-cloud-download"></i></button>
-                    @elseif($permiso['id_permiso'] == 6)
-                        <button type="button" class="btn btn-info" title="Importar archivo"><i class="fa fa-cloud-upload"></i></button>
-                    @endif
-
-                    @php($cnt++)
-                @endforeach   
+            <div class="float-right">
+                @if($op->guardar)
+                    <button type="button" class="btn btn-primary" title="Crear"><i class="fa fa-floppy-o"></i></button>
+                @endif
+                @if($op->actualizar)
+                    <button type="button" class="btn btn-success" title="Actualizar"><i class="fa fa-pencil-square-o"></i></button>
+                @endif
+                @if($op->estado)
+                    <button type="button" class="btn btn-warning" title="Activar y desactivar"><i class="fa fa-toggle-on"></i></button>
+                @endif
+                @if($op->eliminar)
+                    <button type="button" class="btn btn-danger" title="Eliminar"><i class="fa fa-trash"></i></button>
+                @endif
+                @if($op->exportar)
+                    <button type="button" class="btn btn-info" title="Exportar archivo"><i class="fa fa-cloud-download"></i></button>
+                @endif
+                @if($op->importar)
+                    <button type="button" class="btn btn-info" title="Importar archivo"><i class="fa fa-cloud-upload"></i></button>
+                @endif
             </div>
         </div>
     </div>
@@ -59,36 +50,40 @@
                             <div class="ibox-content inspinia-timeline" style="display: block;">
                                 <div class="timeline-item">
                                     <div class="row">
-                                        <div id="mensajeGuardar"></div>
-                                        <form id="formulario">
-                                            <div class="col-lg-3">
-                                                <input id="nombre" type="text" class="form-control m-b" name="nombre" placeholder="Digite el nombre" required>
+                                        <form id="formulario-temas">
+                                            <div class="col-lg-3 form-group">
+                                                <label>Nombre del tema.</label>
+                                                <input id="nombre" type="text" class="form-control m-b" placeholder="Digite el nombre" required>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <input id="nombre_usuario" type="text" class="form-control m-b" name="nombre_usuario" placeholder="Digite el nombre de la sesión de usuario" required>
+                                            <div class="col-lg-3 form-group">
+                                                <label>Nombre para usuarios.</label>
+                                                <input id="nombre-usuario" type="text" class="form-control m-b" placeholder="Digite la sesión de usuario" required>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <input id="nombre_administrador" type="text" class="form-control m-b" name="nombre_administrador" placeholder="Digite el nombre de la sesión de administrador" required>
+                                            <div class="col-lg-3 form-group">
+                                                <label>Nombre para administrador.</label>
+                                                <input id="nombre-administrador" type="text" class="form-control m-b" placeholder="Digite la sesión de administrador" required>
                                             </div>
-                                            <div class="col-lg-3">
-                                                <input id="nombre_logueo" type="text" class="form-control m-b" name="nombre_logueo" placeholder="Digite nombre de la sesión de logueo" required>
+                                            <div class="col-lg-3 form-group">
+                                                <label>Nombre para ingreso.</label>
+                                                <input id="nombre-logueo" type="text" class="form-control m-b" placeholder="Digite la sesión de ingreso" required>
                                             </div>
-
-                                            <div class="col-lg-3" id="divGuardar">
-                                                <button id="botonGuardar" class="btn btn-primary " type="button" onClick="guardar(false,'')" style="display:none;">
+                                            <div class="col-lg-6" id="ca-botones-temas">
+                                                <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Temas.crear()">
                                                     <i class="fa fa-floppy-o"></i>&nbsp;
                                                     Guardar
                                                 </button>
-                                                <button id="botonCancelar" class="btn btn-default " type="button" onclick="cancelarGuardar('formulario')" style="display:none;">
-                                                    <i class="fa fa-times"></i> 
+
+                                                <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('temas')">
+                                                    <i class="fa fa-times"></i>
                                                     Cancelar
                                                 </button>
-                                                <button id="botonActualizar" class="btn btn-primary " type="button" onClick="guardar(false,'')" style="display:none;">
-                                                    <i class="fa fa-floppy-o"></i>&nbsp;
+                                                <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Temas.actualizar()">
+                                                    <i class="fa fa-pencil-square-o"></i>&nbsp;
                                                     Actualizar
                                                 </button>
                                             </div>
                                         </form>
+                                        <div id="mensaje" class="col-lg-12"></div>
                                     </div>
                                 </div>       
                             </div>
@@ -108,9 +103,7 @@
                             <div class="ibox-content inspinia-timeline" style="display: block;">
                                 <div class="timeline-item">
                                     <div class="row">
-                                        <div id="mensajeTabla"></div>
-                                        <div id='tabla'></div>   
-                                        <div id='paginacion'></div>                                        
+                                        <div id="tabla" class="col-lg-12"></div>
                                     </div>
                                 </div>       
                             </div>
@@ -150,7 +143,11 @@
 @endsection
 
 @section('script') 
-    <script>var globalPermisos = [{{$idsPermiso}}]</script>
+
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/tema.js')}}"></script>
-    <script>listado();</script>
+
+    <script>
+        Api.permisos = [{{$permisos}}];
+        Api.Temas.constructor();
+    </script>
 @endsection
