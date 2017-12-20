@@ -2,6 +2,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
@@ -10,37 +11,93 @@ class Sexo extends Model
     public $timestamps = false;
     protected $table = "s_sexo";
 
-    public static function consultarTodo($request) {
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Sexo';
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-13 - 10:04 AM
+     *
+     * Consultar todos con paginacion
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param integer $buscar:      Texto a buscar.
+     * @param integer $pagina:      Pagina actual.
+     * @param integer $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function consultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10) {
         try {
-            $currentPage = $request->get('pagina');
+            $currentPage = $pagina;
 
             // Fuerza a estar en la pagina
             Paginator::currentPageResolver(function() use ($currentPage) {
                 return $currentPage;
             });
 
-            return Sexo::orderBy('estado','desc')
-                ->whereRaw("s_sexo.nombre like '%{$request->get('buscador')}%'")
+            return Sexo::where('estado','>','-1')
+                ->whereRaw("s_sexo.nombre like '%{$buscar}%'")
                 ->orderBy('estado','desc')
                 ->orderBy('nombre')
-                ->paginate($request->get('tamanhioPagina'));
+                ->paginate($tamanhio);
 
-        } catch (Exception $e) {
-            return array();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarTodo', $e, $request);
         } 
     }
 
-    public static function consultarActivo() {
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 02:15 PM
+     *
+     * Consultar activos
+     *
+     * @param request $request:     Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function consultarActivo($request) {
         
         try {
-            $resultado = Sexo::where('estado','=','1')->get();
-
-            return isset($resultado[0]) ? $resultado : array();
-            
-        } catch (Exception $e) {
-            return array();
+            return Sexo::where('estado','1')
+                ->orderBy('nombre')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarActivo', $e, $request);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 02:18 PM
+     *
+     * Consultar por nombre y empresa
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nombre:      Nombre.
+     *
+     * @return object
+     */
+    public static function ConsultarPorNombreEmpresa($request, $nombre) {
+        try {
+            return Sexo::where('nombre',(string)$nombre)
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorNombre', $e, $request);
+        }
+    }
+
+
 
     public static function consultarEstado($estado) {
         try {
