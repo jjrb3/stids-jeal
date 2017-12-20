@@ -186,48 +186,57 @@ class RolController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 01:15 PM
+     * @see: 1. Rol::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Cambia de estado datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public function CambiarEstado(Request $request) {
 
-    	$clase = Rol::Find((int)$request->get('id'));
+        $clase  = Rol::Find((int)$request->get('id'));
 
-    	$clase->estado = $request->get('estado');
+        if ($clase->estado === 1) {
+            $clase->estado = 0;
+        }
+        elseif ($clase->estado === 0) {
+            $clase->estado = 1;
+        }
 
-    	$mensaje = ['Se cambió el estado correctamente',
-                    'Se encontraron problemas al cambiar el estado'];
+        $transaccion = [$request,4,self::$hs->estados[$clase->estado],'s_rol'];
 
-    	return HerramientaStidsController::ejecutarSave($clase,$mensaje);
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEstado,$transaccion);
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 01:23 PM
+     * @see: 1. Rol::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public function Eliminar($request)
     {
-        return Rol::eliminar($request);
-    }
+        $clase = Rol::Find((int)$request->get('id'));
 
+        $clase->estado = -1;
 
-    private function insertarCampos($clase,$request) {
+        $transaccion = [$request,4,'eliminar','s_rol'];
 
-        $clase->id_empresa = $request->session()->get('idEmpresa');
-        $clase->nombre = $request->get('nombre');
-        $clase->estado = 1;
-
-        return $clase;
-    }
-
-
-    public function verificacion($request){
-
-        $campos = array(
-            'nombre' => 'Debe digitar el campo nombre para continuar',
-        );
-
-        foreach ($campos as $campo => $mensaje) {
-
-            $resultado = HerramientaStidsController::verificacionCampos($request,$campo,$mensaje);
-
-            if ($resultado) {
-                return $resultado;
-            }
-        }
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEliminar,$transaccion);
     }
 }
