@@ -2,6 +2,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
@@ -10,38 +11,70 @@ class Rol extends Model
     public $timestamps = false;
     protected $table = "s_rol";
 
-    public static function consultarTodo($request) {
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Rol';
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-13 - 10:04 AM
+     *
+     * Consultar todos con paginacion
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param integer $idEmpresa:   Id de la empresa.
+     * @param integer $buscar:      Texto a buscar.
+     * @param integer $pagina:      Pagina actual.
+     * @param integer $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function consultarTodo($request, $idEmpresa, $buscar = null, $pagina = 1, $tamanhio = 10) {
         try {
-            $currentPage = $request->get('pagina');
+            $currentPage = $pagina;
 
             // Fuerza a estar en la pagina
             Paginator::currentPageResolver(function() use ($currentPage) {
                 return $currentPage;
             });
 
-            return Rol::where('id_empresa',$request->session()->get('idEmpresa'))
-                ->whereRaw("s_rol.nombre like '%{$request->get('buscador')}%'")
+            return Rol::where('id_empresa',(int) $idEmpresa)
+                ->whereRaw("s_rol.nombre like '%{$buscar}%'")
+                ->where('estado','>','-1')
                 ->orderBy('estado','desc')
                 ->orderBy('nombre')
-                ->paginate($request->get('tamanhioPagina'));
+                ->paginate($tamanhio);
 
-        } catch (Exception $e) {
-            return array();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarTodo', $e, $request);
         } 
     }
 
-    public static function consultarActivo($request) {
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 12:01 PM
+     *
+     * Consultar activos
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param integer $idEmpresa:   Id de la empresa.
+     *
+     * @return object
+     */
+    public static function consultarActivo($request, $idEmpresa) {
         
         try {
-            $resultado = Rol::where('estado','=','1')
-                    ->where('id_empresa',$request->session()->get('idEmpresa'))
+            return Rol::where('estado','1')
+                    ->where('id_empresa',$idEmpresa)
                     ->orderBy('nombre')
                     ->get();
-
-            return isset($resultado[0]) ? $resultado : array();
-            
-        } catch (Exception $e) {
-            return array();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarActivo', $e, $request);
         }
     }
 

@@ -10,28 +10,94 @@ use App\Models\Parametrizacion\Rol;
 
 class RolController extends Controller
 {
+    public static $hs;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 11:50 AM
+     * @see: 1. Rol::consultarTodo.
+     *
+     * Consultar
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
 	public static function Consultar(Request $request) {
 
-        return Rol::consultarTodo($request);
+        $objeto  = Rol::consultarTodo(
+            $request,
+            $request->session()->get('idEmpresa'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
+
+        return empty($objeto ) ? (object)self::$hs->jsonError : $objeto ;
     }
 
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 12:01 PM
+     * @see: 1. Rol::consultarActivo.
+     *
+     * Consultar activos
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
 	public static function ConsultarActivos(Request $request) {
 
-        return Rol::consultarActivo($request);
+        $objeto = Rol::consultarActivo(
+            $request,
+            $request->session()->get('idEmpresa')
+        );
+
+        return empty($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 11:49 AM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. TipoIdentificacion::ConsultarPorNombreEmpresa.
+     *       3. TipoIdentificacion::find.
+     *       4. self::$hs->ejecutarSave.
+     *
+     * Guarda datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public function Guardar(Request $request)
     {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
+        #1. Verificamos los datos enviados
 
+        #1.1. Datos obligatorios
+        $datos = [
+            'nombre'   => 'Digite el nombre para poder guardar los cambios',
+        ];
 
-        $clase = $this->insertarCampos(new Rol(),$request);
-
-        $mensaje = ['Se guardó correctamente',
-                    'Se encontraron problemas al guardar'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
     }
 
 

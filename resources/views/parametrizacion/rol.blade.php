@@ -57,7 +57,13 @@
                                             @if($op->guardar)
                                                 <div class="form-group">
                                                     <label>Nombre del Rol.</label>
-                                                    <input type="text" id="nombre" class="form-control" style="width:300px" placeholder="Digite el nombre para crear" onkeypress="enterRol(event)">
+                                                    <input type="text"
+                                                           id="nombre"
+                                                           class="form-control"
+                                                           style="width:300px"
+                                                           placeholder="Digite el nombre para crear"
+                                                           onkeypress="Api.Rol.guardarActualizar(event)"
+                                                    >
                                                 </div>
                                                 <br>
                                             @endif
