@@ -43,7 +43,7 @@ class RolController extends Controller
             $request->get('tamanhio')
         );
 
-        return empty($objeto ) ? (object)self::$hs->jsonError : $objeto ;
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto ;
     }
 
 
@@ -66,7 +66,7 @@ class RolController extends Controller
             $request->session()->get('idEmpresa')
         );
 
-        return empty($objeto) ? (object)self::$hs->jsonError : $objeto;
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
 
@@ -75,7 +75,7 @@ class RolController extends Controller
      * @version: 1.0
      * @date: 2017-12-20 - 11:49 AM
      * @see: 1. self::$hs->verificationDatas.
-     *       2. TipoIdentificacion::ConsultarPorNombreEmpresa.
+     *       2. Rol::ConsultarPorNombreEmpresa.
      *       3. TipoIdentificacion::find.
      *       4. self::$hs->ejecutarSave.
      *
@@ -98,6 +98,51 @@ class RolController extends Controller
         if($respuesta = self::$hs->verificationDatas($request,$datos)) {
             return $respuesta;
         };
+
+
+        #2. Consultamos si existe
+        $R = Rol::ConsultarPorNombreEmpresa(
+            $request,
+            $request->get('nombre'),
+            $request->session()->get('idEmpresa')
+        );
+
+
+        #3. Que no se encuentre ningun error
+        if (!is_null($R)) {
+
+            #3.1. Si existe y no esta eliminado
+            if ($R->count() && $R[0]->estado > -1) {
+                return response()->json(self::$hs->jsonExiste);
+            }
+            #3.2. Esta eliminado entonces lo vuelve a activar
+            elseif ($R->count() && $R[0]->estado < 0) {
+
+                $clase = Rol::find($R[0]->id);
+
+                $clase->estado = 1;
+
+                $transaccion = [$request,4,'actualizar','s_rol'];
+
+                return self::$hs->ejecutarSave($clase,self::$hs->mensajeGuardar,$transaccion);
+            }
+            #3.3. Si no existe entonces se crea
+            else {
+
+                $clase = new Rol();
+
+                $clase->id_empresa  = $request->session()->get('idEmpresa');
+                $clase->nombre      = $request->get('nombre');
+                $clase->estado      = 1;
+
+                $transaccion = [$request,4,'crear','s_rol'];
+
+                return self::$hs->ejecutarSave($clase,self::$hs->mensajeGuardar,$transaccion);
+            }
+        }
+        else {
+            return response()->json(self::$hs->jsonError);
+        }
     }
 
 

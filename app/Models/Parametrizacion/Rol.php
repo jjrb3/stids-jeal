@@ -78,6 +78,31 @@ class Rol extends Model
         }
     }
 
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 12:58 PM
+     *
+     * Consultar por nombre y empresa
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nombre:      Nombre.
+     * @param integer $idEmpresa:   ID de la empresa.
+     *
+     * @return object
+     */
+    public static function ConsultarPorNombreEmpresa($request, $nombre, $idEmpresa) {
+        try {
+            return Rol::where('nombre',(string)$nombre)
+                ->where('id_empresa',(int)$idEmpresa)
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorNombre', $e, $request);
+        }
+    }
+
     public static function consultarEstado($estado) {
         try {
             return Rol::where('estado', '=', $estado)

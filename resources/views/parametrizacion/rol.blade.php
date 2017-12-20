@@ -51,16 +51,12 @@
                                 <div class="timeline-item">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <div id="mensaje"></div>
-                                        </div>
-                                        <div class="col-lg-12">
                                             @if($op->guardar)
                                                 <div class="form-group">
                                                     <label>Nombre del Rol.</label>
                                                     <input type="text"
                                                            id="nombre"
-                                                           class="form-control"
-                                                           style="width:300px"
+                                                           class="form-control w300"
                                                            placeholder="Digite el nombre para crear"
                                                            onkeypress="Api.Rol.guardarActualizar(event)"
                                                     >
@@ -68,8 +64,6 @@
                                                 <br>
                                             @endif
                                         </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-lg-12" id="mensaje"></div>
                                         <div class="col-lg-12" id="tabla"></div>
                                     </div>

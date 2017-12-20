@@ -149,6 +149,10 @@
 }
 
 /* Diferentes tamaños */
+.w300 {
+    width: 300px!important;
+}
+
 .w200 {
     width: 200px!important;
 }
