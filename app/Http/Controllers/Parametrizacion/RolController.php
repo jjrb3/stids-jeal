@@ -76,7 +76,7 @@ class RolController extends Controller
      * @date: 2017-12-20 - 11:49 AM
      * @see: 1. self::$hs->verificationDatas.
      *       2. Rol::ConsultarPorNombreEmpresa.
-     *       3. TipoIdentificacion::find.
+     *       3. Rol::find.
      *       4. self::$hs->ejecutarSave.
      *
      * Guarda datos.
@@ -146,18 +146,43 @@ class RolController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-13 - 11:42 AM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. Rol::find.
+     *       3. self::$hs->ejecutarSave.
+     *
+     * Actualiza datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public function Actualizar(Request $request)
     {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
+        #1. Verificamos los datos enviados
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'nombre' => 'Digite el nombre para poder guardar los cambios',
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
 
 
-        $clase = $this->insertarCampos(Rol::Find((int)$request->get('id')),$request);
+        #2. Agregamos los nuevos parametros y actualizamos
+        $clase = Rol::find((int)$request->get('id'));
 
-        $mensaje = ['Se actualizó correctamente',
-                    'Se encontraron problemas al actualizar'];
+        $clase->nombre = $request->get('nombre');
 
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
+        $transaccion = [$request, 4, 'actualizar', 's_rol'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeActualizar,$transaccion);
     }
 
 
