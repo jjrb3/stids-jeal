@@ -55,7 +55,7 @@ class UsuarioController extends Controller
         return response()->json([
             'resultado'      => 1,
             'perfil_usuario' => Usuario::consultarPerfil($request->session()->get('idUsuario')),
-            'sexo'           => Sexo::consultarActivo(),
+            'sexo'           => Sexo::consultarActivo($request),
         ]);
     }
 
