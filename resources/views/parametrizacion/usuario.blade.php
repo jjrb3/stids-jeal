@@ -196,11 +196,13 @@
                                                     <div class="col-lg-6">
                                                         <div class="form-group" id="ca-botones-usuario">
                                                             <br style="">
+                                                            @if($op->guardar)
                                                             <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Usuario.crear()">
                                                                 <i class="fa fa-floppy-o"></i>&nbsp;
                                                                 Guardar
                                                             </button>
-
+                                                            @endif
+                                                            @if($op->actualizar)
                                                             <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('usuario')">
                                                                 <i class="fa fa-times"></i>
                                                                 Cancelar
@@ -209,6 +211,7 @@
                                                                 <i class="fa fa-pencil-square-o"></i>&nbsp;
                                                                 Actualizar
                                                             </button>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </form>

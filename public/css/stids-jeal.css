@@ -194,6 +194,10 @@
     height: 50px;
 }
 
+.height-500{
+    height: 500px;
+}
+
 /* Diseño de inputs */
 .readonly {
     background-color: #eeeeee73!important;
@@ -211,4 +215,8 @@
 
 .rotar-270 {
     transform: rotateZ(270deg);
+}
+
+.ml-none {
+    margin-left: 0px!important;
 }

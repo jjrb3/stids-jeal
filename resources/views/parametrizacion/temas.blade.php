@@ -68,19 +68,22 @@
                                                 <input id="nombre-logueo" type="text" class="form-control m-b" placeholder="Digite la sesión de ingreso" required>
                                             </div>
                                             <div class="col-lg-6" id="ca-botones-temas">
-                                                <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Temas.crear()">
-                                                    <i class="fa fa-floppy-o"></i>&nbsp;
-                                                    Guardar
-                                                </button>
-
-                                                <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('temas')">
-                                                    <i class="fa fa-times"></i>
-                                                    Cancelar
-                                                </button>
-                                                <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Temas.actualizar()">
-                                                    <i class="fa fa-pencil-square-o"></i>&nbsp;
-                                                    Actualizar
-                                                </button>
+                                                @if($op->guardar)
+                                                    <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Temas.crear()">
+                                                        <i class="fa fa-floppy-o"></i>&nbsp;
+                                                        Guardar
+                                                    </button>
+                                                @endif
+                                                @if($op->actualizar)
+                                                    <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('temas')">
+                                                        <i class="fa fa-times"></i>
+                                                        Cancelar
+                                                    </button>
+                                                    <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Temas.actualizar()">
+                                                        <i class="fa fa-pencil-square-o"></i>&nbsp;
+                                                        Actualizar
+                                                    </button>
+                                                @endif
                                             </div>
                                         </form>
                                         <div id="mensaje" class="col-lg-12"></div>
