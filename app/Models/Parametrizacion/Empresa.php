@@ -180,4 +180,29 @@ class Empresa extends Model
             return array();
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 11:32 AM
+     *
+     * Consultar por nit y nombre
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nit:         NIT.
+     * @param string  $nombre:      Nombre.
+     *
+     * @return object
+     */
+    public static function ConsultarPorNitNombre($request, $nit, $nombre) {
+        try {
+            return Empresa::where('nit',(string)$nit)
+                ->orWhere('nombre',(string)$nombre)
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorNitNombre', $e, $request);
+        }
+    }
 }

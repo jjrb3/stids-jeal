@@ -39,7 +39,7 @@
                 <div class="row">
                     <!-- Primer bloque de prestañas -->
                     <div class="col-lg-12 pad-bot-20">
-                        <div id="pestanhia-usuario" class="tabs-container">
+                        <div id="pestanhia-empresa" class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class=""><a data-toggle="tab" href="#informacion"> Información</a></li>
                                 <li class="active"><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
@@ -102,6 +102,7 @@
                                                     @endif
                                                 </div>
                                             </form>
+                                            <div class="col-lg-12" id="mensaje"></div>
                                         </div>
                                     </div>
                                 </div>

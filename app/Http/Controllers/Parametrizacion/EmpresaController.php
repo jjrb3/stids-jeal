@@ -72,6 +72,86 @@ class EmpresaController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 11:30 AM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. Empresa::ConsultarPorNombreEmpresa.
+     *       3. Empresa::find.
+     *       4. self::$hs->ejecutarSave.
+     *
+     * Guarda datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Guardar(Request $request)
+    {
+        #1. Verificamos los datos enviados
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'id_tema'  => 'Seleccione un tema para poder guardar los cambios',
+            'nombre'   => 'Digite el nombre para poder guardar los cambios',
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Consultamos si existe
+        $existeRegistro = Empresa::ConsultarPorNitNombre(
+            $request,
+            $request->get('nit'),
+            $request->get('nombre')
+        );
+
+
+        #3. Que no se encuentre ningun error
+        if (!is_null($existeRegistro)) {
+
+            #3.1. Si existe y no esta eliminado
+            if ($existeRegistro->count() && $existeRegistro[0]->estado > -1) {
+                return response()->json(self::$hs->jsonExiste);
+            }
+            #3.2. Esta eliminado entonces lo vuelve a activar
+            elseif ($existeRegistro->count() && $existeRegistro[0]->estado < 0) {
+
+                $clase = Empresa::find($existeRegistro[0]->id);
+
+                $clase->estado = 1;
+
+                $transaccion = [$request,6,'actualizar','s_empresa'];
+
+                return self::$hs->ejecutarSave($clase,self::$hs->mensajeGuardar,$transaccion);
+            }
+            #3.3. Si no existe entonces se crea
+            else {
+
+                $clase = new Empresa();
+
+                $clase->id_tema         = $request->get('id_tema');
+                $clase->nit             = $request->get('nit');
+                $clase->nombre_cabecera = $request->get('nombre_cabecera');
+                $clase->nombre          = $request->get('nombre');
+                $clase->frase           = $request->get('frase');
+                $clase->estado          = 1;
+
+                $transaccion = [$request,6,'crear','s_empresa'];
+
+                return self::$hs->ejecutarSave($clase,self::$hs->mensajeGuardar,$transaccion);
+            }
+        }
+        else {
+            return response()->json(self::$hs->jsonError);
+        }
+    }
+
+
     public static function ConsultarActivos(Request $request) {
 
         return Empresa::consultarActivo($request);
@@ -120,21 +200,6 @@ class EmpresaController extends Controller
             'sucursalCorreo' => $sucursalCorreo,
             'empresaValores' => $empresaValores,
         );
-    }
-
-    public function Guardar(Request $request)
-    {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
-
-
-        $clase = $this->insertarCampos(new Empresa(),$request);
-
-        
-        $mensaje = ['Se guardó correctamente',
-                    'Se encontraron problemas al guardar'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
     }
 
 
