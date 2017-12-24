@@ -270,8 +270,13 @@ class EmpresaController extends Controller
      */
     public function ConsultarDetalle($request)
     {
-        echo 3;
-        die;
+        $idEmpresa = $request->get('id_empresa');
+
+        $sucursal = Sucursal::ConsultarPorEmpresa($request, $idEmpresa);
+
+        return response()->json([
+            'sucursal' => $sucursal->count() > 0 ? $sucursal[0] : ''
+        ]);
     }
 
 

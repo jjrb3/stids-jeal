@@ -118,6 +118,7 @@
                                     <li class="active"><a data-toggle="tab" href="#detalle"> Detalle</a></li>
                                     <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos y sesiones</a></li>
                                     <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
+                                    <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
                                     <li class=""><a data-toggle="tab" href="#valores">Valores</a></li>
@@ -149,7 +150,7 @@
                                                         <input id="direccion" type="text" class="form-control" placeholder="Digite el nombre de la sucursal" maxlength="60">
                                                     </div>
                                                     <div class="col-lg-6 form-group">
-                                                        <label>¿Quieres somos?</label>
+                                                        <label>¿Quienes somos?</label>
                                                         <textarea id="quienes-somos" class="form-control m-b" placeholder="Digite quienes son?" rows="6"></textarea>
                                                     </div>
                                                     <div class="col-lg-6 form-group">
@@ -162,11 +163,11 @@
                                                     </div>
                                                     <div class="col-lg-6 form-group">
                                                         <label>Visión</label>
-                                                        <textarea id="mision" class="form-control m-b" placeholder="Cuál es su Visión?" rows="6"></textarea>
+                                                        <textarea id="vision" class="form-control m-b" placeholder="Cuál es su Visión?" rows="6"></textarea>
                                                     </div>
                                                     <div class="col-lg-5">
                                                         @if($op->guardar)
-                                                            <button id="botonActualizarSucursal" class="btn btn-success" type="button" onclick="guardar(true,'')">
+                                                            <button id="botonActualizarSucursal" class="btn btn-success" type="button" onclick="Api.Sucursal.actualizar()">
                                                                 <i class="fa fa-pencil-square-o"></i>&nbsp;
                                                                 Actualizar
                                                             </button>
@@ -181,6 +182,10 @@
                                         </div>
                                     </div>
                                     <div id="rol" class="tab-pane">
+                                        <div class="panel-body">
+                                        </div>
+                                    </div>
+                                    <div id="permisos" class="tab-pane">
                                         <div class="panel-body">
                                         </div>
                                     </div>
