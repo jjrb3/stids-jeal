@@ -41,18 +41,18 @@
                     <div class="col-lg-12 pad-bot-20">
                         <div id="pestanhia-empresa" class="tabs-container">
                             <ul class="nav nav-tabs">
-                                <li class=""><a data-toggle="tab" href="#informacion"> Información</a></li>
-                                <li class="active"><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
+                                <li class="active"><a data-toggle="tab" href="#informacion"> Información</a></li>
+                                <li class=""><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div id="informacion" class="tab-pane">
+                                <div id="informacion" class="tab-pane active">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-12" id="tabla-empresa"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="crear-editar" class="tab-pane active">
+                                <div id="crear-editar" class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -77,15 +77,14 @@
                                                     <label>Nombre de la Empresa.</label>
                                                     <input id="nombre" type="text" class="form-control m-b" placeholder="Digite el nombre de la empresa" required>
                                                 </div>
-                                                <div class="col-lg-3 form-group">
+                                                <div class="col-lg-6 form-group">
                                                     <label>Frase.</label>
                                                     <input id="frase" type="text" class="form-control m-b" placeholder="Digite el nombre de la empresa" required>
                                                 </div>
 
-                                                <div class="col-lg-6 form-group" id="ca-botones-empresa">
-                                                    <br>
+                                                <div class="col-lg-6 form-group pad-t-22" id="ca-botones-empresa">
                                                     @if($op->guardar && $id_empresa === 1)
-                                                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Empresa.crear()">
+                                                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Empresa.crearActualizar()">
                                                             <i class="fa fa-floppy-o"></i>&nbsp;
                                                             Guardar
                                                         </button>
@@ -95,7 +94,7 @@
                                                             <i class="fa fa-times"></i>
                                                             Cancelar
                                                         </button>
-                                                        <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Empresa.actualizar()">
+                                                        <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Empresa.crearActualizar()">
                                                             <i class="fa fa-pencil-square-o"></i>&nbsp;
                                                             Actualizar
                                                         </button>

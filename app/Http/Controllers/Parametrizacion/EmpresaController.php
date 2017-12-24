@@ -77,7 +77,7 @@ class EmpresaController extends Controller
      * @version: 1.0
      * @date: 2017-12-24 - 11:30 AM
      * @see: 1. self::$hs->verificationDatas.
-     *       2. Empresa::ConsultarPorNombreEmpresa.
+     *       2. Empresa::ConsultarPorNitNombre.
      *       3. Empresa::find.
      *       4. self::$hs->ejecutarSave.
      *
@@ -152,15 +152,54 @@ class EmpresaController extends Controller
     }
 
 
-    public static function ConsultarActivos(Request $request) {
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 01:09 PM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. Empresa::find.
+     *       3. self::$hs->ejecutarSave.
+     *
+     * Actualiza datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Actualizar(Request $request)
+    {
+        #1. Verificamos los datos enviados
 
-        return Empresa::consultarActivo($request);
+        #1.1. Datos obligatorios
+        $datos = [
+            'id_tema'  => 'Seleccione un tema para poder actualizar',
+            'nombre'   => 'Digite el nombre para poder actualizar',
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Agregamos los nuevos parametros y actualizamos
+        $clase = Empresa::find((int)$request->get('id'));
+
+        $clase->id_tema         = $request->get('id_tema');
+        $clase->nit             = $request->get('nit');
+        $clase->nombre_cabecera = $request->get('nombre_cabecera');
+        $clase->nombre          = $request->get('nombre');
+        $clase->frase           = $request->get('frase');
+
+        $transaccion = [$request, 6, 'actualizar', 's_empresa'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeActualizar,$transaccion);
     }
 
 
-    public static function ConsultarId(Request $request) {
+    public static function ConsultarActivos(Request $request) {
 
-        return response()->json(Empresa::consultarId($request->get('id')));
+        return Empresa::consultarActivo($request);
     }
 
 
@@ -200,21 +239,6 @@ class EmpresaController extends Controller
             'sucursalCorreo' => $sucursalCorreo,
             'empresaValores' => $empresaValores,
         );
-    }
-
-
-    public function Actualizar(Request $request)
-    {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
-
-
-        $clase = $this->insertarCampos(Empresa::Find((int)$request->get('id')),$request);
-
-        $mensaje = ['Se actualizó correctamente',
-                    'Se encontraron problemas al actualizar'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
     }
 
 

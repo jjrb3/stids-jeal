@@ -93,20 +93,6 @@ class Empresa extends Model
     }
 
 
-    public static function consultarId($id) {
-        try {
-            return Empresa::select(
-                's_empresa.*',
-                's_tema.id AS id_tema'
-                )
-                ->join('s_tema','s_empresa.id_tema','=','s_tema.id')
-                ->where('s_empresa.id','=',$id)->get()->toArray();   
-        } catch (Exception $e) {
-            return array();
-        } 
-    }
-
-
     public static function eliminar($request)
     {
         try {
