@@ -123,6 +123,11 @@ class EmpresaController extends Controller
 
                 $clase = Empresa::find($existeRegistro[0]->id);
 
+                $clase->id_tema         = $request->get('id_tema');
+                $clase->nit             = $request->get('nit');
+                $clase->nombre_cabecera = $request->get('nombre_cabecera');
+                $clase->nombre          = $request->get('nombre');
+                $clase->frase           = $request->get('frase');
                 $clase->estado = 1;
 
                 $transaccion = [$request,6,'actualizar','s_empresa'];
@@ -225,6 +230,32 @@ class EmpresaController extends Controller
 
         return self::$hs->ejecutarSave($clase,self::$hs->mensajeEstado,$transaccion);
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 01:44 PM
+     * @see: 1. Empresa::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Eliminar($request)
+    {
+        $clase = Empresa::Find((int)$request->get('id'));
+
+        $clase->estado = -1;
+
+        $transaccion = [$request,6,'eliminar','s_empresa'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEliminar,$transaccion);
+    }
+
 
     public static function ConsultarActivos(Request $request) {
 

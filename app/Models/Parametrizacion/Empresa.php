@@ -57,6 +57,7 @@ class Empresa extends Model
                 ->join('s_tema','s_empresa.id_tema','=','s_tema.id')
                 ->whereRaw("(s_empresa.nit like '%{$buscar}%'
                              OR s_empresa.nombre like '%{$buscar}%')")
+                ->where('estado','>','-1')
                 ->orderBy('s_empresa.estado','desc')
                 ->orderBy('s_empresa.nombre');
 

@@ -357,5 +357,6 @@
         Api.permisos = [{{$permisos}}];
         Api.Empresa.ie = parseInt('{{$id_empresa}}');
         Api.Empresa.constructor();
+        Api.Empresa.detalle(4);
     </script>
 @endsection
