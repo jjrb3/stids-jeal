@@ -16,9 +16,20 @@ class TemaController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 10:50 AM
+     *
+     * Consultar todos
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public static function ConsultarTodo(Request $request) {
 
-        return Tema::consultar($request);
+        return Tema::Consultar($request);
     }
 
 

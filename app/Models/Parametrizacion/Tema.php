@@ -2,6 +2,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
@@ -9,6 +10,10 @@ class Tema extends Model
 {
     public $timestamps = false;
     protected $table = "s_tema";
+
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Tema';
+
 
     public static function consultarTodo($request) {
         try {
@@ -28,14 +33,25 @@ class Tema extends Model
         } 
     }
 
-    public static function consultar() {
-        try {
-            $resultado = Tema::orderBy('nombre','asc')->get();
 
-            return isset($resultado[0]) ? $resultado : array();
-            
-        } catch (Exception $e) {
-            return array();
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 09:30 AM
+     *
+     * Consultar todos
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function Consultar($request) {
+        try {
+            return Tema::orderBy('nombre','asc')->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultar', $e, $request);
         }
     }
 

@@ -41,18 +41,18 @@
                     <div class="col-lg-12 pad-bot-20">
                         <div id="pestanhia-usuario" class="tabs-container">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#informacion"> Información</a></li>
-                                <li class=""><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
+                                <li class=""><a data-toggle="tab" href="#informacion"> Información</a></li>
+                                <li class="active"><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div id="informacion" class="tab-pane active">
+                                <div id="informacion" class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-12" id="tabla-empresa"></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div id="crear-editar" class="tab-pane">
+                                <div id="crear-editar" class="tab-pane active">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -63,7 +63,7 @@
                                             <form id="formulario-empresa">
                                                 <div class="col-lg-3 form-group">
                                                     <label>Tema de la plataforma.</label>
-                                                    <select id="id-tema" class="form-control m-b chosen-select" required></select>
+                                                    <select id="tema" class="form-control m-b chosen-select" required></select>
                                                 </div>
                                                 <div class="col-lg-3 form-group">
                                                     <label>NIT.</label>
@@ -82,25 +82,24 @@
                                                     <input id="frase" type="text" class="form-control m-b" placeholder="Digite el nombre de la empresa" required>
                                                 </div>
 
-                                                <div class="col-lg-6">
-                                                    <div class="form-group" id="ca-botones-empresa">
-                                                        @if($op->guardar && $id_empresa === 1)
-                                                            <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Empresa.crear()">
-                                                                <i class="fa fa-floppy-o"></i>&nbsp;
-                                                                Guardar
-                                                            </button>
-                                                        @endif
-                                                        @if($op->actualizar)
-                                                            <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('empresa')">
-                                                                <i class="fa fa-times"></i>
-                                                                Cancelar
-                                                            </button>
-                                                            <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Empresa.actualizar()">
-                                                                <i class="fa fa-pencil-square-o"></i>&nbsp;
-                                                                Actualizar
-                                                            </button>
-                                                        @endif
-                                                    </div>
+                                                <div class="col-lg-6 form-group" id="ca-botones-empresa">
+                                                    <br>
+                                                    @if($op->guardar && $id_empresa === 1)
+                                                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Empresa.crear()">
+                                                            <i class="fa fa-floppy-o"></i>&nbsp;
+                                                            Guardar
+                                                        </button>
+                                                    @endif
+                                                    @if($op->actualizar)
+                                                        <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('empresa')">
+                                                            <i class="fa fa-times"></i>
+                                                            Cancelar
+                                                        </button>
+                                                        <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Empresa.actualizar()">
+                                                            <i class="fa fa-pencil-square-o"></i>&nbsp;
+                                                            Actualizar
+                                                        </button>
+                                                    @endif
                                                 </div>
                                             </form>
                                         </div>

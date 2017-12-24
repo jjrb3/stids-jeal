@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Parametrizacion;
 
 use App\Http\Controllers\HerramientaStidsController;
 
+use App\Models\Parametrizacion\Tema;
 use Illuminate\Http\Request;
 
 use App\Models\Parametrizacion\Empresa;
@@ -22,6 +23,26 @@ class EmpresaController extends Controller
     public function __construct()
     {
         self::$hs = new HerramientaStidsController();
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 10:39 AM
+     * @see: 1. Empresa::consultarTodo.
+     *
+     * Parametros del formulario
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function InicializarFormulario(Request $request) {
+
+        return response()->json([
+            'temas' => TemaController::ConsultarTodo($request)
+        ]);
     }
 
 
