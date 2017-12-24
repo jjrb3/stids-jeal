@@ -35,14 +35,14 @@ class SexoController extends Controller
      */
     public static function Consultar(Request $request) {
 
-        $objeto  = Sexo::consultarTodo(
+        $objeto = Sexo::consultarTodo(
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
             $request->get('tamanhio')
         );
 
-        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto ;
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
 

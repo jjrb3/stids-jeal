@@ -14,15 +14,46 @@ use App\Models\Parametrizacion\EmpresaValores;
 
 class EmpresaController extends Controller
 {
-	public static function ConsultarActivos(Request $request) {
+    public static $hs;
 
-        return Empresa::consultarActivo($request);
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
     }
-    
 
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 09:30 AM
+     * @see: 1. Empresa::consultarTodo.
+     *
+     * Consultar
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public static function Consultar(Request $request) {
 
-        return Empresa::consultarTodo($request);
+        $objeto = Empresa::consultarTodo(
+            $request,
+            $request->session()->get('idEmpresa'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
+
+    public static function ConsultarActivos(Request $request) {
+
+        return Empresa::consultarActivo($request);
     }
 
 

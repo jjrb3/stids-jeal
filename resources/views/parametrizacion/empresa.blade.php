@@ -48,7 +48,7 @@
                                 <div id="informacion" class="tab-pane active">
                                     <div class="panel-body">
                                         <div class="row">
-                                            <div class="col-lg-12" id="tabla-usuario"></div>
+                                            <div class="col-lg-12" id="tabla-empresa"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -75,12 +75,16 @@
                                                 </div>
                                                 <div class="col-lg-3 form-group">
                                                     <label>Nombre de la Empresa.</label>
-                                                    <input id="nombre" type="text" class="form-control m-b" name="nombre" placeholder="Digite el nombre de la empresa" required>
+                                                    <input id="nombre" type="text" class="form-control m-b" placeholder="Digite el nombre de la empresa" required>
+                                                </div>
+                                                <div class="col-lg-3 form-group">
+                                                    <label>Frase.</label>
+                                                    <input id="frase" type="text" class="form-control m-b" placeholder="Digite el nombre de la empresa" required>
                                                 </div>
 
                                                 <div class="col-lg-6">
                                                     <div class="form-group" id="ca-botones-empresa">
-                                                        @if($op->guardar)
+                                                        @if($op->guardar && $id_empresa === 1)
                                                             <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Empresa.crear()">
                                                                 <i class="fa fa-floppy-o"></i>&nbsp;
                                                                 Guardar
@@ -108,7 +112,7 @@
 
 
                     <!-- Segundo bloque de prestañas a la izquierda -->
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 ocultar">
                         <div class="tabs-container">
                             <div class="tabs-left">
                                 <ul class="nav nav-tabs">
@@ -352,6 +356,7 @@
 
     <script>
         Api.permisos = [{{$permisos}}];
+        Api.Empresa.ie = parseInt('{{$id_empresa}}');
         Api.Empresa.constructor();
     </script>
 @endsection

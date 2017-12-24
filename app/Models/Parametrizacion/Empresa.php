@@ -2,6 +2,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
@@ -9,6 +10,9 @@ class Empresa extends Model
 {
     public $timestamps = false;
     protected $table = "s_empresa";
+
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Empresa';
 
     public static function sistema($request) {
         try {
@@ -22,37 +26,50 @@ class Empresa extends Model
     }
 
 
-    public static function consultarTodo($request) {
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 09:30 AM
+     *
+     * Consultar todos con paginacion
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param interger  $idEmpresa:   ID de la empresa.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function consultarTodo($request, $idEmpresa, $buscar = null, $pagina = 1, $tamanhio = 10) {
         try {
-            $currentPage = $request->get('pagina');
+            $currentPage = $pagina;
 
             // Fuerza a estar en la pagina
             Paginator::currentPageResolver(function() use ($currentPage) {
                 return $currentPage;
             });
 
-            if ($request->session()->get('idEmpresa') == 1) {
+            $sql = Empresa::select(
+                    's_tema.nombre AS tema',
+                    's_empresa.*'
+                )
+                ->join('s_tema','s_empresa.id_tema','=','s_tema.id')
+                ->whereRaw("(s_empresa.nit like '%{$buscar}%'
+                             OR s_empresa.nombre like '%{$buscar}%')")
+                ->orderBy('s_empresa.estado','desc')
+                ->orderBy('s_empresa.nombre');
 
-                return Empresa::select(
-                        's_tema.nombre AS nombre_tema',
-                        's_empresa.*'
-                    )
-                    ->join('s_tema','s_empresa.id_tema','=','s_tema.id')
-                    ->whereRaw("(s_empresa.nit like '%{$request->get('buscador')}%'
-                                 OR s_empresa.nombre like '%{$request->get('buscador')}%')")
-                    ->orderBy('s_empresa.estado','desc')
-                    ->orderBy('s_empresa.nombre')
-                    ->paginate($request->get('tamanhioPagina'));
+            if ($idEmpresa > 1) {
+                $sql->where('s_empresa.id',$idEmpresa);
             }
-            else {
 
-                return Empresa::where('id','=',$request->session()->get('idEmpresa'))
-                    ->paginate($request->get('tamanhioPagina'));
-            }
-                
-        } catch (Exception $e) {
-            return array();
-        }         
+            return $sql->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarTodo', $e, $request);
+        }
     }
 
 

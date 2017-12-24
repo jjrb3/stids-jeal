@@ -22,10 +22,10 @@ class Sexo extends Model
      *
      * Consultar todos con paginacion
      *
-     * @param request $request:     Peticiones realizadas.
-     * @param integer $buscar:      Texto a buscar.
-     * @param integer $pagina:      Pagina actual.
-     * @param integer $tamanhio:    Tamaño de la pagina.
+     * @param request   $request:     Peticiones realizadas.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
      *
      * @return object
      */
