@@ -111,7 +111,7 @@
 
 
                     <!-- Segundo bloque de prestañas a la izquierda -->
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 ocultar" id="bloque-detalle">
                         <div class="tabs-container">
                             <div class="tabs-left">
                                 <ul class="nav nav-tabs">

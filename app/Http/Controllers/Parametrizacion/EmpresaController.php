@@ -257,6 +257,24 @@ class EmpresaController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-20 - 01:56 PM
+     *
+     * Consultar el detalle de la empresa
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function ConsultarDetalle($request)
+    {
+        echo 3;
+        die;
+    }
+
+
     public static function ConsultarActivos(Request $request) {
 
         return Empresa::consultarActivo($request);
