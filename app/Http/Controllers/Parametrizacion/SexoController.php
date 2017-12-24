@@ -190,7 +190,7 @@ class SexoController extends Controller
      * @see: 1. Sexo::find.
      *       2. self::$hs->ejecutarSave.
      *
-     * Cambia de estado datos.
+     * Cambia de estado.
      *
      * @param request $request: Peticiones realizadas.
      *

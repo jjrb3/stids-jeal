@@ -197,6 +197,35 @@ class EmpresaController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 01:41 PM
+     * @see: 1. Empresa::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Cambia de estado.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function CambiarEstado(Request $request) {
+
+        $clase  = Empresa::Find((int)$request->get('id'));
+
+        if ($clase->estado === 1) {
+            $clase->estado = 0;
+        }
+        elseif ($clase->estado === 0) {
+            $clase->estado = 1;
+        }
+
+        $transaccion = [$request,6,self::$hs->estados[$clase->estado],'s_empresa'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEstado,$transaccion);
+    }
+
     public static function ConsultarActivos(Request $request) {
 
         return Empresa::consultarActivo($request);
@@ -281,25 +310,6 @@ class EmpresaController extends Controller
 
             return 0;
         }
-    }
-    
-
-    public function CambiarEstado(Request $request) {
-
-    	$clase = Empresa::Find((int)$request->get('id'));
-
-    	$clase->estado = $request->get('estado');
-
-    	$mensaje = ['Se cambió el estado correctamente',
-                    'Se encontraron problemas al cambiar el estado'];
-
-    	return HerramientaStidsController::ejecutarSave($clase,$mensaje);
-    }
-
-
-    public function Eliminar($request)
-    {
-        return Empresa::eliminar($request);
     }
 
 
