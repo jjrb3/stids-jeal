@@ -2,6 +2,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,8 @@ class Modulo extends Model
     public $timestamps = false;
     protected $table = "s_modulo";
 
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Modulo';
 
     public static function consultarAdministrador($buscar,$pagina,$tamanhioPagina) {
         try {
@@ -321,6 +324,117 @@ class Modulo extends Model
         catch (\Exception $e) {
 
             return 0;
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-26 - 03:27 PM
+     *
+     * Consultar todos por empresa con paginacion
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param interger  $idEmpresa:   ID de la empresa.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function ConsultarCheckearPorEmpresa($request, $idEmpresa, $buscar = null, $pagina = 1, $tamanhio = 10) {
+        try {
+            $currentPage = $pagina;
+
+            // Fuerza a estar en la pagina
+            Paginator::currentPageResolver(function() use ($currentPage) {
+                return $currentPage;
+            });
+
+            return Modulo::select(
+                DB::raw(
+                    " *,
+                      (
+                          SELECT IF(
+                              (
+                                  SELECT COUNT(me.id)
+                                  FROM s_modulo_empresa me
+                                  WHERE me.id_empresa = {$idEmpresa}
+                                  AND me.id_modulo = s_modulo.id
+                              ) > 0,
+                              'success',
+                              ''
+                          )
+                      ) AS color_estado,
+                      id AS id_seleccionar"
+                )
+            )   ->whereRaw("(nombre like '%{$buscar}%')")
+                ->where('estado',1)
+                ->whereNull('id_padre')
+                ->whereNull('enlace_usuario')
+                ->orderBy('nombre','ASC')
+                ->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarCheckearPorEmpresa', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-26 - 03:27 PM
+     *
+     * Consultar todos por empresa con paginacion
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param interger  $idEmpresa:   ID de la empresa.
+     * @param interger  $idModulo:    ID modulo.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function ConsultarSesionCheckearPorEmpresaModulo($request, $idEmpresa, $idModulo, $buscar = null, $pagina = 1, $tamanhio = 10) {
+        try {
+            $currentPage = $pagina;
+
+            // Fuerza a estar en la pagina
+            Paginator::currentPageResolver(function() use ($currentPage) {
+                return $currentPage;
+            });
+
+            return Modulo::select(
+                DB::raw(
+                    " *,
+                      (
+                          SELECT IF(
+                              (
+                                  SELECT COUNT(me.id)
+                                  FROM s_modulo_empresa me
+                                  WHERE me.id_empresa = {$idEmpresa}
+                                  AND me.id_modulo = s_modulo.id
+                              ) > 0,
+                              'success',
+                              ''
+                          )
+                      ) AS color_estado,
+                      id AS id_seleccionar"
+                )
+            )   ->whereRaw("(nombre like '%{$buscar}%')")
+                ->where('estado',1)
+                ->where('id_padre',$idModulo)
+                ->whereNull('enlace_usuario')
+                ->orderBy('nombre','ASC')
+                ->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarSesionCheckearPorEmpresaModulo', $e, $request);
         }
     }
 }

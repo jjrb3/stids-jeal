@@ -38,7 +38,7 @@
             <div class="wrapper wrapper-content">
                 <div class="row">
                     <!-- Primer bloque de prestañas -->
-                    <div class="col-lg-12 pad-bot-20">
+                    <div class="col-lg-12 pad-bot-20 ocultar">
                         <div id="pestanhia-empresa" class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#informacion"> Información</a></li>
@@ -115,8 +115,8 @@
                         <div class="tabs-container">
                             <div class="tabs-left">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a data-toggle="tab" href="#detalle"> Detalle</a></li>
-                                    <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos y sesiones</a></li>
+                                    <li class=""><a data-toggle="tab" href="#detalle"> Detalle</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#modulos-sesiones">Módulos y sesiones</a></li>
                                     <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
                                     <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
@@ -125,7 +125,7 @@
                                     <li class=""><a data-toggle="tab" href="#email">Emails</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="detalle" class="tab-pane active">
+                                    <div id="detalle" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-12">
@@ -177,8 +177,24 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="modulos-sesiones" class="tab-pane">
+                                    <div id="modulos-sesiones" class="tab-pane active">
                                         <div class="panel-body">
+                                            <div class="row ml-none">
+                                                <div id="modulos" class="col-lg-12">
+                                                    <div class="col-lg-6">
+                                                        <h3 align="center">Módulos</h3>
+                                                        <div class="row">
+                                                            <div class="col-lg-12" id="tabla-modulo"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h3 align="center">Sesiones</h3>
+                                                        <div class="row">
+                                                            <div class="col-lg-12" id="tabla-sesion"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="rol" class="tab-pane">
@@ -357,6 +373,7 @@
 
 @section('script')
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/empresa.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/parametrizacion/modulos.js')}}"></script>
 
     <script>
         Api.permisos = [{{$permisos}}];

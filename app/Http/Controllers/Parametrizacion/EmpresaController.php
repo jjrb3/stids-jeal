@@ -60,7 +60,7 @@ class EmpresaController extends Controller
      */
     public static function Consultar(Request $request) {
 
-        $objeto = Empresa::consultarTodo(
+        $objeto = Empresa::ConsultarTodo(
             $request,
             $request->session()->get('idEmpresa'),
             $request->get('buscador'),

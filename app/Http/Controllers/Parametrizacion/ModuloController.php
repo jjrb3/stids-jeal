@@ -14,6 +14,16 @@ use App\Models\Parametrizacion\PermisoModuloRol;
 
 class ModuloController extends Controller
 {
+    public static $hs;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
+    }
+
 	public static function ConsultarModulosActivos(Request $request) {
 
         return Modulo::ConsultarModulosActivos($request->session()->get('idEmpresa'));
@@ -316,5 +326,58 @@ class ModuloController extends Controller
         }
 
         return $modulos;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 03:20 PM
+     * @see: 1. Modulo::ConsultarCheckearPorEmpresa.
+     *
+     * Consultar y obtener si esta checkeado por empresa
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarCheckearPorEmpresa(Request $request) {
+
+        $objeto = Modulo::ConsultarCheckearPorEmpresa(
+            $request,
+            $request->get('id_empresa'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-24 - 04:34 PM
+     * @see: 1. Modulo::ConsultarSesionCheckearPorEmpresaModulo.
+     *
+     * Consultar y obtener si esta checkeado por empresa
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarSesionCheckearPorEmpresaModulo(Request $request) {
+
+        $objeto = Modulo::ConsultarSesionCheckearPorEmpresaModulo(
+            $request,
+            $request->get('id_empresa'),
+            $request->get('id_modulo'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 }

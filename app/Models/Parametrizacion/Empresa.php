@@ -41,7 +41,7 @@ class Empresa extends Model
      *
      * @return object
      */
-    public static function consultarTodo($request, $idEmpresa, $buscar = null, $pagina = 1, $tamanhio = 10) {
+    public static function ConsultarTodo($request, $idEmpresa, $buscar = null, $pagina = 1, $tamanhio = 10) {
         try {
             $currentPage = $pagina;
 
