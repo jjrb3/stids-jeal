@@ -123,7 +123,7 @@ class GraficasEmpresa extends Model
                 FROM s_modulo sm
                 INNER JOIN s_modulo_empresa     sme ON  sme.id_modulo        = sm.id
                                                     AND sm.estado = 1
-                INNER JOIN s_graficas           sg  ON  sg.id_modulo_empresa = sme.id
+                INNER JOIN s_graficas           sg  ON  sg.id_modulo = sm.id
                                                     AND sg.estado = 1
                 INNER JOIN s_graficas_empresa   sge ON  sge.id_graficas      = sg.id
                                                     AND sge.id_empresa       = sme.id_empresa

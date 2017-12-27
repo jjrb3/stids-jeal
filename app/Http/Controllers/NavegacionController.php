@@ -123,7 +123,7 @@ class NavegacionController extends Controller
             $cnt            = 0;
             $graficaEmpresa = GraficasEmpresa::PermisoGraficaPorEmpresa($request->get('hijo'),$request->session()->get('idEmpresa'));
 
-            if (!isset($graficaEmpresa['resultado']) ) {
+            if (!isset($graficaEmpresa['resultado']) && $graficaEmpresa ) {
 
                 foreach ($graficaEmpresa as $grafica) {
 
