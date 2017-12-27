@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Parametrizacion;
 
 use App\Http\Controllers\HerramientaStidsController;
 
+use App\Models\Parametrizacion\ModuloEmpresa;
 use App\Models\Parametrizacion\Rol;
 use Illuminate\Http\Request;
 
@@ -379,5 +380,44 @@ class ModuloController extends Controller
         );
 
         return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-27 - 08:49 AM
+     * @see: 1. Modulo::ConsultarSesionCheckearPorEmpresaModulo.
+     *
+     * Consultar y obtener si esta checkeado por empresa
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function GuardarIdsModulosPorEmpresa(Request $request) {
+
+        $resultado  = [];
+        $idEmpresa  = $request->get('id_empresa');
+        $ids        = explode(',', $request->get('ids'));
+
+        foreach ($ids as $id) {
+
+            $clase = new ModuloEmpresa();
+
+            $clase->id_modulo  = $id;
+            $clase->id_empresa = $idEmpresa;
+
+            $transaccion = [$request,6,'actualizar','s_empresa'];
+
+            $resultado[] = self::$hs->ejecutarSave($clase,self::$hs->mensajeGuardar,$transaccion)->original;
+        }
+
+        return response()->json([
+            'resultado' => 1,
+            'titulo'    => 'Realizado',
+            'mensaje'   => 'Se agregaron los módulos y sesiones que seleccionó',
+            'datos'     => $resultado
+        ]);
     }
 }

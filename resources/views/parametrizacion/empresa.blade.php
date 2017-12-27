@@ -202,14 +202,14 @@
                                                     </div>
                                                     <div class="col-lg-2 vertical text-center">
                                                         <div style="padding-top: 150px">
-                                                            <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.Dashboard.agregarModulo()">
+                                                            <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.Modulos.agregar()">
                                                                 <i class="fa fa-plus verde"></i>
                                                                 <span class="bold">Agregar</span>
                                                             </button>
                                                         </div>
                                                         <br>
                                                         <div>
-                                                            <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.Dashboard.quitarModulo()">
+                                                            <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.Modulos.quitar()">
                                                                 <i class="fa fa-close rojo"></i>
                                                                 <span class="bold">Quitar</span>
                                                             </button>
