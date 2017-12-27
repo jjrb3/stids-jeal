@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Parametrizacion;
 use App\Http\Controllers\HerramientaStidsController;
 
 use App\Models\Parametrizacion\ModuloEmpresa;
+use App\Models\Parametrizacion\ModulosDashboard;
 use App\Models\Parametrizacion\Rol;
 use Illuminate\Http\Request;
 
@@ -445,7 +446,7 @@ class ModuloController extends Controller
 
             #1.1. Obtenemos el ID del modulo y con este obtenemos el id de modulo y rol
             $idME  = ModuloEmpresa::ObtenerIdPorModuloEmpresa($id, $idEmpresa);
-            $idsMR = ModuloRol::ObtenerIdsPorModulo($request, /*$idME*/ 73);
+            $idsMR = ModuloRol::ObtenerIdsPorModulo($request, $idME);
 
             #1.2. Si encuentra datos procedemos a eliminar los permisos por rol por empresa
             if ($idsMR->count() > 0) {
@@ -457,11 +458,14 @@ class ModuloController extends Controller
                 }
             }
 
-            #1.
-            die;
+            #1.3. Eliminamos los modulos del dasbboard
+            ModulosDashboard::EliminarPorModulo($idME);
+
+            #1.4. Eliminamos el modulo de la empresa
+            $e = ModuloEmpresa::EliminarPorModulo($idME);
         }
 
-        die;
+
         return response()->json([
             'resultado' => 1,
             'titulo'    => 'Realizado',

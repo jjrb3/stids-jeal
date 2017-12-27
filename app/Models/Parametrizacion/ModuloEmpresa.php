@@ -115,4 +115,40 @@ class ModuloEmpresa extends Model
             return self::$hs->Log(self::MODULO,self::MODELO,'SelectModulosPorUsuario', $e, $request);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-27 - 01:50 PM
+     *
+     * Borrar por id
+     *
+     * @param integer $id
+     *
+     * @return array
+     */
+    public static function EliminarPorModulo($id) {
+
+        try {
+            if (ModuloEmpresa::where('id',$id)->delete()) {
+                return [
+                    'resultado' => 1,
+                    'mensaje'   => 'Se eliminó correctamente',
+                ];
+            }
+            else {
+                return [
+                    'resultado' => 2,
+                    'mensaje'   => 'No se encontraron datos para eliminar',
+                ];
+            }
+        }
+        catch (\Exception $e) {
+            return [
+                'resultado' => -2,
+                'mensaje' => 'Grave error: ' . $e,
+            ];
+        }
+    }
 }
