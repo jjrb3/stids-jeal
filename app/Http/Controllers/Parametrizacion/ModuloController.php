@@ -387,9 +387,9 @@ class ModuloController extends Controller
      * @autor: Jeremy Reyes B.
      * @version: 1.0
      * @date: 2017-12-27 - 08:49 AM
-     * @see: 1. Modulo::ConsultarSesionCheckearPorEmpresaModulo.
+     * @see: 1. self::$hs->ejecutarSave.
      *
-     * Consultar y obtener si esta checkeado por empresa
+     * Guarda un modulo por ids y empresa
      *
      * @param request $request: Peticiones realizadas.
      *
@@ -417,6 +417,55 @@ class ModuloController extends Controller
             'resultado' => 1,
             'titulo'    => 'Realizado',
             'mensaje'   => 'Se agregaron los módulos y sesiones que seleccionó',
+            'datos'     => $resultado
+        ]);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-27 - 10:00 AM
+     * @see: 1. self::$hs->ejecutarSave.
+     *
+     * Elimina en cascada el modulo de una empresa
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function EliminarIdsModulosPorEmpresa(Request $request) {
+
+        $resultado  = [];
+        $idEmpresa  = $request->get('id_empresa');
+        $ids        = explode(',', $request->get('ids'));
+
+        #1. Recorremos los modulos y sesiones que se eliminaran
+        foreach ($ids as $id) {
+
+            #1.1. Obtenemos el ID del modulo y con este obtenemos el id de modulo y rol
+            $idME  = ModuloEmpresa::ObtenerIdPorModuloEmpresa($id, $idEmpresa);
+            $idsMR = ModuloRol::ObtenerIdsPorModulo($request, /*$idME*/ 73);
+
+            #1.2. Si encuentra datos procedemos a eliminar los permisos por rol por empresa
+            if ($idsMR->count() > 0) {
+
+                foreach ($idsMR as $idMR) {
+
+                    PermisoModuloRol::eliminarPorModulo($idMR->id);
+                    ModuloRol::eliminar($idMR->id);
+                }
+            }
+
+            #1.
+            die;
+        }
+
+        die;
+        return response()->json([
+            'resultado' => 1,
+            'titulo'    => 'Realizado',
+            'mensaje'   => 'Se eliminó los módulos y sesiones que seleccionó',
             'datos'     => $resultado
         ]);
     }

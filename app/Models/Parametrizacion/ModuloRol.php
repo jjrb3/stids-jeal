@@ -2,12 +2,16 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 
 class ModuloRol extends Model
 {
     public $timestamps = false;
     protected $table = "s_modulo_rol";
+
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'ModuloRol';
 
 
     public static function submenuRolPadre($idRol,$idPadre) {
@@ -62,6 +66,31 @@ class ModuloRol extends Model
                 'resultado' => -2,
                 'mensaje'   => 'Grave error: ' . $e,
             ));
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-27 - 10:07 AM
+     *
+     * Obtener ids por modulo
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param interger  $idModulo:    ID modulo.
+     *
+     * @return object
+     */
+    public static function ObtenerIdsPorModulo($request, $idModulo) {
+        try {
+            return ModuloRol::select('id')
+                ->where('id_modulo_empresa',$idModulo)
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ObtenerIdsPorModulo', $e, $request);
         }
     }
 }

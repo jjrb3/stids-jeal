@@ -303,6 +303,7 @@ class DashboardController extends Controller
     public static function ConsultarGraficas(Request $request) {
 
         return GraficasEmpresa::ConsultarPorEmpresa(
+            $request,
             $request->get('buscador'),
             $request->get('pagina'),
             $request->get('tamanhio'),
@@ -326,6 +327,7 @@ class DashboardController extends Controller
     public static function ConsultarGraficasAgregadas(Request $request) {
 
         return GraficasDashboard::ConsultarPorEmpresaUsuario(
+            $request,
             $request->get('buscador'),
             $request->get('pagina'),
             $request->get('tamanhio'),

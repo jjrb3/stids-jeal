@@ -8,6 +8,7 @@
 
 namespace App\Models\Parametrizacion;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,10 @@ class GraficasDashboard extends Model
     public $timestamps = false;
     protected $table = 's_graficas_dashboard';
 
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'GraficasDashboard';
+
+
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
@@ -25,6 +30,7 @@ class GraficasDashboard extends Model
      *
      * Consulta todas las graficas de un usuario
      *
+     * @param request $request:         Peticiones realizadas.
      * @param string  $buscar:          Texto que se buscará.
      * @param integer $pagina:          Posición de la pagina.
      * @param integer $tamanhioPagina:  Tamaño de la pagina.
@@ -33,7 +39,7 @@ class GraficasDashboard extends Model
      *
      * @return object
      */
-    public static function ConsultarPorEmpresaUsuario($buscar = '',$pagina = 1,$tamanhioPagina = 10, $idEmpresa, $idUsuario) {
+    public static function ConsultarPorEmpresaUsuario($request, $buscar = '',$pagina = 1,$tamanhioPagina = 10, $idEmpresa, $idUsuario) {
 
         try {
             $currentPage = $pagina;
@@ -47,26 +53,24 @@ class GraficasDashboard extends Model
 
                 ->join('s_graficas_empresa','s_graficas_dashboard.id_graficas_empresa','s_graficas_empresa.id')
                 ->join('s_graficas','s_graficas_empresa.id_graficas','s_graficas.id')
-                ->join('s_modulo_empresa','s_graficas.id_modulo_empresa','s_modulo_empresa.id')
-                ->join('s_modulo','s_modulo_empresa.id_modulo','s_modulo.id')
+                ->join('s_modulo','s_graficas.id_modulo','s_modulo.id')
+                ->join('s_modulo_empresa','s_modulo.id','s_modulo_empresa.id_modulo')
 
                 ->whereRaw(
                     "( s_modulo.nombre LIKE '%$buscar%' 
                     OR s_graficas.nombre LIKE '%$buscar%')"
                 )
+                ->where('s_modulo_empresa.id_empresa',$idEmpresa)
                 ->where('s_graficas_empresa.id_empresa',$idEmpresa)
                 ->where('s_graficas_dashboard.id_usuario',$idUsuario)
                 ->where('s_graficas.estado','1')
                 ->where('s_modulo.estado','1')
                 ->orderBy('s_graficas_dashboard.orden','ASC')
                 ->paginate($tamanhioPagina);
-        }
-        catch (\Exception $e) {
 
-            return (object)[
-                'resultado' => -1,
-                'mensaje' => 'Grave error: ' . $e,
-            ];
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorEmpresaUsuario', $e, $request);
         }
     }
 

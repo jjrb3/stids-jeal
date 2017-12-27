@@ -211,7 +211,7 @@
                                                         <div>
                                                             <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.Modulos.quitar()">
                                                                 <i class="fa fa-close rojo"></i>
-                                                                <span class="bold">Quitar</span>
+                                                                <span class="bold">Eliminar</span>
                                                             </button>
                                                         </div>
                                                     </div>
