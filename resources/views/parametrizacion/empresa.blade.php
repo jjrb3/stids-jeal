@@ -403,11 +403,11 @@
 
 @section('script')
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/empresa.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/si/parametrizacion/modulos.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/parametrizacion/modulo-empresa.js')}}"></script>
 
     <script>
         Api.permisos = [{{$permisos}}];
-        Api.Empresa.ie = parseInt('{{$id_empresa}}');
+        Api.Empresa.ie = Api.ie = parseInt('{{$id_empresa}}');
         Api.Empresa.constructor();
         Api.Empresa.detalle(4);
     </script>
