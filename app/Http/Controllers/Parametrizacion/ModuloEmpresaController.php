@@ -70,7 +70,7 @@ class ModuloEmpresaController
      */
     public static function ConsultarPorEmpresa(Request $request) {
 
-        $objeto = Modulo::ConsultarCheckearPorEmpresa(
+        $objeto = Modulo::ConsultarPorEmpresa(
             $request,
             $request->get('id_empresa'),
             $request->get('buscador'),
@@ -97,6 +97,33 @@ class ModuloEmpresaController
     public static function ConsultarSesionCheckearPorEmpresaModulo(Request $request) {
 
         $objeto = Modulo::ConsultarSesionCheckearPorEmpresaModulo(
+            $request,
+            $request->get('id_empresa'),
+            $request->get('id_modulo'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-28 - 03:55 PM
+     * @see: 1. Modulo::ConsultarSesionPorEmpresaModulo.
+     *
+     * Consultar por empresa y modulo
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarSesionPorEmpresaModulo(Request $request) {
+
+        $objeto = Modulo::ConsultarSesionPorEmpresaModulo(
             $request,
             $request->get('id_empresa'),
             $request->get('id_modulo'),

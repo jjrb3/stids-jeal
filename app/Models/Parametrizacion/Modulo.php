@@ -478,4 +478,46 @@ class Modulo extends Model
             return $hs->Log(self::MODULO,self::MODELO,'ConsultarSesionCheckearPorEmpresaModulo', $e, $request);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-26 - 03:56 PM
+     *
+     * Consultar todos por empresa y modulo con paginacion
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param interger  $idEmpresa:   ID de la empresa.
+     * @param interger  $idModulo:    ID modulo.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function ConsultarSesionPorEmpresaModulo($request, $idEmpresa, $idModulo, $buscar = null, $pagina = 1, $tamanhio = 10) {
+        try {
+            $currentPage = $pagina;
+
+            // Fuerza a estar en la pagina
+            Paginator::currentPageResolver(function() use ($currentPage) {
+                return $currentPage;
+            });
+
+            return Modulo::select(DB::raw("s_modulo.*, s_modulo.id AS id_seleccionar"))
+                ->join('s_modulo_empresa','s_modulo.id','s_modulo_empresa.id_modulo')
+                ->whereRaw("(nombre like '%{$buscar}%')")
+                ->where('s_modulo_empresa.id_empresa',$idEmpresa)
+                ->where('estado',1)
+                ->where('id_padre',$idModulo)
+                ->whereNull('enlace_usuario')
+                ->orderBy('nombre','ASC')
+                ->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarSesionCheckearPorEmpresaModulo', $e, $request);
+        }
+    }
 }
