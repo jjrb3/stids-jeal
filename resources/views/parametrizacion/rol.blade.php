@@ -55,7 +55,7 @@
                                                 <div class="form-group">
                                                     <label>Nombre del Rol.</label>
                                                     <input type="text"
-                                                           id="nombre"
+                                                           id="rol-nombre"
                                                            class="form-control w300"
                                                            placeholder="Digite el nombre para crear"
                                                            onkeypress="Api.Rol.guardarActualizar(event)"
@@ -64,8 +64,8 @@
                                                 <br>
                                             @endif
                                         </div>
-                                        <div class="col-lg-12" id="mensaje"></div>
-                                        <div class="col-lg-12" id="tabla"></div>
+                                        <div class="col-lg-12" id="rol-mensaje"></div>
+                                        <div class="col-lg-12" id="rol-tabla"></div>
                                     </div>
                                 </div>       
                             </div>
@@ -93,6 +93,7 @@
 
     <script>
         Api.permisos = [{{$permisos}}];
+        Api.Rol.ie = parseInt('{{$id_empresa}}');
         Api.Rol.constructor();
     </script>
 @endsection

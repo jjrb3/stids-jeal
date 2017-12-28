@@ -116,8 +116,8 @@
                             <div class="tabs-left">
                                 <ul class="nav nav-tabs">
                                     <li class=""><a data-toggle="tab" href="#detalle"> Detalle</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#modulos-sesiones">Módulos y sesiones</a></li>
-                                    <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
+                                    <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos y sesiones</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#rol">Roles</a></li>
                                     <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
@@ -177,7 +177,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="modulos-sesiones" class="tab-pane active">
+                                    <div id="modulos-sesiones" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 @if($id_empresa === 1)
@@ -204,19 +204,23 @@
                                                     </div>
                                                     @if($id_empresa === 1)
                                                         <div class="col-lg-2 vertical text-center">
-                                                            <div style="padding-top: 150px">
-                                                                <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.ModuloEmpresa.agregar()">
-                                                                    <i class="fa fa-plus verde"></i>
-                                                                    <span class="bold">Agregar</span>
-                                                                </button>
-                                                            </div>
+                                                            @if($op->guardar)
+                                                                <div style="padding-top: 150px">
+                                                                    <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.ModuloEmpresa.agregar()">
+                                                                        <i class="fa fa-plus verde"></i>
+                                                                        <span class="bold">Agregar</span>
+                                                                    </button>
+                                                                </div>
+                                                            @endif
                                                             <br>
-                                                            <div>
-                                                                <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.ModuloEmpresa.quitar()">
-                                                                    <i class="fa fa-close rojo"></i>
-                                                                    <span class="bold">Elimina</span>
-                                                                </button>
-                                                            </div>
+                                                            @if($op->eliminar)
+                                                                <div>
+                                                                    <button class="btn btn-white btn-bitbucket" type="button" onclick="Api.ModuloEmpresa.quitar()">
+                                                                        <i class="fa fa-close rojo"></i>
+                                                                        <span class="bold">Elimina</span>
+                                                                    </button>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     @endif
                                                     <div class="@if($id_empresa === 1){{'col-lg-5'}}@else{{'col-lg-6'}}@endif">
@@ -231,8 +235,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="rol" class="tab-pane">
+                                    <div id="rol" class="tab-pane active">
                                         <div class="panel-body">
+                                            <div class="row ml-none">
+                                                <div class="col-lg-8">
+                                                    @if($op->guardar)
+                                                        <div class="form-group">
+                                                            <label>Nombre del Rol.</label>
+                                                            <input type="text"
+                                                                   id="rol-nombre"
+                                                                   class="form-control w300"
+                                                                   placeholder="Digite el nombre para crear"
+                                                                   onkeypress="Api.Rol.guardarActualizar(event)"
+                                                            >
+                                                        </div>
+                                                        <br>
+                                                    @endif
+                                                </div>
+                                                <div class="col-lg-8" id="rol-mensaje"></div>
+                                                <div class="col-lg-8" id="rol-tabla"></div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="permisos" class="tab-pane">
@@ -408,10 +430,11 @@
 @section('script')
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/empresa.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/modulo-empresa.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/parametrizacion/rol.js')}}"></script>
 
     <script>
         Api.permisos = [{{$permisos}}];
-        Api.Empresa.ie = Api.ie = parseInt('{{$id_empresa}}');
+        Api.ie = parseInt('{{$id_empresa}}');
         Api.Empresa.constructor();
         Api.Empresa.detalle(4);
     </script>

@@ -35,9 +35,11 @@ class RolController extends Controller
      */
 	public static function Consultar(Request $request) {
 
+	    $idEmpresa = $request->get('id_empresa') ? $request->get('id_empresa') : $request->session()->get('idEmpresa');
+
         $objeto  = Rol::consultarTodo(
             $request,
-            $request->session()->get('idEmpresa'),
+            $idEmpresa,
             $request->get('buscador'),
             $request->get('pagina'),
             $request->get('tamanhio')
@@ -61,9 +63,11 @@ class RolController extends Controller
      */
 	public static function ConsultarActivos(Request $request) {
 
+        $idEmpresa = $request->get('id_empresa') ? $request->get('id_empresa') : $request->session()->get('idEmpresa');
+
         $objeto = Rol::consultarActivo(
             $request,
-            $request->session()->get('idEmpresa')
+            $idEmpresa
         );
 
         return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
@@ -99,12 +103,13 @@ class RolController extends Controller
             return $respuesta;
         };
 
+        $idEmpresa = $request->get('id_empresa') ? $request->get('id_empresa') : $request->session()->get('idEmpresa');
 
         #2. Consultamos si existe
         $R = Rol::ConsultarPorNombreEmpresa(
             $request,
             $request->get('nombre'),
-            $request->session()->get('idEmpresa')
+            $idEmpresa
         );
 
 
@@ -131,7 +136,7 @@ class RolController extends Controller
 
                 $clase = new Rol();
 
-                $clase->id_empresa  = $request->session()->get('idEmpresa');
+                $clase->id_empresa  = $idEmpresa;
                 $clase->nombre      = $request->get('nombre');
                 $clase->estado      = 1;
 
