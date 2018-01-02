@@ -117,8 +117,8 @@
                                 <ul class="nav nav-tabs">
                                     <li class=""><a data-toggle="tab" href="#detalle"> Detalle</a></li>
                                     <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos y sesiones</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#rol">Roles</a></li>
-                                    <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
+                                    <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
                                     <li class=""><a data-toggle="tab" href="#valores">Valores</a></li>
@@ -235,30 +235,90 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="rol" class="tab-pane active">
+                                    <div id="rol" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
-                                                <div class="col-lg-8">
-                                                    @if($op->guardar)
-                                                        <div class="form-group">
-                                                            <label>Nombre del Rol.</label>
-                                                            <input type="text"
-                                                                   id="rol-nombre"
-                                                                   class="form-control w300"
-                                                                   placeholder="Digite el nombre para crear"
-                                                                   onkeypress="Api.Rol.guardarActualizar(event)"
-                                                            >
-                                                        </div>
+                                                @if($op->guardar)
+                                                    <div class="col-lg-8 form-group">
+                                                        <label>Nombre del Rol.</label>
+                                                        <input type="text"
+                                                               id="rol-nombre"
+                                                               class="form-control w300"
+                                                               placeholder="Digite el nombre para crear"
+                                                               onkeypress="Api.Rol.guardarActualizar(event)"
+                                                        >
                                                         <br>
-                                                    @endif
-                                                </div>
+                                                    </div>
+                                                @endif
                                                 <div class="col-lg-8" id="rol-mensaje"></div>
                                                 <div class="col-lg-8" id="rol-tabla"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="permisos" class="tab-pane">
+                                    <div id="permisos" class="tab-pane active">
                                         <div class="panel-body">
+                                            <div class="row ml-none">
+                                                <div class="col-lg-12">
+                                                    <div class="alert alert-dismissable alert-info justificado">
+                                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                        <label>
+                                                            Información.
+                                                        </label>
+                                                        <p>
+                                                            Seleccione el rol, modulo y las sesiones que desea darle permisos. Si desea conocer los
+                                                            permisos presione en el boton de exportar permisos.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <div class="col-lg-6 form-group">
+                                                        <label>Rol.</label>
+                                                        <select id="id-rol" class="form-control chosen-select">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-6 form-group">
+                                                        <label>Módulos.</label>
+                                                        <select id="id-modulo" class="form-control chosen-select">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-lg-12 form-group">
+                                                        <label>Sesión.</label>
+                                                        <select id="id-sesion" class="form-control chosen-select" multiple>
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="col-lg-12 form-group">
+                                                        <label>Permisos.</label>
+                                                        <select id="id-permiso" class="form-control" multiple style="height: 100px;">
+                                                            <option value="1">Crear</option>
+                                                            <option value="2">Actualizar</option>
+                                                            <option value="3">Cambiar estado</option>
+                                                            <option value="4">Eliminar</option>
+                                                            <option value="5">Exportar archivo</option>
+                                                            <option value="6">Importar archivo</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-12">
+                                                        <button class="btn btn-info" type="button" onClick="Api.Perfil.guardar()">
+                                                            <i class="fa fa-cloud-download"></i>&nbsp;
+                                                            Exportar permisos
+                                                        </button>
+                                                        @if($op->actualizar)
+                                                        <button class="btn btn-success" type="button" onClick="Api.Perfil.guardar()">
+                                                            <i class="fa fa-pencil-square-o"></i>&nbsp;
+                                                            Actualizar
+                                                        </button>
+                                                        @endif
+                                                    </div>
+                                                    <div id="mensaje"></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="usuario" class="tab-pane">
