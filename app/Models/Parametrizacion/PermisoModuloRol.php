@@ -13,6 +13,7 @@ class PermisoModuloRol extends Model
     const MODULO = 'Parametrizacion';
     const MODELO = 'PermisoUsuarioModulo';
 
+
 	public static function consultarPermisosModulo($request, $idRol,$idModulo) {
 
 		try {
@@ -92,6 +93,31 @@ class PermisoModuloRol extends Model
                 'resultado' => -2,
                 'mensaje'   => 'Grave error: ' . $e,
             ));
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-03 - 02:41 PM
+     *
+     * Obtener ids por modulo
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param interger  $idModuloRol: ID modulo rol.
+     *
+     * @return object
+     */
+    public static function ObtenerPorModuloRol($request, $idModuloRol) {
+        try {
+            return PermisoModuloRol::select('id_permiso')
+                ->where('id_modulo_rol',$idModuloRol)
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ObtenerPorModuloRol', $e, $request);
         }
     }
 }

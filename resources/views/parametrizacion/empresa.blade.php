@@ -121,8 +121,7 @@
                                     <li class="active"><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
-                                    <li class=""><a data-toggle="tab" href="#valores">Valores</a></li>
-                                    <li class=""><a data-toggle="tab" href="#email">Emails</a></li>
+                                    <li class=""><a data-toggle="tab" href="#valores-email">Valores</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="detalle" class="tab-pane">
@@ -304,18 +303,31 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <div class="col-lg-12">
-                                                        <button class="btn btn-info" type="button" onClick="Api.Empresa.exportarPermisos()">
-                                                            <i class="fa fa-cloud-download"></i>&nbsp;
-                                                            Exportar permisos
-                                                        </button>
+                                                    <div class="col-lg-2">
                                                         @if($op->actualizar)
-                                                        <button class="btn btn-success" type="button" onClick="Api.Empresa.guardarPermiso()">
-                                                            <i class="fa fa-pencil-square-o"></i>&nbsp;
-                                                            Actualizar
-                                                        </button>
+                                                            <button class="btn btn-success" type="button" onClick="Api.Empresa.guardarPermiso()">
+                                                                <i class="fa fa-pencil-square-o"></i>&nbsp;
+                                                                Actualizar
+                                                            </button>
                                                         @endif
                                                     </div>
+                                                    <div class="col-lg-9">
+                                                        @if($op->exportar)
+                                                            <form id="formulario-reporte-permiso" method=POST action="reportes" target="_blank">
+                                                                {{ csrf_field() }}
+                                                                <input type="hidden" id="id-empresa" name="id_empresa">
+                                                                <input type="hidden" name="crud" value="true">
+                                                                <input type="hidden" name="controlador" value="Reportes">
+                                                                <input type="hidden" name="carpetaControlador" value="Parametrizacion">
+                                                                <input type="hidden" name="funcionesVariables" value="PermisosPorEmpresa">
+                                                                <button class="btn btn-info" type="submit">
+                                                                    <i class="fa fa-cloud-download"></i>&nbsp;
+                                                                    Exportar permisos
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+
                                                     <div class="col-lg-12">
                                                         <br>
                                                         <div id="permiso-mensaje"></div>
@@ -332,16 +344,12 @@
                                         <div class="panel-body">
                                         </div>
                                     </div>
-                                    <div id="valores" class="tab-pane">
+                                    <div id="valores-email" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-12">
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div id="email" class="tab-pane">
-                                        <div class="panel-body">
                                         </div>
                                     </div>
                                 </div>

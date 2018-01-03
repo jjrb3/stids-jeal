@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Parametrizacion;
 use App\Http\Controllers\HerramientaStidsController;
 
 use App\Models\Parametrizacion\ModuloEmpresa;
+use App\Models\Parametrizacion\Rol;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
 
@@ -316,5 +317,118 @@ class ModuloRolController extends Controller
             'resultado' => 1,
             'mensaje'   => 'Se guardaron los cambios correctamente'
         ]);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-12 - 11:45 AM
+     *
+     * Crea o elimina permisos
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param integer $idEmpresa:   ID de la empresa.
+     *
+     * @return array
+     */
+    public static function ObtenerListaPermisoPorEmpresa($request, $idEmpresa) {
+
+        $tabla      = [];
+
+        $roles   = Rol::consultarActivoPorEmpresa($idEmpresa);
+        $modulos = ModuloEmpresa::ObtenerModulosPorEmpresa($request, $idEmpresa);
+
+        if ($roles->count() > 0) {
+
+            foreach ($roles as $rol) {
+
+                $cnt = 0;
+
+                if ($modulos->count() > 0) {
+
+                    foreach ($modulos as $modulo) {
+
+                        $MR     = ModuloRol::ObtenerIdPorModuloRol($request, $rol->id, $modulo->id);
+                        $tabla  = ModuloRolController::CrearArrayDePermisos($request, $tabla, $rol, $modulo->nombre, '', $MR, $cnt);
+                        $cnt++;
+
+                        $sesion = ModuloEmpresa::ObtenerSesionPorEmpresaModulo(
+                            $request,
+                            $idEmpresa,
+                            Modulo::ConsultarIdPorModuloEmpresa($request,$modulo->id)
+                        );
+
+                        if ($sesion->count() > 0) {
+
+                            foreach ($sesion as $s) {
+
+                                $MR     = ModuloRol::ObtenerIdPorModuloRol($request, $rol->id, $s->id);
+                                $tabla  = ModuloRolController::CrearArrayDePermisos($request, $tabla, $rol, '', $s->nombre, $MR, $cnt);
+                                $cnt++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $tabla;
+    }
+
+    private static function CrearArrayDePermisos($request, $tabla, $rol, $modulo, $sesion, $MR, $cnt) {
+
+        $tabla[$rol->nombre][$cnt]['padre']      = $modulo;
+        $tabla[$rol->nombre][$cnt]['hijo']       = $sesion;
+        $tabla[$rol->nombre][$cnt]['ver']        = 0;
+        $tabla[$rol->nombre][$cnt]['crear']      = 0;
+        $tabla[$rol->nombre][$cnt]['actualizar'] = 0;
+        $tabla[$rol->nombre][$cnt]['estado']     = 0;
+        $tabla[$rol->nombre][$cnt]['eliminar']   = 0;
+        $tabla[$rol->nombre][$cnt]['exportar']   = 0;
+        $tabla[$rol->nombre][$cnt]['importar']   = 0;
+
+
+        if ($MR) {
+
+            $tabla[$rol->nombre][$cnt]['ver'] = 1;
+
+            $PMR = PermisoModuloRol::ObtenerPorModuloRol($request, $MR);
+
+            if ($PMR->count() > 0) {
+
+                foreach ($PMR as $permisos) {
+
+                    switch ($permisos->id_permiso) {
+
+                        case 1:
+                            $tabla[$rol->nombre][$cnt]['crear'] = 1;
+                            break;
+
+                        case 2:
+                            $tabla[$rol->nombre][$cnt]['actualizar'] = 1;
+                            break;
+
+                        case 3:
+                            $tabla[$rol->nombre][$cnt]['estado'] = 1;
+                            break;
+
+                        case 4:
+                            $tabla[$rol->nombre][$cnt]['eliminar'] = 1;
+                            break;
+
+                        case 5:
+                            $tabla[$rol->nombre][$cnt]['exportar'] = 1;
+                            break;
+
+                        case 6:
+                            $tabla[$rol->nombre][$cnt]['importar'] = 1;
+                            break;
+                    }
+                }
+            }
+        }
+
+        return $tabla;
     }
 }
