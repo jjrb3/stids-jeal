@@ -253,4 +253,68 @@ class ModuloRolController extends Controller
 
         return true;
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-12 - 11:45 AM
+     *
+     * Crea o elimina permisos
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function GuardarPermisosRapido(Request $request) {
+
+        $idRol              = $request->get('id_rol');
+        $idModuloEmpresa    = $request->get('id_modulo');
+        $idSesion           = $request->get('id_sesion');
+        $idPermisos         = $request->get('permisos');
+
+        $idModuloEmpresa .= $idSesion ? ',' . implode(',',$idSesion) : '';
+
+        foreach (explode(',',$idModuloEmpresa) as $idME) {
+
+            $id = ModuloRol::ObtenerIdPorModuloRol($request, $idRol, $idME);
+
+            if ($id) {
+
+                PermisoModuloRol::eliminarPorModulo($id);
+                ModuloRol::eliminar($id);
+            }
+
+            if($idPermisos) {
+
+                $ModuloRol = new ModuloRol();
+
+                $ModuloRol->id_rol            = $idRol;
+                $ModuloRol->id_modulo_empresa = $idME;
+
+                $mensaje        = ['Se guardaron los cambios correctamente', 'Se presentaron problemas al guardar los cambios'];
+                $transaccion    = [$request,6,'crear','s_modulo_rol'];
+
+                $idModuloRol = self::$hs->ejecutarSave($ModuloRol,$mensaje,$transaccion)->original['id'];
+
+                foreach ($idPermisos as $idP) {
+
+                    $PermisoModuloRol = new PermisoModuloRol();
+
+                    $PermisoModuloRol->id_modulo_rol = $idModuloRol;
+                    $PermisoModuloRol->id_permiso    = $idP;
+
+                    $mensaje        = ['Se guardaron los cambios correctamente', 'Se presentaron problemas al guardar los cambios'];
+                    $transaccion    = [$request,6,'crear','s_permiso_modulo_rol'];
+
+                    self::$hs->ejecutarSave($PermisoModuloRol,$mensaje,$transaccion);
+                }
+            }
+        }
+
+        return response()->json([
+            'resultado' => 1,
+            'mensaje'   => 'Se guardaron los cambios correctamente'
+        ]);
+    }
 }

@@ -305,18 +305,21 @@
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="col-lg-12">
-                                                        <button class="btn btn-info" type="button" onClick="Api.Perfil.guardar()">
+                                                        <button class="btn btn-info" type="button" onClick="Api.Empresa.exportarPermisos()">
                                                             <i class="fa fa-cloud-download"></i>&nbsp;
                                                             Exportar permisos
                                                         </button>
                                                         @if($op->actualizar)
-                                                        <button class="btn btn-success" type="button" onClick="Api.Perfil.guardar()">
+                                                        <button class="btn btn-success" type="button" onClick="Api.Empresa.guardarPermiso()">
                                                             <i class="fa fa-pencil-square-o"></i>&nbsp;
                                                             Actualizar
                                                         </button>
                                                         @endif
                                                     </div>
-                                                    <div id="mensaje"></div>
+                                                    <div class="col-lg-12">
+                                                        <br>
+                                                        <div id="permiso-mensaje"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

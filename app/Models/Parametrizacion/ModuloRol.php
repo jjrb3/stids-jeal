@@ -93,4 +93,33 @@ class ModuloRol extends Model
             return $hs->Log(self::MODULO,self::MODELO,'ObtenerIdsPorModulo', $e, $request);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-03 - 11:40 AM
+     *
+     * Obtener ids por modulo
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param interger  $idRol:       ID rol.
+     * @param interger  $idModulo:    ID modulo.
+     *
+     * @return object
+     */
+    public static function ObtenerIdPorModuloRol($request, $idRol, $idModulo) {
+        try {
+            $resultado =  ModuloRol::select('id')
+                ->where('id_rol',$idRol)
+                ->where('id_modulo_empresa',$idModulo)
+                ->get();
+
+            return $resultado->count() > 0 ? $resultado[0]->id : null;
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ObtenerIdPorModuloRol', $e, $request);
+        }
+    }
 }
