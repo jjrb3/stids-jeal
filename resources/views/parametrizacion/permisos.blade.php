@@ -68,6 +68,22 @@
                                 <div class="timeline-item">
                                     <div class="row">
                                         <div class="col-lg-12" id="tabla-rol"></div>
+                                        <div class="col-lg-12 centrado">
+                                            @if($op->exportar)
+                                                <form id="formulario-reporte-permiso" method=POST action="reportes" target="_blank">
+                                                    {{ csrf_field() }}
+                                                    <input type="hidden" name="id_empresa" value="{{$id_empresa}}">
+                                                    <input type="hidden" name="crud" value="true">
+                                                    <input type="hidden" name="controlador" value="Reportes">
+                                                    <input type="hidden" name="carpetaControlador" value="Parametrizacion">
+                                                    <input type="hidden" name="funcionesVariables" value="PermisosPorEmpresa">
+                                                    <button class="btn btn-info" type="submit">
+                                                        <i class="fa fa-cloud-download"></i>&nbsp;
+                                                        Exportar todos los permisos
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>       
                             </div>

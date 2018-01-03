@@ -8,18 +8,16 @@
 
 namespace App\Http\Controllers\Parametrizacion;
 
-use App\Models\Parametrizacion\ModuloEmpresa;
-use App\Models\Parametrizacion\ModuloRol;
-use App\Models\Parametrizacion\PermisoModuloRol;
-use App\Models\Parametrizacion\Rol;
+date_default_timezone_set('America/bogota');
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
 use App\Models\Parametrizacion\Empresa;
-use App\Models\Prestamo\Reportes;
 
 class ReportesController extends Controller
 {
+
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
