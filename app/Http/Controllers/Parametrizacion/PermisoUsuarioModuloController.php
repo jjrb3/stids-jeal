@@ -53,7 +53,7 @@ class PermisoUsuarioModuloController extends Controller
         $idEmpresa = $request->session()->get('idEmpresa');
 
         $usuario = Usuario::ConsultarPorEmpresa($request, $idUsuario);
-        $modulos = ModuloEmpresa::SelectModulosPorUsuario($request, $idUsuario);
+        $modulos = ModuloEmpresa::SelectModulosPorEmpresa($request, $idEmpresa);
         $usuarioPermiso = PermisoUsuarioModulo::SelectUsuarioPorEmpresa($request, $idEmpresa);
 
         return response()->json([

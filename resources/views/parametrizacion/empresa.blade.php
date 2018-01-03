@@ -279,7 +279,7 @@
                                                     </div>
                                                     <div class="col-lg-6 form-group">
                                                         <label>Módulos.</label>
-                                                        <select id="id-modulo" class="form-control chosen-select">
+                                                        <select id="id-modulo" class="form-control chosen-select" onchange="Api.Empresa.consultarSesion(this.value)">
                                                             <option value=""></option>
                                                         </select>
                                                     </div>

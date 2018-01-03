@@ -55,6 +55,29 @@ class ModuloEmpresaController
         return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-01-03 - 10:27 AM
+     * @see: 1. ModuloEmpresa::ObtenerSesionPorEmpresaModulo.
+     *
+     * Consultar sesion por modulo y empresa
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarSesion(Request $request) {
+
+        $objeto = ModuloEmpresa::ObtenerSesionPorEmpresaModulo(
+            $request,
+            $request->get('id_empresa'),
+            Modulo::ConsultarIdPorModuloEmpresa($request,$request->get('id_modulo'))
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
 
     /**
      * @autor: Jeremy Reyes B.

@@ -101,7 +101,7 @@ class ModuloEmpresa extends Model
      *
      * @return object
      */
-    public static function SelectModulosPorUsuario($request, $idEmpresa) {
+    public static function SelectModulosPorEmpresa($request, $idEmpresa) {
         try {
             return ModuloEmpresa::select(DB::raw("CONCAT((SELECT sm.nombre FROM s_modulo sm WHERE sm.id = s_modulo.id_padre),' / ',`s_modulo`.`nombre`) AS nombre"),'s_modulo_empresa.id')
                 ->join('s_modulo','s_modulo_empresa.id_modulo','s_modulo.id')
@@ -112,7 +112,63 @@ class ModuloEmpresa extends Model
                 ->whereNull('s_modulo.enlace_usuario')
                 ->get();
         } catch (\Exception $e) {
-            return self::$hs->Log(self::MODULO,self::MODELO,'SelectModulosPorUsuario', $e, $request);
+            return self::$hs->Log(self::MODULO,self::MODELO,'SelectModulosPorEmpresa', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-03 - 10:00 AM
+     *
+     * Obtiene el id de modulos por empresa y el nombre del modulo
+     *
+     * @param request $request:   Peticiones realizadas.
+     * @param integer $idEmpresa: Id empresa.
+     *
+     * @return object
+     */
+    public static function ObtenerModulosPorEmpresa($request, $idEmpresa) {
+        try {
+            return ModuloEmpresa::select('s_modulo_empresa.id','s_modulo.nombre')
+                ->join('s_modulo','s_modulo_empresa.id_modulo','s_modulo.id')
+                ->where('s_modulo.estado','1')
+                ->where('s_modulo_empresa.id_empresa',$idEmpresa)
+                ->orderBy('s_modulo.nombre')
+                ->whereNull('s_modulo.id_padre')
+                ->whereNull('s_modulo.enlace_usuario')
+                ->get();
+        } catch (\Exception $e) {
+            return self::$hs->Log(self::MODULO,self::MODELO,'ObtenerModulosPorEmpresa', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-03 - 10:18 AM
+     *
+     * Obtiene el id de la sesion por empresa y modulo
+     *
+     * @param request $request:   Peticiones realizadas.
+     * @param integer $idEmpresa: Id empresa.
+     *
+     * @return object
+     */
+    public static function ObtenerSesionPorEmpresaModulo($request, $idEmpresa, $idModulo) {
+        try {
+            return ModuloEmpresa::select('s_modulo_empresa.id','s_modulo.nombre')
+                ->join('s_modulo','s_modulo_empresa.id_modulo','s_modulo.id')
+                ->where('s_modulo.estado','1')
+                ->where('s_modulo_empresa.id_empresa',$idEmpresa)
+                ->where('s_modulo.id_padre',$idModulo)
+                ->whereNull('s_modulo.enlace_usuario')
+                ->orderBy('s_modulo.nombre')
+                ->get();
+        } catch (\Exception $e) {
+            return self::$hs->Log(self::MODULO,self::MODELO,'ObtenerSesionPorEmpresaModulo', $e, $request);
         }
     }
 

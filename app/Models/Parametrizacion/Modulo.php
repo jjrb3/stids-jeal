@@ -520,4 +520,34 @@ class Modulo extends Model
             return $hs->Log(self::MODULO,self::MODELO,'ConsultarSesionCheckearPorEmpresaModulo', $e, $request);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-03 - 10:32 AM
+     *
+     * Consultar id modulo por id modulo empresa
+     *
+     * @param array     $request:        Peticiones realizadas.
+     * @param integer   $idModuloEmresa: ID modulo empresa.
+     *
+     * @return null or int
+     */
+    public static function ConsultarIdPorModuloEmpresa($request, $idModuloEmresa) {
+
+        try {
+            $resultado = Modulo::select('s_modulo.id')
+                ->join('s_modulo_empresa','s_modulo.id','s_modulo_empresa.id_modulo')
+                ->where('s_modulo_empresa.id',$idModuloEmresa)
+                ->where('s_modulo.estado',1)
+                ->get();
+
+            return $resultado->count() > 0 ? (int)$resultado[0]->id : null;
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarIdPorModuloEmpresa', $e, $request);
+        }
+    }
 }

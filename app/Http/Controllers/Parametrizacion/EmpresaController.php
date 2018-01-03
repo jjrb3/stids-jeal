@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Parametrizacion;
 
 use App\Http\Controllers\HerramientaStidsController;
 
+use App\Models\Parametrizacion\ModuloEmpresa;
+use App\Models\Parametrizacion\Rol;
 use App\Models\Parametrizacion\Tema;
 use Illuminate\Http\Request;
 
@@ -273,9 +275,13 @@ class EmpresaController extends Controller
         $idEmpresa = $request->get('id_empresa');
 
         $sucursal = Sucursal::ConsultarPorEmpresa($request, $idEmpresa);
+        $rol      = Rol::consultarActivoPorEmpresa($idEmpresa);
+        $modulos  = ModuloEmpresa::ObtenerModulosPorEmpresa($request, $idEmpresa);
 
         return response()->json([
-            'sucursal' => $sucursal->count() > 0 ? $sucursal[0] : ''
+            'sucursal'  => $sucursal->count() > 0 ? $sucursal[0] : '',
+            'rol'       => $rol,
+            'modulos'   => $modulos
         ]);
     }
 
