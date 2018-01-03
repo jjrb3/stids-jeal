@@ -49,7 +49,7 @@ class Usuario extends Model
                              OR s_usuario.correo like '%{$request->get('buscador')}%'
                              OR s_tipo_identificacion.nombre like '%{$request->get('buscador')}%'
                              OR s_rol.nombre like '%{$request->get('buscador')}%')")
-                ->where('s_empresa.id',$request->session()->get('idEmpresa'))
+                ->where('s_empresa.id',$request->get('id_empresa'))
                 ->whereIn('s_usuario.estado',[1,0])
             	->orderBy('estado','desc')
                 ->orderBy('nombres')

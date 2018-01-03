@@ -42,7 +42,7 @@
                         <div id="pestanhia-empresa" class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#informacion"> Información</a></li>
-                                <li class=""><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
+                                <li class=""><a data-toggle="tab" href="#crear-editar-empresa">Crear o Editar</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="informacion" class="tab-pane active">
@@ -52,7 +52,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="crear-editar" class="tab-pane">
+                                <div id="crear-editar-empresa" class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
                                             <div class="col-lg-12">
@@ -115,16 +115,17 @@
                         <div class="tabs-container">
                             <div class="tabs-left">
                                 <ul class="nav nav-tabs">
-                                    <li class=""><a data-toggle="tab" href="#detalle"> Detalle</a></li>
-                                    <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos y sesiones</a></li>
+                                    <li class=""><a data-toggle="tab" href="#detalle-general"> Detalle</a></li>
+                                    <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos & sesiones</a></li>
                                     <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#permisos">Permisos</a></li>
+                                    <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#tipo-identificacion">Tipo de identificación</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
-                                    <li class=""><a data-toggle="tab" href="#valores-email">Valores</a></li>
+                                    <li class=""><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="detalle" class="tab-pane">
+                                    <div id="detalle-general" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-12">
@@ -134,7 +135,7 @@
                                                     </div>
                                                     <div class="col-lg-4 form-group">
                                                         <label>Ciudad.</label>
-                                                        <input id="ciudad" type="text" class="form-control autocompletar-ciudades" data-id="id-municipio" data-name="municipio">
+                                                        <input id="ciudad" type="text" class="form-control autocompletar-ciudades-2" data-id="id-municipio" data-name="municipio">
                                                     </div>
                                                     <div class="col-lg-6 form-group">
                                                         <label>Nombre Sucursal.</label>
@@ -254,7 +255,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="permisos" class="tab-pane active">
+                                    <div id="permisos" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-12">
@@ -336,8 +337,249 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div id="tipo-identificacion" class="tab-pane active">
+                                        <div class="panel-body">
+                                            <div class="row ml-none">
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div id="usuario" class="tab-pane">
                                         <div class="panel-body">
+                                            <div class="row ml-none">
+                                                <div class="col-lg-12">
+                                                    <div id="pestanhia-usuario" class="tabs-container">
+                                                        <ul class="nav nav-tabs" style="margin-bottom: -1px;">
+                                                            <li class="active"><a data-toggle="tab" href="#listado"> Lista de usuarios</a></li>
+                                                            <li class=""><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
+                                                            <li class=""><a data-toggle="tab" href="#detalle">Detalle</a></li>
+                                                        </ul>
+                                                        <div class="tab-content">
+                                                            <div id="listado" class="tab-pane active">
+                                                                <div class="panel-body"  style="margin-left: 0px!important;width: 100%">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12" id="tabla-usuario"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="crear-editar" class="tab-pane">
+                                                                <div class="panel-body" style="margin-left: 0px!important;width: 100%">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12">
+                                                                            <form id="formulario-usuario">
+                                                                                <input type="hidden" id="id">
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Tipo de identificación.</label>
+                                                                                        <select id="tipo-identificacion" name="identificacion" class="form-control m-b chosen-select" required></select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>No. Documento.</label>
+                                                                                        <input id="no-documento" type="text" class="form-control" name="documento" placeholder="Digite documento">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Rol.</label>
+                                                                                        <select id="id-rol-usuario" name="id-rol-usuario" class="form-control m-b chosen-select" required></select>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Usuario.</label>
+                                                                                        <input id="usuario" type="text" class="form-control m-b" name="usuario" placeholder="Digite el usuario" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Contraseña.</label>
+                                                                                        <input id="clave" type="password" class="form-control m-b" name="clave" placeholder="Digite la contraseña" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Nombres.</label>
+                                                                                        <input id="nombres" type="text" class="form-control m-b" name="nombres" placeholder="Digite los nombres" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Apellidos.</label>
+                                                                                        <input id="apellidos" type="text" class="form-control m-b" name="apellidos" placeholder="Digite los apellidos" required>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Sexo.</label>
+                                                                                        <select id="sexo" name="sexo" class="form-control m-b chosen-select" required></select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Ciudad.</label>
+                                                                                        <input id="ciudad" type="text" class="form-control autocompletar-ciudades" data-id="id-municipio" data-name="municipio">
+                                                                                    </div>
+                                                                                </div>
+
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Email.</label>
+                                                                                        <input id="email" type="email" class="form-control m-b" name="correo" placeholder="Digite el correo" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Fecha de nacimiento.</label>
+                                                                                        <div class="input-group">
+                                                                                            <input id="fecha-nacimiento" type="text" class="form-control m-b datepicker" name="fechaNacimiento" placeholder="Digite la fecha de nacimiento" required>
+                                                                                            <span class="input-group-addon icono-calendario"><i class="fa fa-calendar"></i></span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Teléfono.</label>
+                                                                                        <input id="telefono" type="text" class="form-control m-b" name="telefono" placeholder="Digite el teléfono" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-3">
+                                                                                    <div class="form-group">
+                                                                                        <label>Celular.</label>
+                                                                                        <input id="celular" type="text" class="form-control m-b formato-celular" name="celular" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-lg-6">
+                                                                                    <div class="form-group" id="ca-botones-usuario">
+                                                                                        <br style="">
+                                                                                        @if($op->guardar)
+                                                                                            <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Usuario.crear()">
+                                                                                                <i class="fa fa-floppy-o"></i>&nbsp;
+                                                                                                Guardar
+                                                                                            </button>
+                                                                                        @endif
+                                                                                        @if($op->actualizar)
+                                                                                            <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('usuario')">
+                                                                                                <i class="fa fa-times"></i>
+                                                                                                Cancelar
+                                                                                            </button>
+                                                                                            <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Usuario.actualizar()">
+                                                                                                <i class="fa fa-pencil-square-o"></i>&nbsp;
+                                                                                                Actualizar
+                                                                                            </button>
+                                                                                        @endif
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                            <br>
+                                                                        </div>
+                                                                        <div class="col-lg-12" id="mensaje"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="detalle" class="tab-pane">
+                                                                <div class="panel-body" style="margin-left: 0px!important;width: 100%">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-8">
+                                                                            <div class="table-responsive">
+                                                                                <table class="table table-bordered table-hover table-striped tablesorter">
+                                                                                    <thead>
+                                                                                    <tr>
+                                                                                        <th class="centrado" colspan="2">Información de usuario</th>
+                                                                                    </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                    <tr>
+                                                                                        <td><strong>Empresa.</strong></td>
+                                                                                        <td width="60%" id="info-empresa"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Usuario.</strong></td>
+                                                                                        <td id="info-usuario"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Tipo de identificación.</strong></td>
+                                                                                        <td id="info-tipo-identificacion"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Documento.</strong></td>
+                                                                                        <td id="info-documento"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Nombres.</strong></td>
+                                                                                        <td id="info-nombres"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Apellidos.</strong></td>
+                                                                                        <td id="info-apellidos"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Email.</strong></td>
+                                                                                        <td id="info-email"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Rol</strong></td>
+                                                                                        <td id="info-rol"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Localización</strong></td>
+                                                                                        <td id="info-localizacion"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Sexo.</strong></td>
+                                                                                        <td id="info-sexo"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Número teléfonico.</strong></td>
+                                                                                        <td id="info-telefono"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Número de Celular.</strong></td>
+                                                                                        <td id="info-celular"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><strong>Estado.</strong></td>
+                                                                                        <td id="info-estado">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4">
+                                                                            <label>Logo de la empresa.</label>
+                                                                            <br>
+                                                                            <img id="info-logo" src="" width="100%">
+                                                                            <br>
+                                                                            <br>
+                                                                            <label>Dashboard Habilitado.</label>
+                                                                            <br>
+                                                                            <div id="info-dashboard">
+                                                                                <a id="info-modulo" class="btn btn-white">
+                                                                                    <i class="fa fa-list-alt"></i>
+                                                                                    Módulos
+                                                                                </a>
+                                                                                <a id="info-grafica" class="btn btn-white">
+                                                                                    <i class="fa fa-line-chart"></i>
+                                                                                    Gráficas
+                                                                                </a>
+                                                                            </div>
+                                                                            <br>
+                                                                            <br>
+
+                                                                            <label>Modulos habilitados.</label>
+                                                                            <br>
+                                                                            <div id="info-modulos-habilitados" style="padding: 2px"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="logo" class="tab-pane">
@@ -502,6 +744,7 @@
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/empresa.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/modulo-empresa.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/rol.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/parametrizacion/usuario.js')}}"></script>
 
     <script>
         Api.permisos = [{{$permisos}}];

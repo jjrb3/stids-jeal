@@ -156,9 +156,9 @@ class UsuarioController extends Controller
 
         return response()->json([
             'resultado' => 1,
-            'tipo_identificacion' => TipoIdentificacion::consultarActivo($request, $request->session()->get('idEmpresa')),
-            'rol' => Rol::consultarActivoPorEmpresa($request->session()->get('idEmpresa')),
-            'sexo' => Sexo::consultarActivo()
+            'tipo_identificacion' => TipoIdentificacion::consultarActivo($request, $request->get('id_empresa')),
+            'rol' => Rol::consultarActivoPorEmpresa($request->get('id_empresa')),
+            'sexo' => Sexo::consultarActivo($request)
         ]);
     }
 
@@ -265,7 +265,7 @@ class UsuarioController extends Controller
         #2. Insertamos los nuevos datos al objecto
         $clase = new Usuario();
 
-        $clase->id_empresa              = $request->session()->get('idEmpresa');
+        $clase->id_empresa              = $request->get('id_empresa');
         $clase->id_tipo_identificacion  = $request->get('id_tipo_identificacion');
         $clase->id_rol                  = $request->get('id_rol');
         $clase->usuario                 = $request->get('usuario');

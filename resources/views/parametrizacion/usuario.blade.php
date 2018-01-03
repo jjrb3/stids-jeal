@@ -124,7 +124,7 @@
                                                     <div class="col-lg-3">
                                                         <div class="form-group">
                                                             <label>Rol.</label>
-                                                            <select id="rol" name="rol" class="form-control m-b chosen-select" required></select>
+                                                            <select id="id-rol-usuario" name="id-rol-usuario" class="form-control m-b chosen-select" required></select>
                                                         </div>
                                                     </div>
 
@@ -344,6 +344,7 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Graficas.permisos = [{{$permisosGraficas}}];
+        Api.Usuario.ie = parseInt('{{$id_empresa}}');
         Api.Usuario.constructor('crear-editar #mensaje',[{{$permisosGraficas}}]);
     </script>
 @endsection
