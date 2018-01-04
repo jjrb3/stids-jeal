@@ -38,7 +38,7 @@
             <div class="wrapper wrapper-content">
                 <div class="row">
                     <!-- Primer bloque de prestañas -->
-                    <div class="col-lg-12 pad-bot-20 ocultar">
+                    <div class="col-lg-12 pad-bot-20">
                         <div id="pestanhia-empresa" class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#informacion"> Información</a></li>
@@ -115,17 +115,17 @@
                         <div class="tabs-container">
                             <div class="tabs-left">
                                 <ul class="nav nav-tabs">
-                                    <li class=""><a data-toggle="tab" href="#detalle-general"> Detalle</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#detalle-general"> Detalle</a></li>
                                     <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos & sesiones</a></li>
                                     <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
                                     <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#p-tipo-identificacion">Tipo de identificación</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
+                                    <li class=""><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
                                 </ul>
                                 <div class="tab-content">
-                                    <div id="detalle-general" class="tab-pane">
+                                    <div id="detalle-general" class="tab-pane active">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-12">
@@ -624,7 +624,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="valores-email" class="tab-pane active">
+                                    <div id="valores-email" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-6">
@@ -636,7 +636,7 @@
                                                                 <input type="text"
                                                                        id="valores-nombre"
                                                                        class="form-control "
-                                                                       placeholder="Digite el nombre para crear"
+                                                                       placeholder="Digite una descripcion para crear"
                                                                        onkeypress="Api.Valores.guardarActualizar(event)"
                                                                 >
                                                                 <br>
@@ -653,23 +653,22 @@
                                                         @if($op->guardar)
                                                             <div class="col-lg-12">
                                                                 <input type="text"
-                                                                       id="email-nombre"
+                                                                       id="emails-nombre"
                                                                        class="form-control"
-                                                                       placeholder="Digite el nombre para crear"
+                                                                       placeholder="Digite el email para crear"
                                                                        onkeypress="Api.Emails.guardarActualizar(event)"
                                                                 >
                                                                 <br>
                                                             </div>
                                                         @endif
-                                                        <div class="col-lg-12" id="email-mensaje"></div>
-                                                        <div class="col-lg-12" id="email-tabla"></div>
+                                                        <div class="col-lg-12" id="emails-mensaje"></div>
+                                                        <div class="col-lg-12" id="emails-tabla"></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                         </div>
@@ -703,6 +702,6 @@
         Api.permisos = [{{$permisos}}];
         Api.ie = parseInt('{{$id_empresa}}');
         Api.Empresa.constructor();
-        Api.Empresa.detalle(4);
+        //Api.Empresa.detalle(4);
     </script>
 @endsection

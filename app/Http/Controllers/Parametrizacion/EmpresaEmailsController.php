@@ -6,9 +6,9 @@ use App\Http\Controllers\HerramientaStidsController;
 
 use Illuminate\Http\Request;
 
-use App\Models\Parametrizacion\EmpresaValores;
+use App\Models\Parametrizacion\EmpresaEmails;
 
-class EmpresaValoresController extends Controller
+class EmpresaEmailsController extends Controller
 {
     public static $hs;
 
@@ -25,7 +25,7 @@ class EmpresaValoresController extends Controller
      * @autor: Jeremy Reyes B.
      * @version: 1.0
      * @date: 2018-01-04 - 05:15 PM
-     * @see: 1. EmpresaValores::consultarTodo.
+     * @see: 1. EmpresaEmails::consultarTodo.
      *
      * Consultar
      *
@@ -35,7 +35,7 @@ class EmpresaValoresController extends Controller
      */
     public static function Consultar(Request $request) {
 
-        $objeto = EmpresaValores::ConsultarTodo(
+        $objeto = EmpresaEmails::ConsultarTodo(
             $request,
             $request->get('id_empresa'),
             $request->get('buscador'),
@@ -52,8 +52,8 @@ class EmpresaValoresController extends Controller
      * @version: 1.0
      * @date: 2018-01-04 - 05:20 PM
      * @see: 1. self::$hs->verificationDatas.
-     *       2. EmpresaValores::ConsultarPorNombreEmpresa.
-     *       3. EmpresaValores::find.
+     *       2. EmpresaEmails::ConsultarPorNombreEmpresa.
+     *       3. EmpresaEmails::find.
      *       4. self::$hs->ejecutarSave.
      *
      * Guarda datos.
@@ -78,7 +78,7 @@ class EmpresaValoresController extends Controller
 
 
         #2. Consultamos si existe
-        $existeRegistro = EmpresaValores::ConsultarPorNombreEmpresa(
+        $existeRegistro = EmpresaEmails::ConsultarPorNombreEmpresa(
             $request,
             $request->get('nombre'),
             $request->session()->get('id_empresa')
@@ -95,7 +95,7 @@ class EmpresaValoresController extends Controller
             #3.2. Esta eliminado entonces lo vuelve a activar
             elseif ($existeRegistro->count() && $existeRegistro[0]->estado < 0) {
 
-                $clase = EmpresaValores::find($existeRegistro[0]->id);
+                $clase = EmpresaEmails::find($existeRegistro[0]->id);
 
                 $clase->estado = 1;
 
@@ -106,7 +106,7 @@ class EmpresaValoresController extends Controller
             #3.3. Si no existe entonces se crea
             else {
 
-                $clase = new EmpresaValores();
+                $clase = new EmpresaEmails();
 
                 $clase->nombre      = $request->get('nombre');
                 $clase->id_empresa  = $request->get('id_empresa');
@@ -127,7 +127,7 @@ class EmpresaValoresController extends Controller
      * @version: 1.0
      * @date: 2018-01-04 - 05:38 PM
      * @see: 1. self::$hs->verificationDatas.
-     *       2. EmpresaValores::find.
+     *       2. EmpresaEmails::find.
      *       3. self::$hs->ejecutarSave.
      *
      * Actualiza datos.
@@ -152,7 +152,7 @@ class EmpresaValoresController extends Controller
 
 
         #2. Agregamos los nuevos parametros y actualizamos
-        $clase = EmpresaValores::find((int)$request->get('id'));
+        $clase = EmpresaEmails::find((int)$request->get('id'));
 
         $clase->nombre = $request->get('nombre');
 
@@ -166,7 +166,7 @@ class EmpresaValoresController extends Controller
      * @autor: Jeremy Reyes B.
      * @version: 1.0
      * @date: 2018-01-04 - 05:39 PM
-     * @see: 1. EmpresaValores::find.
+     * @see: 1. EmpresaEmails::find.
      *       2. self::$hs->ejecutarSave.
      *
      * Elimina un dato por id.
@@ -177,7 +177,7 @@ class EmpresaValoresController extends Controller
      */
     public function Eliminar($request)
     {
-        $clase = EmpresaValores::Find((int)$request->get('id'));
+        $clase = EmpresaEmails::Find((int)$request->get('id'));
 
         $clase->estado = -1;
 

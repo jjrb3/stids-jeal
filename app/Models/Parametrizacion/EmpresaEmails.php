@@ -6,13 +6,13 @@ use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
-class EmpresaValores extends Model
+class EmpresaEmails extends Model
 {
     public $timestamps = false;
-    protected $table = "s_empresa_valores";
+    protected $table = "s_empresa_emails";
 
     const MODULO = 'Parametrizacion';
-    const MODELO = 'EmpresaValores';
+    const MODELO = 'EmpresaEmails';
 
 
     /**
@@ -39,9 +39,9 @@ class EmpresaValores extends Model
                 return $currentPage;
             });
 
-            return EmpresaValores::where('estado','>','-1')
-                ->whereRaw("s_empresa_valores.nombre like '%{$buscar}%'")
+            return EmpresaEmails::where('estado','>','-1')
                 ->where('id_empresa',$idEmpresa)
+                ->whereRaw("s_empresa_emails.nombre LIKE '%{$buscar}%'")
                 ->orderBy('nombre')
                 ->paginate($tamanhio);
 
@@ -66,7 +66,7 @@ class EmpresaValores extends Model
      */
     public static function ConsultarPorNombreEmpresa($request, $nombre, $idEmpresa) {
         try {
-            return EmpresaValores::where('id_empresa',$idEmpresa)
+            return EmpresaEmails::where('id_empresa',$idEmpresa)
                 ->where('nombre',(string)$nombre)
                 ->get();
         } catch (\Exception $e) {

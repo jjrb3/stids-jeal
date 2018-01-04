@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Parametrizacion\Empresa;
 use App\Models\Parametrizacion\Sucursal;
-use App\Models\Parametrizacion\EmpresaCorreo;
+use App\Models\Parametrizacion\EmpresaEmails;
 use App\Models\Parametrizacion\EmpresaValores;
 
 
@@ -321,7 +321,7 @@ class EmpresaController extends Controller
 
             $sucursal = $sucursal[0];
 
-            $sucursalCorreo = EmpresaCorreo::consultarIdSucursal($sucursal['id']);
+            $sucursalCorreo = EmpresaEmails::consultarIdSucursal($sucursal['id']);
         }
         
 
