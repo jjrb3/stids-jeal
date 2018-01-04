@@ -217,7 +217,7 @@
                                                 </form>
                                                 <br>
                                             </div>
-                                            <div class="col-lg-12" id="mensaje"></div>
+                                            <div class="col-lg-12" id="mensaje-crear-editar"></div>
                                         </div>
                                     </div>
                                 </div>

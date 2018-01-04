@@ -146,6 +146,7 @@ class EmpresaController extends Controller
                 $clase->nombre_cabecera = $request->get('nombre_cabecera');
                 $clase->nombre          = $request->get('nombre');
                 $clase->frase           = $request->get('frase');
+                $clase->imagen_logo     = 'predeterminado.png';
                 $clase->estado          = 1;
 
                 $transaccion = [$request,6,'crear','s_empresa'];

@@ -111,6 +111,7 @@ class HerramientaStidsController extends Controller
                 }
 
                 return response()->json(array(
+                    'titulo' => 'Realizado',
                     'resultado' => 1,
                     'mensaje' => $mensaje[0],
                     'id' => $clase->id,

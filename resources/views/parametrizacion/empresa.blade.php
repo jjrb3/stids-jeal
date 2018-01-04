@@ -119,8 +119,8 @@
                                     <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos & sesiones</a></li>
                                     <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
                                     <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#p-tipo-identificacion">Tipo de identificación</a></li>
-                                    <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
+                                    <li class=""><a data-toggle="tab" href="#p-tipo-identificacion">Tipo de identificación</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
                                     <li class=""><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
                                 </ul>
@@ -337,7 +337,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="p-tipo-identificacion" class="tab-pane active">
+                                    <div id="p-tipo-identificacion" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-8">
@@ -355,7 +355,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="usuario" class="tab-pane">
+                                    <div id="usuario" class="tab-pane active">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-12">
@@ -487,7 +487,7 @@
                                                                             </form>
                                                                             <br>
                                                                         </div>
-                                                                        <div class="col-lg-12" id="mensaje"></div>
+                                                                        <div class="col-lg-12" id="mensaje-crear-editar"></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
