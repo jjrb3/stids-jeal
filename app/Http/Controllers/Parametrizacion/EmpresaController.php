@@ -278,11 +278,13 @@ class EmpresaController extends Controller
         $sucursal = Sucursal::ConsultarPorEmpresa($request, $idEmpresa);
         $rol      = Rol::consultarActivoPorEmpresa($idEmpresa);
         $modulos  = ModuloEmpresa::ObtenerModulosPorEmpresa($request, $idEmpresa);
+        $empresa  = Empresa::find($idEmpresa);
 
         return response()->json([
             'sucursal'  => $sucursal->count() > 0 ? $sucursal[0] : '',
             'rol'       => $rol,
-            'modulos'   => $modulos
+            'modulos'   => $modulos,
+            'empresa'   => $empresa
         ]);
     }
 
@@ -334,60 +336,33 @@ class EmpresaController extends Controller
 
     public function ActualizarImagen(Request $request) {
 
-        $directorio = __DIR__.'/../../../../recursos/imagenes/empresa_logo';
-        $archivo = $request->file('imagen_logo');
-        
+        $directorio = public_path('recursos/imagenes/empresa_logo/');
+        $archivo = $request->file('file');
+
         $nombre = explode('.',$archivo->getClientOriginalName());
         $ext = $nombre[1];
-        $nombreArchivo = $request->get('id'). "_" . date("Ymd_his") . ".$ext";
-
-        $imagen = Empresa::consultarId($request->get('id'));
-
-        if ($imagen) {
-
-            $imagen = $imagen[0]['imagen_logo'];
-        }
+        $nombreArchivo = $request->get('id_empresa'). "_" . date("Ymd_his") . ".$ext";
 
         if($archivo->move($directorio, $nombreArchivo)) {
             
-            $clase = Empresa::Find((int)$request->get('id'));
+            $clase = Empresa::Find((int)$request->get('id_empresa'));
+
+            $imagen = $clase->imagen_logo;
+
             $clase->imagen_logo = $nombreArchivo;
 
             try {
+
                 if ($clase->save()) {
 
-                    if ($imagen != 'predeterminado.png') {
+                    if ($imagen !== 'predeterminado.png') {
                         unlink("$directorio/$imagen"); // Eliminamos la imagen
                     }
-                    return 1;
-                } else {
-                    return 0;
                 }
-            } catch (Exception $e) {
-                return -1;
+            } catch (\Exception $e) {
+                return 'Se encontrarón errores al momento de subir la imagen. ' . $e->getMessage();
             }
         }
-        else{
-
-            return 0;
-        }
-    }
-
-
-    private function insertarCampos($clase,$request) {
-        
-        $clase->nit          	= $request->get('nit');
-        $clase->nombre_cabecera = $request->get('nombre_cabecera');
-        $clase->nombre          = $request->get('nombre');
-        $clase->imagen_logo     = 'predeterminado.png';
-
-
-        if (!$request->get('actualizacionRapida')) {
-
-            $clase->id_tema         = $request->get('id_tema');
-        }
-
-        return $clase;
     }
 
 

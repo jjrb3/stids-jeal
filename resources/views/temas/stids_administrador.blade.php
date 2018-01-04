@@ -35,6 +35,9 @@
     <!-- Datatables -->
     <link rel="stylesheet" href="{{asset('temas/stids/librerias/datatables/datatables.css')}}">
 
+    <!-- Dropzone -->
+    <link rel="stylesheet" href="{{asset('temas/stids/librerias/dropzone/basic.css')}}">
+
 
     <link rel="stylesheet" href="{{asset('temas/stids/librerias/jquery-mask/mask.css')}}" type="text/css" media="all">
 
@@ -328,6 +331,9 @@
 
         <!-- Datatables -->
         <script src="{{asset('temas/stids/librerias/datatables/datatables.js')}}" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Dropzone -->
+        <script src="{{asset('temas/stids/librerias/dropzone/dropzone.js')}}" type="text/javascript" charset="utf-8"></script>
 
 
         <!-- Stids -->

@@ -120,8 +120,8 @@
                                     <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
                                     <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#p-tipo-identificacion">Tipo de identificación</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#usuario">Usuarios</a></li>
-                                    <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
+                                    <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#logo">Logo</a></li>
                                     <li class=""><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -316,7 +316,7 @@
                                                         @if($op->exportar)
                                                             <form id="formulario-reporte-permiso" method=POST action="reportes" target="_blank">
                                                                 {{ csrf_field() }}
-                                                                <input type="hidden" id="id-empresa" name="id_empresa">
+                                                                <input type="hidden" class="id-empresa" name="id_empresa">
                                                                 <input type="hidden" name="crud" value="true">
                                                                 <input type="hidden" name="controlador" value="Reportes">
                                                                 <input type="hidden" name="carpetaControlador" value="Parametrizacion">
@@ -355,7 +355,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="usuario" class="tab-pane active">
+                                    <div id="usuario" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="row ml-none">
                                                 <div class="col-lg-12">
@@ -487,7 +487,6 @@
                                                                             </form>
                                                                             <br>
                                                                         </div>
-                                                                        <div class="col-lg-12" id="mensaje-crear-editar"></div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -594,8 +593,35 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="logo" class="tab-pane">
+                                    <div id="logo" class="tab-pane active">
                                         <div class="panel-body">
+                                            <div class="col-lg-12">
+                                                <div class="alert alert-dismissable alert-info justificado">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <label>
+                                                        Información.
+                                                    </label>
+                                                    <p>
+                                                        Para subir una imagen que se utilizará de logo en su empresa y
+                                                        varias opciones que ofrece Stids Jeal solo debe arrastrar la
+                                                        imagen el el recuadro de abajo y listo.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                @if($op->importar)
+                                                <form method=POST action="subirImagen" class="dropzone">
+                                                <input type="hidden" class="id-empresa" name="id_empresa">
+                                                <input type="hidden" name="crud" value="true">
+                                                <input type="hidden" name="controlador" value="Empresa">
+                                                <input type="hidden" name="carpetaControlador" value="Parametrizacion">
+                                                <input type="hidden" name="funcionesVariables" value="ActualizarImagen">
+                                                <div class="fallback">
+                                                    <input name="imagen" type="file" />
+                                                </div>
+                                            </form>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     <div id="valores-email" class="tab-pane">
@@ -729,26 +755,6 @@
         </div>
     </div>
     <!-- Fin contenido de la pagina -->
-
-    <!-- Modal de imagen -->
-    <div id="modal-imagen" class="modal fade" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-12" style="text-align:center">
-                        <h3 class="m-t-none m-b">Diseño del tema</h3>
-                            <div>
-                                <img id="urlImagenTema" src="" width="100%">
-                                <button data-dismiss="modal" class="btn btn-sm btn-default m-t-n-xs"><strong>Cerrar</strong></button>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Fin del Modal de Eliminar -->
     </div>
 @endsection
 

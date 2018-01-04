@@ -1,5 +1,6 @@
 <html>
 <head>
+    <link rel="shortcut icon" href="{{asset('temas/stids/img/ico/favicon.png')}}">
     <style>
         @page {
             margin: 160px 50px;
