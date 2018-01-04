@@ -5,14 +5,14 @@ namespace App\Models\Parametrizacion;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 
-class SucursalCorreo extends Model
+class EmpresaCorreo extends Model
 {
     public $timestamps = false;
-    protected $table = "s_sucursal_correo";
+    protected $table = "s_empresa_correo";
 
     public static function consultarIdSucursal($id,$sucursales = '') {
         try {
-            return SucursalCorreo::where('id_sucursal','=',$id)
+            return EmpresaCorreo::where('id_empresa','=',$id)
                 ->orderBy('correo')
                 ->get()
                 ->toArray();   
@@ -25,7 +25,7 @@ class SucursalCorreo extends Model
     public static function eliminar($request)
     {
         try {
-            if (SucursalCorreo::destroy($request->get('id'))) {
+            if (EmpresaCorreo::destroy($request->get('id'))) {
                 return response()->json(array(
                     'resultado' => 1,
                     'mensaje'   => 'Se eliminó correctamente',

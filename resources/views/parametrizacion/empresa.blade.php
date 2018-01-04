@@ -121,8 +121,8 @@
                                     <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
                                     <li class=""><a data-toggle="tab" href="#p-tipo-identificacion">Tipo de identificación</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#logo">Logo</a></li>
-                                    <li class=""><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
+                                    <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="detalle-general" class="tab-pane">
@@ -593,7 +593,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="logo" class="tab-pane active">
+                                    <div id="logo" class="tab-pane">
                                         <div class="panel-body">
                                             <div class="col-lg-12">
                                                 <div class="alert alert-dismissable alert-info justificado">
@@ -624,10 +624,46 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="valores-email" class="tab-pane">
+                                    <div id="valores-email" class="tab-pane active">
                                         <div class="panel-body">
                                             <div class="row ml-none">
-                                                <div class="col-lg-12">
+                                                <div class="col-lg-6">
+                                                    <h3 align="center">Valores</h3>
+                                                    <br>
+                                                    <div class="row">
+                                                        @if($op->guardar)
+                                                            <div class="col-lg-12">
+                                                                <input type="text"
+                                                                       id="valores-nombre"
+                                                                       class="form-control "
+                                                                       placeholder="Digite el nombre para crear"
+                                                                       onkeypress="Api.Valores.guardarActualizar(event)"
+                                                                >
+                                                                <br>
+                                                            </div>
+                                                        @endif
+                                                        <div class="col-lg-12" id="valores-mensaje"></div>
+                                                        <div class="col-lg-12" id="valores-tabla"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <h3 align="center">Emails</h3>
+                                                    <br>
+                                                    <div class="row">
+                                                        @if($op->guardar)
+                                                            <div class="col-lg-12">
+                                                                <input type="text"
+                                                                       id="email-nombre"
+                                                                       class="form-control"
+                                                                       placeholder="Digite el nombre para crear"
+                                                                       onkeypress="Api.Emails.guardarActualizar(event)"
+                                                                >
+                                                                <br>
+                                                            </div>
+                                                        @endif
+                                                        <div class="col-lg-12" id="email-mensaje"></div>
+                                                        <div class="col-lg-12" id="email-tabla"></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -641,108 +677,6 @@
                     </div>
 
 
-                    <!-- IMAGEN DE LOGO -->
-                    <div class="col-lg-3" id="imagenLogo" style="display:none;">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Imagen de logo</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline" style="display: block;">
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="mensajeImagen"></div>
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <div id="bloqueImagen"></div>
-                                            <br>
-                                        </div>
-                                        <form id="imagen" enctype="multipart/form-data" accept-charset="UTF-8">
-                                            <div class="col-lg-6">
-                                                <input id="imagen_logo" type="file" class="form-control m-b" name="imagen_logo" required>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <button id="botonActualizarImagen" class="btn btn-primary " type="button" onclick="actualizarImagen()" style="display:none;">
-                                                    <i class="fa fa-floppy-o"></i>&nbsp;
-                                                    Actualizar
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>       
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- VALORES -->
-                    <div class="col-lg-3" id="valores" style="display:none;">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Valores de la Empresa</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline" style="display: block;">
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="mensajeValores"></div>   
-                                        </div>
-                                        <div class="col-lg-12">
-                                            @if($op->guardar)
-                                                <input type="text" id="formulario-valores" class="form-control" style="width:300px" placeholder="Digite valor para crear" onkeypress="enterValores(event)">
-                                                <br>
-                                            @endif
-                                        </div>      
-                                    </div> 
-                                    <div class="row">
-                                        <div id="bloqueValores"></div>                       
-                                    </div>
-                                </div>       
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CORREOS -->
-                    <div class="col-lg-3" id="correoSucursal" style="display:none;">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Correos de la Sucursal</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline" style="display: block;">
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div id="mensajeCorreos"></div>     
-                                        </div>
-                                        <div class="col-lg-12">
-                                            @if($op->guardar)
-                                                <input type="text" id="formulario-correo" class="form-control" style="width:300px" placeholder="Digite correo para crear" onkeypress="enterCorreo(event)">
-                                                <br>
-                                            @endif
-                                        </div>  
-                                    </div>
-                                    <div class="row">
-                                        <div id="bloqueCorreos"></div>                                   
-                                    </div>
-                                </div>       
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="footer">

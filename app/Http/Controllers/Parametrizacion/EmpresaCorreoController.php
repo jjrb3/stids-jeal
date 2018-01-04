@@ -6,18 +6,18 @@ use App\Http\Controllers\HerramientaStidsController;
 
 use Illuminate\Http\Request;
 
-use App\Models\Parametrizacion\SucursalCorreo;
+use App\Models\Parametrizacion\EmpresaCorreo;
 
-class SucursalCorreoController extends Controller
+class EmpresaCorreoController extends Controller
 {
 	public static function Consultar(Request $request) {
 
-        return SucursalCorreo::consultarTodo($request);
+        return EmpresaCorreo::consultarTodo($request);
     }
 
 	public static function ConsultarActivos(Request $request) {
 
-        return SucursalCorreo::consultarActivo();
+        return EmpresaCorreo::consultarActivo();
     }
 
     public function Guardar(Request $request)
@@ -26,7 +26,7 @@ class SucursalCorreoController extends Controller
             return $this->verificacion($request);
 
 
-        $clase = $this->insertarCampos(new SucursalCorreo(),$request);
+        $clase = $this->insertarCampos(new EmpresaCorreo(),$request);
 
         $mensaje = ['Se guardó correctamente',
                     'Se encontraron problemas al guardar'];
@@ -41,7 +41,7 @@ class SucursalCorreoController extends Controller
             return $this->verificacion($request);
 
 
-        $clase = $this->insertarCampos(SucursalCorreo::Find((int)$request->get('id')),$request);
+        $clase = $this->insertarCampos(EmpresaCorreo::Find((int)$request->get('id')),$request);
 
         $mensaje = ['Se actualizó correctamente',
                     'Se encontraron problemas al actualizar'];
@@ -52,7 +52,7 @@ class SucursalCorreoController extends Controller
 
     public function CambiarEstado(Request $request) {
 
-    	$clase = SucursalCorreo::Find((int)$request->get('id'));
+    	$clase = EmpresaCorreo::Find((int)$request->get('id'));
 
     	$clase->estado = $request->get('estado');
 
@@ -65,7 +65,7 @@ class SucursalCorreoController extends Controller
 
     public function Eliminar($request)
     {
-        return SucursalCorreo::eliminar($request);
+        return EmpresaCorreo::eliminar($request);
     }
 
 

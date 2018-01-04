@@ -10,87 +10,179 @@ use App\Models\Parametrizacion\EmpresaValores;
 
 class EmpresaValoresController extends Controller
 {
-	public static function Consultar(Request $request) {
+    public static $hs;
 
-        return EmpresaValores::consultarTodo($request);
-    }
-
-	public static function ConsultarActivos(Request $request) {
-
-        return EmpresaValores::consultarActivo();
-    }
-
-    public function Guardar(Request $request)
+    /**
+     * Constructor
+     */
+    public function __construct()
     {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
-
-
-        $clase = $this->insertarCampos(new EmpresaValores(),$request);
-
-        $mensaje = ['Se guardó correctamente',
-                    'Se encontraron problemas al guardar'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
+        self::$hs = new HerramientaStidsController();
     }
 
 
-    public function Actualizar(Request $request)
-    {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-04 - 05:15 PM
+     * @see: 1. EmpresaValores::consultarTodo.
+     *
+     * Consultar
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function Consultar(Request $request) {
 
-
-        $clase = $this->insertarCampos(EmpresaValores::Find((int)$request->get('id')),$request);
-
-        $mensaje = ['Se actualizó correctamente',
-                    'Se encontraron problemas al actualizar'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
-    }
-
-
-    public function CambiarEstado(Request $request) {
-
-    	$clase = EmpresaValores::Find((int)$request->get('id'));
-
-    	$clase->estado = $request->get('estado');
-
-    	$mensaje = ['Se cambió el estado correctamente',
-                    'Se encontraron problemas al cambiar el estado'];
-
-    	return HerramientaStidsController::ejecutarSave($clase,$mensaje);
-    }
-
-
-    public function Eliminar($request)
-    {
-        return EmpresaValores::eliminar($request);
-    }
-
-
-    private function insertarCampos($clase,$request) {
-
-        $clase->id_empresa = $request->get('id_empresa');
-        $clase->nombre = $request->get('nombre');
-
-        return $clase;
-    }
-
-
-    public function verificacion($request){
-
-        $campos = array(
-            'nombre' => 'Debe digitar el campo nombre para continuar',
+        $objeto = EmpresaValores::ConsultarTodo(
+            $request,
+            $request->get('id_empresa'),
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
         );
 
-        foreach ($campos as $campo => $mensaje) {
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
 
-            $resultado = HerramientaStidsController::verificacionCampos($request,$campo,$mensaje);
 
-            if ($resultado) {
-                return $resultado;
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-04 - 05:20 PM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. EmpresaValores::ConsultarPorNombreEmpresa.
+     *       3. EmpresaValores::find.
+     *       4. self::$hs->ejecutarSave.
+     *
+     * Guarda datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Guardar(Request $request)
+    {
+        #1. Verificamos los datos enviados
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'nombre'   => 'Digite el nombre para poder guardar los cambios',
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Consultamos si existe
+        $existeRegistro = EmpresaValores::ConsultarPorNombreEmpresa(
+            $request,
+            $request->get('nombre'),
+            $request->session()->get('id_empresa')
+        );
+
+
+        #3. Que no se encuentre ningun error
+        if (!is_null($existeRegistro)) {
+
+            #3.1. Si existe y no esta eliminado
+            if ($existeRegistro->count() && $existeRegistro[0]->estado > -1) {
+                return response()->json(self::$hs->jsonExiste);
+            }
+            #3.2. Esta eliminado entonces lo vuelve a activar
+            elseif ($existeRegistro->count() && $existeRegistro[0]->estado < 0) {
+
+                $clase = Sexo::find($existeRegistro[0]->id);
+
+                $clase->estado = 1;
+
+                $transaccion = [$request,6,'actualizar','s_empresa_valores'];
+
+                return self::$hs->ejecutarSave($clase,self::$hs->mensajeGuardar,$transaccion);
+            }
+            #3.3. Si no existe entonces se crea
+            else {
+
+                $clase = new EmpresaValores();
+
+                $clase->nombre      = $request->get('nombre');
+                $clase->id_empresa  = $request->get('id_empresa');
+
+                $transaccion = [$request,6,'crear','s_empresa_valores'];
+
+                return self::$hs->ejecutarSave($clase,self::$hs->mensajeGuardar,$transaccion);
             }
         }
+        else {
+            return response()->json(self::$hs->jsonError);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-04 - 05:38 PM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. EmpresaValores::find.
+     *       3. self::$hs->ejecutarSave.
+     *
+     * Actualiza datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Actualizar(Request $request)
+    {
+        #1. Verificamos los datos enviados
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'nombre' => 'Digite el nombre para poder guardar los cambios',
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Agregamos los nuevos parametros y actualizamos
+        $clase = EmpresaValores::find((int)$request->get('id'));
+
+        $clase->nombre = $request->get('nombre');
+
+        $transaccion = [$request, 6, 'actualizar', 's_empresa_valores'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeActualizar,$transaccion);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-04 - 05:39 PM
+     * @see: 1. EmpresaValores::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Eliminar($request)
+    {
+        $clase = EmpresaValores::Find((int)$request->get('id'));
+
+        $clase->estado = -1;
+
+        $transaccion = [$request,6,'eliminar','s_empresa_valores'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEliminar,$transaccion);
     }
 }

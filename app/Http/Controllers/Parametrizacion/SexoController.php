@@ -101,8 +101,7 @@ class SexoController extends Controller
         #2. Consultamos si existe
         $S = Sexo::ConsultarPorNombreEmpresa(
             $request,
-            $request->get('nombre'),
-            $request->session()->get('idEmpresa')
+            $request->get('nombre')
         );
 
 
