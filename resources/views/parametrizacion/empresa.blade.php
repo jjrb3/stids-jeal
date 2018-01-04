@@ -119,7 +119,7 @@
                                     <li class=""><a data-toggle="tab" href="#modulos-sesiones">Módulos & sesiones</a></li>
                                     <li class=""><a data-toggle="tab" href="#rol">Roles</a></li>
                                     <li class=""><a data-toggle="tab" href="#permisos">Permisos</a></li>
-                                    <li class="active"><a data-toggle="tab" href="#tipo-identificacion">Tipo de identificación</a></li>
+                                    <li class="active"><a data-toggle="tab" href="#p-tipo-identificacion">Tipo de identificación</a></li>
                                     <li class=""><a data-toggle="tab" href="#usuario">Usuarios</a></li>
                                     <li class=""><a data-toggle="tab" href="#logo">Logo</a></li>
                                     <li class=""><a data-toggle="tab" href="#valores-email">Valores & emails</a></li>
@@ -337,9 +337,21 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="tipo-identificacion" class="tab-pane active">
+                                    <div id="p-tipo-identificacion" class="tab-pane active">
                                         <div class="panel-body">
                                             <div class="row ml-none">
+                                                <div class="col-lg-8">
+                                                    @if($op->guardar)
+                                                        <input type="hidden" id="id">
+                                                        <div class="form-group">
+                                                            <label>Tipo de identificación.</label>
+                                                            <input type="text" id="nombre-identificacion" class="form-control" style="width:300px" placeholder="Digite el nombre para crear" onkeypress="Api.Identificacion.guardarActualizar(event)" maxlength="50">
+                                                        </div>
+                                                        <br>
+                                                    @endif
+                                                </div>
+                                                <div class="col-lg-8" id="identificacion-mensaje"></div>
+                                                <div class="col-lg-8" id="tabla-ti"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -745,6 +757,7 @@
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/modulo-empresa.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/rol.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/usuario.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/parametrizacion/identificacion.js')}}"></script>
 
     <script>
         Api.permisos = [{{$permisos}}];

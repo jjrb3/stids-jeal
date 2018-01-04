@@ -37,7 +37,7 @@ class TipoIdentificacionController extends Controller
 
         return TipoIdentificacion::consultarTodo(
             $request,
-            $request->session()->get('idEmpresa'),
+            $request->get('id_empresa'),
             $request->get('buscador'),
             $request->get('pagina'),
             $request->get('tamanhio')
@@ -100,7 +100,7 @@ class TipoIdentificacionController extends Controller
         $TI = TipoIdentificacion::ConsultarPorNombreEmpresa(
             $request,
             $request->get('nombre'),
-            $request->session()->get('idEmpresa')
+            $request->get('id_empresa')
         );
 
         #3. Que no se encuentre ningun error
@@ -126,7 +126,7 @@ class TipoIdentificacionController extends Controller
 
                 $clase = new TipoIdentificacion();
 
-                $clase->id_empresa  = $request->session()->get('idEmpresa');
+                $clase->id_empresa  = $request->get('id_empresa');
                 $clase->nombre      = $request->get('nombre');
                 $clase->estado      = 1;
 

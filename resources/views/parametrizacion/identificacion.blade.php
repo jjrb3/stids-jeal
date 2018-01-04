@@ -55,14 +55,12 @@
                                                 <input type="hidden" id="id">
                                                 <div class="form-group">
                                                     <label>Tipo de identificación.</label>
-                                                    <input type="text" id="nombre" class="form-control" style="width:300px" placeholder="Digite el nombre para crear" onkeypress="Api.Identificacion.guardarActualizar(event)" maxlength="50">
+                                                    <input type="text" id="nombre-identificacion" class="form-control" style="width:300px" placeholder="Digite el nombre para crear" onkeypress="Api.Identificacion.guardarActualizar(event)" maxlength="50">
                                                 </div>
                                                 <br>
                                             @endif
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12" id="mensaje"></div>
+                                        <div class="col-lg-12" id="identificacion-mensaje"></div>
                                         <div class="col-lg-12" id="tabla-ti"></div>
                                     </div>
                                 </div>       
@@ -86,6 +84,7 @@
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/identificacion.js')}}"></script>
     <script>
         Api.permisos = [{{$permisos}}];
+        Api.Identificacion.ie = parseInt('{{$id_empresa}}');
         Api.Identificacion.constructor();
     </script>
 @endsection
