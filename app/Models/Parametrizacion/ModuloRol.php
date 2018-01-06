@@ -17,14 +17,15 @@ class ModuloRol extends Model
     public static function submenuRolPadre($idRol,$idPadre) {
 
     	try {
-	    	return ModuloRol::select('s_modulo.*')
-	                    ->join('s_modulo_empresa','s_modulo_rol.id_modulo_empresa','=','s_modulo_empresa.id')
-	                    ->join('s_modulo','s_modulo_empresa.id_modulo','=','s_modulo.id')
-	                    ->where('s_modulo_rol.id_rol', '=', $idRol)
-	                    ->where('s_modulo.id_padre','=', $idPadre)
-	                    ->where('s_modulo.estado', '=', 1)
-	                    ->orderBy('s_modulo.orden')
-	                    ->get()->toArray();
+	    	return ModuloRol::select('s_modulo.*','s_etiqueta.nombre AS nombre_etiqueta','s_etiqueta.clase','s_etiqueta.diminutivo')
+                ->join('s_modulo_empresa','s_modulo_rol.id_modulo_empresa','=','s_modulo_empresa.id')
+                ->join('s_modulo','s_modulo_empresa.id_modulo','=','s_modulo.id')
+                ->join('s_etiqueta','s_modulo.id_etiqueta','s_etiqueta.id')
+                ->where('s_modulo_rol.id_rol', '=', $idRol)
+                ->where('s_modulo.id_padre','=', $idPadre)
+                ->where('s_modulo.estado', '=', 1)
+                ->orderBy('s_modulo.orden')
+                ->get()->toArray();
 		} catch (\Exception $e) {
             return array();
         } 

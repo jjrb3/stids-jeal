@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Parametrizacion\EmpresaController;
+use App\Http\Controllers\Parametrizacion\MenuController;
 use App\Models\Parametrizacion\Empresa;
 use App\Models\Parametrizacion\GraficasEmpresa;
 use App\Models\Parametrizacion\Rol;
@@ -140,19 +142,19 @@ class NavegacionController extends Controller
 
         return View("$carpeta.$pagina",
             [
-                'nombres' => $request->session()->get('nombres'),
-                'menuAdministrador' => Parametrizacion\MenuController::menuAdministrador($request),
-                'empresa' => Parametrizacion\EmpresaController::ConsultarEmpresaSistema($request),
-                'idUsuario' => $request->session()->get('idUsuario'),
-                'menu_minimizado' => $request->session()->get('menuMinimizado'),
-                'id_rol' => $request->session()->get('idRol'),
-                'id_empresa' => $request->session()->get('idEmpresa'),
-                'json_empresa_roles' => json_encode($aJSON),
-                'cambio_empresa' => $request->session()->get('cambioEmpresa'),
-                'op' => (object) $OP['op'],
-                'permisos' => $OP['permisos'],
-                'pg' => $PG['permisos'],
-                'permisosGraficas' => $PG['json']
+                'nombres'               => $request->session()->get('nombres'),
+                'menuAdministrador'     => MenuController::menuAdministrador($request),
+                'empresa'               => EmpresaController::ConsultarEmpresaSistema($request),
+                'idUsuario'             => $request->session()->get('idUsuario'),
+                'menu_minimizado'       => $request->session()->get('menuMinimizado'),
+                'id_rol'                => $request->session()->get('idRol'),
+                'id_empresa'            => $request->session()->get('idEmpresa'),
+                'json_empresa_roles'    => json_encode($aJSON),
+                'cambio_empresa'        => $request->session()->get('cambioEmpresa'),
+                'op'                    => (object) $OP['op'],
+                'permisos'              => $OP['permisos'],
+                'pg'                    => $PG['permisos'],
+                'permisosGraficas'      => $PG['json']
             ]);
     }
 

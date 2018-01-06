@@ -31,7 +31,7 @@ class MenuController extends Controller
             }
             else {
 
-                if ($usuario = Usuario::consultarPorEmpresaRol($request->session()->get('idEmpresa'), $request->session()->get('idRol'))) {
+                if ($usuario = Usuario::ConsultarPorEmpresaRol($request,$request->session()->get('idEmpresa'), $request->session()->get('idRol'))) {
 
                     $idUsuario = $usuario->id;
                 }

@@ -91,18 +91,19 @@ class Usuario extends Model
     public static function menu($idUsuario,$idEmpresa) {
 
     	try {
-	    	return Usuario::select('s_modulo.*','s_modulo_rol.id_rol')
-		                ->join('s_rol','s_usuario.id_rol','=','s_rol.id')
-		                ->join('s_modulo_rol','s_rol.id','=','s_modulo_rol.id_rol')
-		                ->join('s_modulo_empresa','s_modulo_rol.id_modulo_empresa','=','s_modulo_empresa.id')
-		                ->join('s_modulo','s_modulo_empresa.id_modulo','=','s_modulo.id')
-		                ->where('s_usuario.id', '=', $idUsuario)
-		                ->where('s_modulo.id_padre','=', NULL)
-                        ->where('s_usuario.estado', '=', 1)
-                        ->where('s_modulo.estado', '=', 1)
-                        ->where('s_rol.id_empresa',$idEmpresa)
-		                ->orderBy('s_modulo.orden')
-		                ->get()->toArray();
+	    	return Usuario::select('s_modulo.*','s_modulo_rol.id_rol','s_etiqueta.nombre AS nombre_etiqueta','s_etiqueta.clase','s_etiqueta.diminutivo')
+                    ->join('s_rol','s_usuario.id_rol','=','s_rol.id')
+                    ->join('s_modulo_rol','s_rol.id','=','s_modulo_rol.id_rol')
+                    ->join('s_modulo_empresa','s_modulo_rol.id_modulo_empresa','=','s_modulo_empresa.id')
+                    ->join('s_modulo','s_modulo_empresa.id_modulo','=','s_modulo.id')
+                    ->join('s_etiqueta','s_modulo.id_etiqueta','s_etiqueta.id')
+                    ->where('s_usuario.id', '=', $idUsuario)
+                    ->where('s_modulo.id_padre','=', NULL)
+                    ->where('s_usuario.estado', '=', 1)
+                    ->where('s_modulo.estado', '=', 1)
+                    ->where('s_rol.id_empresa',$idEmpresa)
+                    ->orderBy('s_modulo.orden')
+                    ->get()->toArray();
 		} catch (Exception $e) {
             return array();
         }                
@@ -307,6 +308,34 @@ class Usuario extends Model
         try {
             return Usuario::select('*',DB::raw("CONCAT(nombres,' ',apellidos) AS nombre"))
                 ->where('id_empresa',$idEmpresa)
+                ->where('estado',1)
+                ->orderBy('nombres','ASC')
+                ->orderBy('apellidos','ASC')
+                ->get();
+        } catch (\Exception $e) {
+            return self::$hs->Log(self::MODULO,self::MODELO,'ConsultarPorEmpresa', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-07 - 11:02 AM
+     *
+     * Consultar usuario por empresa
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param integer $idEmpresa:   Id de la empresa.
+     * @param integer $idRol:       Id Rol.
+     *
+     * @return object
+     */
+    public static function ConsultarPorEmpresaRol($request, $idEmpresa, $idRol) {
+        try {
+            return Usuario::select('*',DB::raw("CONCAT(nombres,' ',apellidos) AS nombre"))
+                ->where('id_empresa',$idEmpresa)
+                ->where('id_rol',$idRol)
                 ->where('estado',1)
                 ->orderBy('nombres','ASC')
                 ->orderBy('apellidos','ASC')

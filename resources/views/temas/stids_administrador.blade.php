@@ -71,8 +71,8 @@
                                     @if(isset($listaMenu['submenu']))
                                         <span class="fa arrow"></span>
                                     @endif
-                                    @if($listaMenu['es_nuevo'])
-                                        <span class="label label-primary pull-right">NUEVO</span>
+                                    @if($listaMenu['nombre_etiqueta'])
+                                        <span class="label label-{{$listaMenu['clase']}} pull-right" title="{{$listaMenu['nombre_etiqueta']}}">{{$listaMenu['diminutivo']}}</span>
                                     @endif
                                 </a>
                                 @if(isset($listaMenu['submenu']))
@@ -82,8 +82,8 @@
                                             <a href="{{$menuAdministrador['ruta']}}{{$submenu['enlace_administrador']}}?padre={{$submenu['id_padre']}}&hijo={{$submenu['id']}}">
                                                 <i class="fa {{$submenu['icono']}}"></i> 
                                                 {{$submenu['nombre']}}
-                                                @if($submenu['es_nuevo'])
-                                                    <span class="label label-primary pull-right">NUEVO</span>
+                                                @if($submenu['nombre_etiqueta'])
+                                                    <span class="label label-{{$submenu['clase']}} pull-right" title="{{$submenu['nombre_etiqueta']}}">{{$submenu['diminutivo']}}</span>
                                                 @endif
                                             </a>
                                         </li>                                        
