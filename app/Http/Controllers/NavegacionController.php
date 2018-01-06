@@ -6,6 +6,7 @@ use App\Http\Controllers\Parametrizacion\EmpresaController;
 use App\Http\Controllers\Parametrizacion\MenuController;
 use App\Models\Parametrizacion\Empresa;
 use App\Models\Parametrizacion\GraficasEmpresa;
+use App\Models\Parametrizacion\Modulo;
 use App\Models\Parametrizacion\Rol;
 use App\Models\Parametrizacion\PermisoUsuarioModulo;
 use App\Models\Parametrizacion\PermisoModuloRol;
@@ -43,6 +44,7 @@ class NavegacionController extends Controller
 
         $OP = ['op' => null, 'permisos' => null];
         $PG = ['permisos' => null, 'json' => null];
+        $N  = [];
 
         #1. Verificamos si tiene permiso, existe vista y si no tiene la sesion activa pero si esta gurdada en cookie.
         if (!$request->session()->get('idEmpresa') && $request->cookie('codigo_ingreso')) {
@@ -140,6 +142,28 @@ class NavegacionController extends Controller
             }
         }
 
+
+        #7. Navegación
+        if ($request->get('hijo'))
+        {
+            $hijo = Modulo::find((int)$request->get('hijo'));
+
+            $N['hijo'] = [
+                'nombre' => $hijo->nombre,
+                'enlace' => "{$hijo->enlace_administrador}?padre={$request->get('padre')}&hijo={$request->get('hijo')}"
+            ];
+        }
+
+        if ($request->get('padre')) {
+
+            $padre = Modulo::find((int)$request->get('padre'));
+
+            $N['padre'] = [
+                'nombre' => $padre->nombre,
+                'enlace' => "{$padre->enlace_administrador}?padre={$request->get('padre')}"
+            ];
+        }
+
         return View("$carpeta.$pagina",
             [
                 'nombres'               => $request->session()->get('nombres'),
@@ -154,7 +178,8 @@ class NavegacionController extends Controller
                 'op'                    => (object) $OP['op'],
                 'permisos'              => $OP['permisos'],
                 'pg'                    => $PG['permisos'],
-                'permisosGraficas'      => $PG['json']
+                'permisosGraficas'      => $PG['json'],
+                'navegacion'            => $N
             ]);
     }
 
