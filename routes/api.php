@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
+// http://localhost:8080/stids/stids_jeal/public/api/test
+Route::get('/test',function(){
+    return "ok";
+    die;
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
