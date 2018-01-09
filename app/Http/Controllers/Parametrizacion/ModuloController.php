@@ -457,7 +457,7 @@ class ModuloController extends Controller
                 $clase->icono       = $request->get('icono');
                 $clase->estado      = 1;
 
-                $tipo === 1 ?
+                $tipo == 1 ?
                     $clase->enlace_administrador = $request->get('enlace')
                     :
                     $clase->enlace_usuario = $request->get('enlace')
@@ -483,7 +483,7 @@ class ModuloController extends Controller
                 $clase->icono       = $request->get('icono');
                 $clase->estado      = 1;
 
-                $tipo === 1 ?
+                $tipo == 1 ?
                     $clase->enlace_administrador = $request->get('enlace')
                     :
                     $clase->enlace_usuario = $request->get('enlace')

@@ -86,8 +86,30 @@
                     <div id="modulos-sesiones" class="tab-pane active">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-6" id="tabla-modulo"></div>
-                                <div class="col-lg-6" id="tabla-sesion"></div>
+                                <div class="col-lg-12" align="center">
+                                    <div class="btn-group">
+                                        <button id="btn-modulo" class="btn btn-white active" onclick="Api.Dashboard.mostrarContenedor(1)">
+                                            <i class="fa fa-list-alt"></i>
+                                            Administración
+                                        </button>
+                                        <button id="btn-grafica" class="btn btn-white" onclick="Api.Dashboard.mostrarContenedor(2)">
+                                            <i class="fa fa-object-group"></i>
+                                            Página Pública
+                                        </button>
+                                    </div>
+                                    <br>
+                                    <br>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h3 align="center">Lista de Módulos</h3>
+                                    <br>
+                                    <div id="tabla-modulo"></div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h3 align="center">Lista de Sesiones</h3>
+                                    <br>
+                                    <div id="tabla-sesion"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
