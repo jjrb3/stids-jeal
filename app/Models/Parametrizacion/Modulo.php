@@ -550,4 +550,154 @@ class Modulo extends Model
             return $hs->Log(self::MODULO,self::MODELO,'ConsultarIdPorModuloEmpresa', $e, $request);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 11:13 AM
+     *
+     * Consultar padre de la administracion por nombre
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nombre:      Nombre.
+     *
+     * @return object
+     */
+    public static function ConsultarPadreAdministracionPorNombre($request, $nombre) {
+        try {
+            return Modulo::where('nombre',(string)$nombre)
+                ->whereNull('id_padre')
+                ->whereNull('enlace_usuario')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPadreAdministracionPorNombre', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 11:13 AM
+     *
+     * Consultar hijo de la administracion por nombre y padre
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nombre:      Nombre.
+     * @param string  $nombre:      Nombre.
+     *
+     * @return object
+     */
+    public static function ConsultarHijoAdministracionPorNombrePadre($request, $nombre, $idPadre) {
+        try {
+            return Modulo::where('nombre',(string)$nombre)
+                ->where('id_padre',$idPadre)
+                ->whereNull('enlace_usuario')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarHijoAdministracionPorNombrePadre', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 11:13 AM
+     *
+     * Consultar padre de la pagina publica por nombre
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nombre:      Nombre.
+     *
+     * @return object
+     */
+    public static function ConsultarPadrePaginaPorNombre($request, $nombre) {
+        try {
+            return Modulo::where('nombre',(string)$nombre)
+                ->whereNull('id_padre')
+                ->whereNull('enlace_administrador')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPadrePaginaPorNombre', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 11:13 AM
+     *
+     * Consultar hijo de la pagina publica por nombre y padre
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nombre:      Nombre.
+     * @param string  $nombre:      Nombre.
+     *
+     * @return object
+     */
+    public static function ConsultarHijoPaginaPorNombrePadre($request, $nombre, $idPadre) {
+        try {
+            return Modulo::where('nombre',(string)$nombre)
+                ->where('id_padre',$idPadre)
+                ->whereNull('enlace_administrador')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarHijoPaginaPorNombrePadre', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 12:39 PM
+     *
+     * Consultar todos los modulos de la administración que esten activos
+     *
+     * @param request $request:     Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarModulosAdministracionActivos($request) {
+        try {
+            return Modulo::whereNull('id_padre')
+                ->whereNull('enlace_usuario')
+                ->where('estado',1)
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarModulosAdministracionActivos', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 12:39 PM
+     *
+     * Consultar todos los modulos de la administración que esten activos
+     *
+     * @param request $request:     Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarModulosPaginaActivos($request) {
+        try {
+            return Modulo::whereNull('id_padre')
+                ->whereNull('enlace_administrador')
+                ->where('estado',1)
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarModulosPaginaActivos', $e, $request);
+        }
+    }
 }

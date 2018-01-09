@@ -74,11 +74,11 @@
                     <div id="crear-editar" class="tab-pane active">
                         <div class="panel-body ">
                             <div class="row">
-                                <form id="formulario-modulos">
+                                <form id="formulario-modulo-sesion">
                                     <div class="col-lg-8">
                                         <div class="col-lg-6 form-group">
                                             <label>Tipo.</label>
-                                            <select id="tipo" class="form-control m-b chosen-select">
+                                            <select id="tipo" class="form-control m-b chosen-select" onchange="Api.Modulo.buscarPadre()">
                                                 <option value="1">Administrador</option>
                                                 <option value="2">Usuario</option>
                                             </select>
@@ -98,7 +98,14 @@
                                         <div class="col-lg-6">
                                             <label>Icono.</label>
                                             <div class="input-group">
-                                                <input id="icono" type="text" class="form-control m-b" placeholder="Digite el codigo del icono" value="fa-smile-o">
+                                                <input id="icono"
+                                                       type="text"
+                                                       class="form-control m-b"
+                                                       placeholder="Digite el codigo del icono"
+                                                       value="fa-smile-o"
+                                                       onkeyup="Api.Modulo.mostrarIcono(this.value)"
+                                                       maxlength="50"
+                                                >
                                                 <span class="input-group-addon">
                                                     <i class="fa fa-smile-o"></i>
                                                 </span>
@@ -111,9 +118,9 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group" id="ca-botones-modulo-sesion">
-                                                <br style="">
+                                                <br>
                                                 @if($op->guardar)
-                                                    <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Usuario.crear()">
+                                                    <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Modulo.crearActualizar()">
                                                         <i class="fa fa-floppy-o"></i>&nbsp;
                                                         Guardar
                                                     </button>
@@ -123,7 +130,7 @@
                                                         <i class="fa fa-times"></i>
                                                         Cancelar
                                                     </button>
-                                                    <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Usuario.actualizar()">
+                                                    <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Modulo.crearActualizar()">
                                                         <i class="fa fa-pencil-square-o"></i>&nbsp;
                                                         Actualizar
                                                     </button>
@@ -136,7 +143,6 @@
                                         <textarea id="descripcion" class="form-control" placeholder="Digite la descripción para continuar" style="height: 177px"></textarea>
                                     </div>
                                 </form>
-                                <div class="col-lg-12" id="mensaje-crear-editar"></div>
                             </div>
                         </div>
                     </div>

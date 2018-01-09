@@ -169,21 +169,6 @@ class ModuloController extends Controller
         ]);
     }
 
-    public function Guardar(Request $request)
-    {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
-
-
-        $clase = $this->insertarCampos(new Modulo(),$request);
-
-        
-        $mensaje = ['Se guardó correctamente',
-                    'Se encontraron problemas al guardar'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
-    }
-
 
     public function Actualizar(Request $request)
     {
@@ -332,10 +317,11 @@ class ModuloController extends Controller
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
-     * @date: 2017-12-04 - 12:01 PM
-     * @see: 1. Usuario::consultarPerfil.
+     * @date: 2018-01-09 - 11:01 AM
+     * @see: 1. Modulo::ConsultarModulosActivos.
+     *       2. EtiquetaController::ConsultarActivos.
      *
-     * Consulta los modulos y sesiones a los que tiene permiso un usuario.
+     * Inicializa los parametros del formulario.
      *
      * @param request $request: Peticiones realizadas.
      *
@@ -345,12 +331,171 @@ class ModuloController extends Controller
 
         $idEmpresa = $request->session()->get('idEmpresa');
 
-        $modulos  = Modulo::ConsultarModulosActivos($idEmpresa);
+        $modulos  = Modulo::ConsultarModulosAdministracionActivos($request);
         $etiqueta = EtiquetaController::ConsultarActivos($request);
 
         return response()->json([
             'modulos'   => $modulos,
             'etiquetas' => $etiqueta
         ]);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 12:33 PM
+     * @see: 1. Modulo::ConsultarModulosActivos.
+     *       2. EtiquetaController::ConsultarActivos.
+     *
+     * Inicializa los parametros del formulario.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarPadrePorTipo(Request $request) {
+
+        $idEmpresa  = $request->session()->get('idEmpresa');
+        $tipo       = $request->get('tipo');
+
+        $modulos =
+            $tipo === 1 ?
+                Modulo::ConsultarModulosAdministracionActivos($request)
+                :
+                Modulo::ConsultarModulosPaginaActivos($request)
+        ;
+
+        return response()->json($modulos);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 11:06 PM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. Modulo::ConsultarPorNombreEmpresa.
+     *       3. Modulo::find.
+     *       4. self::$hs->ejecutarSave.
+     *
+     * Crea o actualiza los datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function CrearActualizar(Request $request)
+    {
+        #1. Verificamos los datos enviados
+        $id             = $request->get('id');
+        $tipo           = $request->get('tipo');
+        $idPadre        = $request->get('id_padre');
+        $transaccion    = [$request, 13, '', 's_modulo'];
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'tipo'      => 'Seleccione el tipo para continuar',
+            'nombre'    => 'Digite el nombre para poder guardar los cambios',
+            'enlace'    => 'Digite el enlace para poder guardar los cambios',
+            'icono'     => 'Digite el codigo del icono para poder guardar los cambios'
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Si no es actualización consultamos si existe
+        if (!$id) {
+
+            #2.1. Si es tipo 1 es administración
+            if ($tipo == 1) {
+
+                #2.1.1. Si no tiene padre es porque es un modulo de lo contrario es una sesion
+                $existeRegistro =
+                    !$idPadre ?
+                        Modulo::ConsultarPadreAdministracionPorNombre($request,$request->get('nombre'))
+                        :
+                        Modulo::ConsultarHijoAdministracionPorNombrePadre($request,$request->get('nombre'), $idPadre)
+                ;
+            }
+            #2.2. Si es tipo 2 es pagina publica
+            else {
+
+                #2.2.1. Si no tiene padre es porque es un modulo de lo contrario es una sesion
+                $existeRegistro =
+                    !$idPadre ?
+                        Modulo::ConsultarPadrePaginaPorNombre($request,$request->get('nombre'))
+                        :
+                        Modulo::ConsultarHijoPaginaPorNombrePadre($request,$request->get('nombre'), $idPadre)
+                ;
+            }
+
+        }
+        else {
+            $existeRegistro = Modulo::find($id);
+        }
+
+        #3. Que no se encuentre ningun error
+        if (!is_null($existeRegistro)) {
+
+            #3.1. Si existe, no esta eliminado y no es una actualización
+            if ($existeRegistro->count() && $existeRegistro[0]->estado > -1 && !$id) {
+                return response()->json(self::$hs->jsonExiste);
+            }
+            #3.2. Esta eliminado o es una actualizacion lo vuelve a activar y actualiza todos sus datos
+            elseif ($id && $existeRegistro->count() && $existeRegistro[0]->estado < 0) {
+
+                $clase = Modulo::find($existeRegistro[0]->id);
+
+                $clase->id_padre    = $idPadre;
+                $clase->id_etiqueta = (int)$request->get('id_etiqueta');
+                $clase->nombre      = $request->get('nombre');
+                $clase->descripcion = $request->get('descripcion');
+                $clase->icono       = $request->get('icono');
+                $clase->estado      = 1;
+
+                $tipo === 1 ?
+                    $clase->enlace_administrador = $request->get('enlace')
+                    :
+                    $clase->enlace_usuario = $request->get('enlace')
+                ;
+
+                $transaccion[2] = 'actualizar';
+
+                return self::$hs->ejecutarSave(
+                    $clase,
+                    $id ? self::$hs->mensajeActualizar : self::$hs->mensajeGuardar,
+                    $transaccion
+                );
+            }
+            #3.3. Si no existe entonces se crea
+            else {
+
+                $clase = new Modulo();
+
+                $clase->id_padre    = $idPadre;
+                $clase->id_etiqueta = (int)$request->get('id_etiqueta');
+                $clase->nombre      = $request->get('nombre');
+                $clase->descripcion = $request->get('descripcion');
+                $clase->icono       = $request->get('icono');
+                $clase->estado      = 1;
+
+                $tipo === 1 ?
+                    $clase->enlace_administrador = $request->get('enlace')
+                    :
+                    $clase->enlace_usuario = $request->get('enlace')
+                ;
+
+                $transaccion[2] = 'crear';
+
+                return self::$hs->ejecutarSave($clase, self::$hs->mensajeGuardar, $transaccion);
+            }
+        }
+        else {
+            return response()->json(self::$hs->jsonError);
+        }
     }
 }
