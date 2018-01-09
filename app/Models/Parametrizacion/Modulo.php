@@ -15,6 +15,47 @@ class Modulo extends Model
     const MODULO = 'Parametrizacion';
     const MODELO = 'Modulo';
 
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 02:55 PM
+     *
+     * Consultar todos con paginacion
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function ConsultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10) {
+        try {
+            $currentPage = $pagina;
+
+            // Fuerza a estar en la pagina
+            Paginator::currentPageResolver(function() use ($currentPage) {
+                return $currentPage;
+            });
+
+            return Modulo::select('s_modulo.*','s_modulo.id AS id_seleccionar')
+                ->where('estado','>','-1')
+                ->whereRaw("s_modulo.nombre like '%{$buscar}%'")
+                ->whereNull('id_padre')
+                ->whereNull('enlace_usuario')
+                ->orderBy('estado','desc')
+                ->orderBy('orden')
+                ->orderBy('nombre')
+                ->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTodo', $e, $request);
+        }
+    }
+
+
     public static function consultarAdministrador($buscar,$pagina,$tamanhioPagina) {
         try {
             $currentPage = $pagina;

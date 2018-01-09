@@ -55,24 +55,43 @@
         </div>
     </div>
 
-    <div id="contenedor-modulos" class="row wrapper-content">
+    <div class="row">
+        <br>
+        <div class="col-lg-12">
+            <div class="alert alert-dismissable alert-info justificado">
+                <label>
+                    Información.
+                </label>
+                <p>
+                    Aquí podrá administrar los módulos y sus sesiones para la plataforma, tenga
+                    <strong>
+                        cuidado al momento de eliminar porque puede afectar la actividad de
+                        todos los usuarios que utilizan el sistema.
+                    </strong>
+                    Le aconsejamos realizar las respectivas confirmaciones antes de realizar alguna acción.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="contenedor-modulos" class="row">
         <div class="col-lg-12 pad-bot-20">
             <div id="pestanhia-modulos-sesiones" class="tabs-container">
                 <ul class="nav nav-tabs">
-                    <li class=""><a data-toggle="tab" href="#modulos-sesiones"> Modulos & Sesiones</a></li>
-                    <li class="active"><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
+                    <li class="active"><a data-toggle="tab" href="#modulos-sesiones"> Modulos & Sesiones</a></li>
+                    <li class=""><a data-toggle="tab" href="#crear-editar">Crear o Editar</a></li>
                     <li class=""><a data-toggle="tab" href="#detalle">Detalle</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div id="listado" class="tab-pane">
-                        <div class="panel-body ">
+                    <div id="modulos-sesiones" class="tab-pane active">
+                        <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-12" id="modulos-sesiones-tabla"></div>
+                                <div class="col-lg-6" id="tabla-modulo"></div>
                             </div>
                         </div>
                     </div>
-                    <div id="crear-editar" class="tab-pane active">
-                        <div class="panel-body ">
+                    <div id="crear-editar" class="tab-pane">
+                        <div class="panel-body">
                             <div class="row">
                                 <form id="formulario-modulo-sesion">
                                     <div class="col-lg-8">

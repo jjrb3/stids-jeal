@@ -498,4 +498,29 @@ class ModuloController extends Controller
             return response()->json(self::$hs->jsonError);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 02:55 PM
+     * @see: 1. Modulo::ConsultarTodo.
+     *
+     * Consultar
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarModulos(Request $request) {
+
+        $objeto = Modulo::ConsultarTodo(
+            $request,
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
 }
