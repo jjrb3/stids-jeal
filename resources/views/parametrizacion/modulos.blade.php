@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="row wrapper-content">
+    <div id="contenedor-modulos" class="row wrapper-content">
         <div class="col-lg-12 pad-bot-20">
             <div id="pestanhia-modulos-sesiones" class="tabs-container">
                 <ul class="nav nav-tabs">

@@ -327,4 +327,30 @@ class ModuloController extends Controller
 
         return $modulos;
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-12-04 - 12:01 PM
+     * @see: 1. Usuario::consultarPerfil.
+     *
+     * Consulta los modulos y sesiones a los que tiene permiso un usuario.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function InicializarParametros(Request $request) {
+
+        $idEmpresa = $request->session()->get('idEmpresa');
+
+        $modulos  = Modulo::ConsultarModulosActivos($idEmpresa);
+        $etiqueta = EtiquetaController::ConsultarActivos($request);
+
+        return response()->json([
+            'modulos'   => $modulos,
+            'etiquetas' => $etiqueta
+        ]);
+    }
 }
