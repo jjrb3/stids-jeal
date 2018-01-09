@@ -30,7 +30,7 @@ class Modulo extends Model
      *
      * @return object
      */
-    public static function ConsultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10) {
+    public static function ConsultarTodoModulo($request, $buscar = null, $pagina = 1, $tamanhio = 10) {
         try {
             $currentPage = $pagina;
 
@@ -39,19 +39,73 @@ class Modulo extends Model
                 return $currentPage;
             });
 
-            return Modulo::select('s_modulo.*','s_modulo.id AS id_seleccionar')
-                ->where('estado','>','-1')
+            return Modulo::select(
+                's_modulo.*',
+                's_modulo.id            AS id_seleccionar',
+                's_etiqueta.nombre      AS etiqueta_nombre',
+                's_etiqueta.diminutivo  AS etiqueta_diminutivo',
+                's_etiqueta.clase       AS etiqueta_clase'
+            )
+                ->join('s_etiqueta','s_modulo.id_etiqueta','s_etiqueta.id')
+                ->where('s_modulo.estado','>','-1')
                 ->whereRaw("s_modulo.nombre like '%{$buscar}%'")
-                ->whereNull('id_padre')
-                ->whereNull('enlace_usuario')
-                ->orderBy('estado','desc')
-                ->orderBy('orden')
-                ->orderBy('nombre')
+                ->whereNull('s_modulo.id_padre')
+                ->whereNull('s_modulo.enlace_usuario')
+                ->orderBy('s_modulo.estado','desc')
+                ->orderBy('s_modulo.orden')
+                ->orderBy('s_modulo.nombre')
                 ->paginate($tamanhio);
 
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
-            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTodo', $e, $request);
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTodoModulo', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 02:55 PM
+     *
+     * Consultar todos con paginacion
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     *
+     * @return object
+     */
+    public static function ConsultarTodoSesion($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idModulo) {
+        try {
+            $currentPage = $pagina;
+
+            // Fuerza a estar en la pagina
+            Paginator::currentPageResolver(function() use ($currentPage) {
+                return $currentPage;
+            });
+
+            return Modulo::select(
+                's_modulo.*',
+                's_modulo.id            AS id_seleccionar',
+                's_etiqueta.nombre      AS etiqueta_nombre',
+                's_etiqueta.diminutivo  AS etiqueta_diminutivo',
+                's_etiqueta.clase       AS etiqueta_clase'
+            )
+                ->join('s_etiqueta','s_modulo.id_etiqueta','s_etiqueta.id')
+                ->where('s_modulo.estado','>','-1')
+                ->whereRaw("s_modulo.nombre like '%{$buscar}%'")
+                ->where('s_modulo.id_padre',$idModulo)
+                ->whereNull('s_modulo.enlace_usuario')
+                ->orderBy('s_modulo.estado','desc')
+                ->orderBy('s_modulo.orden')
+                ->orderBy('s_modulo.nombre')
+                ->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTodoSesion', $e, $request);
         }
     }
 

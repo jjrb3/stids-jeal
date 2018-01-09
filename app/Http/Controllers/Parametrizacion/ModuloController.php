@@ -514,11 +514,37 @@ class ModuloController extends Controller
      */
     public static function ConsultarModulos(Request $request) {
 
-        $objeto = Modulo::ConsultarTodo(
+        $objeto = Modulo::ConsultarTodoModulo(
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
             $request->get('tamanhio')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 02:55 PM
+     * @see: 1. Modulo::ConsultarTodo.
+     *
+     * Consultar
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarSesion(Request $request) {
+
+        $objeto = Modulo::ConsultarTodoSesion(
+            $request,
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio'),
+            $request->get('id_modulo')
         );
 
         return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;

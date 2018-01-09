@@ -87,6 +87,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-6" id="tabla-modulo"></div>
+                                <div class="col-lg-6" id="tabla-sesion"></div>
                             </div>
                         </div>
                     </div>
