@@ -56,12 +56,6 @@ class ModuloController extends Controller
     }
 
 
-    public static function ConsultarModuloSistema(Request $request) {
-
-        return Modulo::sistema();
-    }
-
-
     public static function ConsultarModulosPermisosRol(Request $request) {
 
         
@@ -170,21 +164,6 @@ class ModuloController extends Controller
     }
 
 
-    public function Actualizar(Request $request)
-    {
-        if ($this->verificacion($request))
-            return $this->verificacion($request);
-
-
-        $clase = $this->insertarCampos(Modulo::Find((int)$request->get('id')),$request);
-
-        $mensaje = ['Se actualizó correctamente',
-                    'Se encontraron problemas al actualizar'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje);
-    }
-
-
     public function ActualizarImagen(Request $request) {
 
         $directorio = __DIR__.'/../../../../recursos/imagenes/Modulo_logo';
@@ -223,68 +202,6 @@ class ModuloController extends Controller
         else{
 
             return 0;
-        }
-    }
-    
-
-    public function CambiarEstado(Request $request) {
-
-    	$clase = Modulo::Find((int)$request->get('id'));
-
-    	$clase->estado = $request->get('estado');
-
-    	$mensaje = ['Se cambió el estado correctamente',
-                    'Se encontraron problemas al cambiar el estado'];
-
-    	return HerramientaStidsController::ejecutarSave($clase,$mensaje);
-    }
-
-
-    public function Eliminar($request)
-    {
-        return Modulo::eliminar($request);
-    }
-
-
-    private function insertarCampos($clase,$request) {
-        
-        $clase->nit          	= $request->get('nit');
-        $clase->nombre_cabecera = $request->get('nombre_cabecera');
-        $clase->nombre          = $request->get('nombre');
-        $clase->imagen_logo     = 'predeterminado.png';
-
-
-        if (!$request->get('actualizacionRapida')) {
-
-            $clase->id_tema         = $request->get('id_tema');
-        }
-
-        return $clase;
-    }
-
-
-    public function verificacion($request){
-
-
-        $camposRapidos = array(
-            'nit' => 'Debe digitar el campo nit para continuar',
-            'nombre_cabecera' => 'Debe digitar el campo nombre de cabecera para continuar',
-            'nombre' => 'Debe digitar el campo nombre para continuar',
-        );
-
-        $camposCompletos = array(
-            'id_tema' => 'Debe seleccionar un tema para continuar',
-        );
-
-        $campos = $request->get('actualizacionRapida') ? $camposRapidos : array_merge($camposCompletos,$camposRapidos);
-
-        foreach ($campos as $campo => $mensaje) {
-
-            $resultado = HerramientaStidsController::verificacionCampos($request,$campo,$mensaje);
-
-            if ($resultado) {
-                return $resultado;
-            }
         }
     }
 
@@ -615,7 +532,7 @@ class ModuloController extends Controller
                 $clase->orden = $cnt++;
 
                 $mensaje     = ['Se actualizó correctamente','Se encontraron problemas al actualizar'];
-                $transaccion = [$request,1,'actualizar','s_modulo'];
+                $transaccion = [$request,13,'actualizar','s_modulo'];
 
                 self::$hs->ejecutarSave($clase,$mensaje,$transaccion)->original;
             }
@@ -690,7 +607,7 @@ class ModuloController extends Controller
                 $clase->orden = $cnt++;
 
                 $mensaje     = ['Se actualizó correctamente','Se encontraron problemas al actualizar'];
-                $transaccion = [$request,1,'actualizar','s_modulo'];
+                $transaccion = [$request,13,'actualizar','s_modulo'];
 
                 self::$hs->ejecutarSave($clase,$mensaje,$transaccion)->original;
             }
@@ -700,5 +617,60 @@ class ModuloController extends Controller
                 'mensaje' => 'Se cambió de posicion correctamente'
             ]);
         }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-10 - 01:55 PM
+     * @see: 1. Modulo::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Cambia de estado.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function CambiarEstado(Request $request) {
+
+        $clase  = Modulo::Find((int)$request->get('id'));
+
+        if ($clase->estado === 1) {
+            $clase->estado = 0;
+        }
+        elseif ($clase->estado === 0) {
+            $clase->estado = 1;
+        }
+
+        $transaccion = [$request,13,self::$hs->estados[$clase->estado],'s_modulo'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEstado,$transaccion);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-10 - 01:55 PM
+     * @see: 1. Modulo::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Eliminar($request)
+    {
+        $clase = Modulo::Find((int)$request->get('id'));
+
+        $clase->estado = -1;
+
+        $transaccion = [$request,13,'eliminar','s_modulo'];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEliminar,$transaccion);
     }
 }
