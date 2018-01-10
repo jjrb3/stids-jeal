@@ -518,7 +518,8 @@ class ModuloController extends Controller
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
-            $request->get('tamanhio')
+            $request->get('tamanhio'),
+            $request->get('tipo')
         );
 
         return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
@@ -544,7 +545,8 @@ class ModuloController extends Controller
             $request->get('buscador'),
             $request->get('pagina'),
             $request->get('tamanhio'),
-            $request->get('id_modulo')
+            $request->get('id_modulo'),
+            $request->get('tipo')
         );
 
         return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;

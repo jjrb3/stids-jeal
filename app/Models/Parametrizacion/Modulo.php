@@ -27,10 +27,11 @@ class Modulo extends Model
      * @param string    $buscar:      Texto a buscar.
      * @param integer   $pagina:      Pagina actual.
      * @param integer   $tamanhio:    Tamaño de la pagina.
+     * @param integer   $tipo:      Tipo de modulos: 1. Administración, 2. Pagina publica.
      *
      * @return object
      */
-    public static function ConsultarTodoModulo($request, $buscar = null, $pagina = 1, $tamanhio = 10) {
+    public static function ConsultarTodoModulo($request, $buscar = null, $pagina = 1, $tamanhio = 10, $tipo = 1) {
         try {
             $currentPage = $pagina;
 
@@ -39,7 +40,7 @@ class Modulo extends Model
                 return $currentPage;
             });
 
-            return Modulo::select(
+            $modulo = Modulo::select(
                 's_modulo.*',
                 's_modulo.id            AS id_seleccionar',
                 's_etiqueta.nombre      AS etiqueta_nombre',
@@ -50,11 +51,19 @@ class Modulo extends Model
                 ->where('s_modulo.estado','>','-1')
                 ->whereRaw("s_modulo.nombre like '%{$buscar}%'")
                 ->whereNull('s_modulo.id_padre')
-                ->whereNull('s_modulo.enlace_usuario')
                 ->orderBy('s_modulo.estado','desc')
                 ->orderBy('s_modulo.orden')
-                ->orderBy('s_modulo.nombre')
-                ->paginate($tamanhio);
+                ->orderBy('s_modulo.nombre');
+
+            $modulo =
+                $tipo == 1 ?
+                    $modulo->whereNull('s_modulo.enlace_usuario')
+                    :
+                    $modulo->whereNull('s_modulo.enlace_administrador')
+                ;
+
+            return $modulo->paginate($tamanhio);
+
 
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
@@ -70,14 +79,15 @@ class Modulo extends Model
      *
      * Consultar todos con paginacion
      *
-     * @param request   $request:     Peticiones realizadas.
-     * @param string    $buscar:      Texto a buscar.
-     * @param integer   $pagina:      Pagina actual.
-     * @param integer   $tamanhio:    Tamaño de la pagina.
+     * @param request   $request:   Peticiones realizadas.
+     * @param string    $buscar:    Texto a buscar.
+     * @param integer   $pagina:    Pagina actual.
+     * @param integer   $tamanhio:  Tamaño de la pagina.
+     * @param integer   $tipo:      Tipo de modulos: 1. Administración, 2. Pagina publica.
      *
      * @return object
      */
-    public static function ConsultarTodoSesion($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idModulo) {
+    public static function ConsultarTodoSesion($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idModulo, $tipo = 1) {
         try {
             $currentPage = $pagina;
 
@@ -86,7 +96,7 @@ class Modulo extends Model
                 return $currentPage;
             });
 
-            return Modulo::select(
+            $modulo = Modulo::select(
                 's_modulo.*',
                 's_modulo.id            AS id_seleccionar',
                 's_etiqueta.nombre      AS etiqueta_nombre',
@@ -97,11 +107,18 @@ class Modulo extends Model
                 ->where('s_modulo.estado','>','-1')
                 ->whereRaw("s_modulo.nombre like '%{$buscar}%'")
                 ->where('s_modulo.id_padre',$idModulo)
-                ->whereNull('s_modulo.enlace_usuario')
                 ->orderBy('s_modulo.estado','desc')
                 ->orderBy('s_modulo.orden')
-                ->orderBy('s_modulo.nombre')
-                ->paginate($tamanhio);
+                ->orderBy('s_modulo.nombre');
+
+            $modulo =
+                $tipo == 1 ?
+                    $modulo->whereNull('s_modulo.enlace_usuario')
+                    :
+                    $modulo->whereNull('s_modulo.enlace_administrador')
+            ;
+
+            return $modulo->paginate($tamanhio);
 
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();

@@ -88,11 +88,11 @@
                             <div class="row">
                                 <div class="col-lg-12" align="center">
                                     <div class="btn-group">
-                                        <button id="btn-modulo" class="btn btn-white active" onclick="Api.Dashboard.mostrarContenedor(1)">
+                                        <button id="btn-administracion" class="btn btn-white active" onclick="Api.Modulo.tipoBusqueda(1)">
                                             <i class="fa fa-list-alt"></i>
                                             Administración
                                         </button>
-                                        <button id="btn-grafica" class="btn btn-white" onclick="Api.Dashboard.mostrarContenedor(2)">
+                                        <button id="btn-pagina" class="btn btn-white" onclick="Api.Modulo.tipoBusqueda(2)">
                                             <i class="fa fa-object-group"></i>
                                             Página Pública
                                         </button>
