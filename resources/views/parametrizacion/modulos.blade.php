@@ -6,7 +6,7 @@
     <input type="hidden" id="idPadre" value="{{$idPadre}}">
     <input type="hidden" id="idHijo" value="{{$idHijo}}">
 
-    <div class="row  border-bottom white-bg dashboard-header">
+    <div class="row border-bottom white-bg dashboard-header altura-maxima">
         <div class="col-sm-8">
             <h2 style="font-weight: 500;">{{$menuAdministrador['menu'][$idPadre]['submenu'][$idHijo]['nombre']}}</h2>
             <small>{{$menuAdministrador['menu'][$idPadre]['submenu'][$idHijo]['descripcion']}}</small>
@@ -120,7 +120,7 @@
                                     <div class="col-lg-8">
                                         <div class="col-lg-6 form-group">
                                             <label>Tipo.</label>
-                                            <select id="tipo" class="form-control m-b chosen-select" onchange="Api.Modulo.buscarPadre()">
+                                            <select id="tipo" class="form-control m-b chosen-select" onchange="Api.Modulo.buscarPadre(this.value)">
                                                 <option value="1">Administrador</option>
                                                 <option value="2">Usuario</option>
                                             </select>
@@ -262,8 +262,15 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
+            <br>
+            <div class="footer">
+                <div class="pull-right">
+                    <strong>Copyright </strong> Stids S.A.S &copy; 2017
+                </div>
+            </div>
         </div>
-
     </div>
     <!-- Fin contenido de la pagina -->
 

@@ -360,7 +360,7 @@ class ModuloController extends Controller
         $tipo       = $request->get('tipo');
 
         $modulos =
-            $tipo === 1 ?
+            $tipo == 1 ?
                 Modulo::ConsultarModulosAdministracionActivos($request)
                 :
                 Modulo::ConsultarModulosPaginaActivos($request)
@@ -435,18 +435,18 @@ class ModuloController extends Controller
 
         }
         else {
-            $existeRegistro = Modulo::find($id);
+            $existeRegistro[] = Modulo::find($id);
         }
 
         #3. Que no se encuentre ningun error
         if (!is_null($existeRegistro)) {
 
             #3.1. Si existe, no esta eliminado y no es una actualización
-            if ($existeRegistro->count() && $existeRegistro[0]->estado > -1 && !$id) {
+            if (!$id && $existeRegistro->count() && $existeRegistro[0]->estado > -1) {
                 return response()->json(self::$hs->jsonExiste);
             }
             #3.2. Esta eliminado o es una actualizacion lo vuelve a activar y actualiza todos sus datos
-            elseif ($id && $existeRegistro->count() && $existeRegistro[0]->estado < 0) {
+            elseif ($id || $existeRegistro->count() && $existeRegistro[0]->estado < 0) {
 
                 $clase = Modulo::find($existeRegistro[0]->id);
 
