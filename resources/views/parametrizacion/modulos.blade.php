@@ -189,69 +189,36 @@
                         </div>
                     </div>
                     <div id="detalle" class="tab-pane">
-                        <div class="panel-body ">
+                        <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover table-striped tablesorter">
                                             <thead>
                                             <tr>
-                                                <th class="centrado" colspan="2">Información de usuario</th>
+                                                <th class="centrado" colspan="6">Información General</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td><strong>Empresa.</strong></td>
-                                                <td width="60%" id="info-empresa"></td>
+                                                <td width="8%"><strong>Tipo.</strong></td>
+                                                <td width="25%" id="info-tipo"></td>
+                                                <td width="8%"><strong>Nombre.</strong></td>
+                                                <td width="25%" id="info-nombre"></td>
+                                                <td width="8"><strong>Etiqueta.</strong></td>
+                                                <td width="25%" id="info-etiqueta"></td>
                                             </tr>
                                             <tr>
-                                                <td><strong>Usuario.</strong></td>
-                                                <td id="info-usuario"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Tipo de identificación.</strong></td>
-                                                <td id="info-tipo-identificacion"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Documento.</strong></td>
-                                                <td id="info-documento"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Nombres.</strong></td>
-                                                <td id="info-nombres"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Apellidos.</strong></td>
-                                                <td id="info-apellidos"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Email.</strong></td>
-                                                <td id="info-email"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Rol</strong></td>
-                                                <td id="info-rol"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Localización</strong></td>
-                                                <td id="info-localizacion"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Sexo.</strong></td>
-                                                <td id="info-sexo"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Número teléfonico.</strong></td>
-                                                <td id="info-telefono"></td>
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Número de Celular.</strong></td>
-                                                <td id="info-celular"></td>
-                                            </tr>
-                                            <tr>
+                                                <td><strong>Enlace.</strong></td>
+                                                <td id="info-enlace"></td>
+                                                <td><strong>Icono.</strong></td>
+                                                <td id="info-icono"></td>
                                                 <td><strong>Estado.</strong></td>
-                                                <td id="info-estado">
-                                                </td>
+                                                <td id="info-estado"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Descripción.</strong></td>
+                                                <td colspan="5" id="info-descripcion"></td>
                                             </tr>
                                             </tbody>
                                         </table>
