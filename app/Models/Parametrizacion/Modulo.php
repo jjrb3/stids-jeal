@@ -782,6 +782,7 @@ class Modulo extends Model
             return Modulo::whereNull('id_padre')
                 ->whereNull('enlace_usuario')
                 ->where('estado',1)
+                ->orderBy('orden')
                 ->get();
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
@@ -806,10 +807,63 @@ class Modulo extends Model
             return Modulo::whereNull('id_padre')
                 ->whereNull('enlace_administrador')
                 ->where('estado',1)
+                ->orderBy('orden')
                 ->get();
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
             return $hs->Log(self::MODULO,self::MODELO,'ConsultarModulosPaginaActivos', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 12:39 PM
+     *
+     * Consultar todos los sesion de la administración que esten activos
+     *
+     * @param request $request:  Peticiones realizadas.
+     * @param request $idPadre:  $idPadre.
+     *
+     * @return object
+     */
+    public static function ConsultarSesionAdministracionActivos($request, $idPadre) {
+        try {
+            return Modulo::where('id_padre',$idPadre)
+                ->whereNull('enlace_usuario')
+                ->where('estado',1)
+                ->orderBy('orden')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarSesionAdministracionActivos', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-09 - 12:39 PM
+     *
+     * Consultar todos los sesion de la pagina publica que esten activos
+     *
+     * @param request $request:  Peticiones realizadas.
+     * @param request $idPadre:  $idPadre.
+     *
+     * @return object
+     */
+    public static function ConsultarSesionPaginaActivos($request, $idPadre) {
+        try {
+            return Modulo::where('id_padre',$idPadre)
+                ->whereNull('enlace_administrador')
+                ->where('estado',1)
+                ->orderBy('orden')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarSesionPaginaActivos', $e, $request);
         }
     }
 }

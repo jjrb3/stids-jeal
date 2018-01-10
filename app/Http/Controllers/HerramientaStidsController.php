@@ -332,7 +332,7 @@ class HerramientaStidsController extends Controller
 
             foreach ($objeto as $columna) {
 
-                if ($columna->orden == $posicionActual) {
+                if ($columna->orden == $posicionActual && isset($arregloOrdenado[count($arregloOrdenado) - 1])) {
 
                     $arregloOrdenado[] = $arregloOrdenado[count($arregloOrdenado) - 1];
 

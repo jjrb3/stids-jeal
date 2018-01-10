@@ -432,7 +432,6 @@ class ModuloController extends Controller
                         Modulo::ConsultarHijoPaginaPorNombrePadre($request,$request->get('nombre'), $idPadre)
                 ;
             }
-
         }
         else {
             $existeRegistro[] = Modulo::find($id);
@@ -550,5 +549,156 @@ class ModuloController extends Controller
         );
 
         return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-10 - 11:00 AM
+     * @see: 1. ModulosDashboard::obtenerOrdenPorUsuarioModulo.
+     *       2. ModulosDashboard::ConsultarPorUsuario.
+     *       3. $hs->ejecutarSave.
+     *
+     * Sube de posición
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return array
+     */
+    public static function Subir(Request $request) {
+
+        $id         = $request->get('id');
+        $tipo       = $request->get('tipo');
+        $idPadre    = $request->get('id_padre');
+
+        $item = Modulo::find($id);
+
+        if ($item->orden <= 1) {
+
+            return response()->json([
+                'resultado' => 2,
+                'titulo'    => 'Información',
+                'mensaje'   => 'No se puede subir más'
+            ]);
+        }
+        else {
+
+            if ($tipo == 1) {
+
+                $objeto =
+                    !$idPadre ?
+                        Modulo::ConsultarModulosAdministracionActivos($request)
+                        :
+                        Modulo::ConsultarSesionAdministracionActivos($request, $idPadre)
+                ;
+            }
+            else {
+
+                $objeto =
+                    !$idPadre ?
+                        Modulo::ConsultarModulosPaginaActivos($request)
+                        :
+                        Modulo::ConsultarSesionPaginaActivos($request, $idPadre)
+                ;
+            }
+
+
+            $ids = self::$hs->OrdenarIds($objeto,'subir',$item->orden);
+
+            $cnt = 1;
+
+            foreach ($ids as $k => $i) {
+
+                $clase = Modulo::find($i['id']);
+
+                $clase->orden = $cnt++;
+
+                $mensaje     = ['Se actualizó correctamente','Se encontraron problemas al actualizar'];
+                $transaccion = [$request,1,'actualizar','s_modulo'];
+
+                self::$hs->ejecutarSave($clase,$mensaje,$transaccion)->original;
+            }
+
+            return response()->json([
+                'resultado' => 1,
+                'mensaje' => 'Se cambió de posicion correctamente'
+            ]);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-10 - 11:00 AM
+     * @see: 1. ModulosDashboard::obtenerOrdenPorUsuarioModulo.
+     *       2. ModulosDashboard::ConsultarPorUsuario.
+     *       3. $hs->ejecutarSave.
+     *
+     * baja de posición
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return array
+     */
+    public static function Bajar(Request $request) {
+
+        $id         = $request->get('id');
+        $tipo       = $request->get('tipo');
+        $idPadre    = $request->get('id_padre');
+
+        $item = Modulo::find($id);
+
+        if ($tipo == 1) {
+
+            $objeto =
+                !$idPadre ?
+                    Modulo::ConsultarModulosAdministracionActivos($request)
+                    :
+                    Modulo::ConsultarSesionAdministracionActivos($request, $idPadre)
+            ;
+        }
+        else {
+
+            $objeto =
+                !$idPadre ?
+                    Modulo::ConsultarModulosPaginaActivos($request)
+                    :
+                    Modulo::ConsultarSesionPaginaActivos($request, $idPadre)
+            ;
+        }
+
+        if ($item->orden >= $objeto->count()) {
+
+            return response()->json([
+                'resultado' => 2,
+                'titulo'    => 'Información',
+                'mensaje'   => 'No se puede bajar más'
+            ]);
+        }
+        else {
+
+            $ids = self::$hs->OrdenarIds($objeto,'bajar',$item->orden);
+
+            $cnt = 1;
+
+            foreach ($ids as $k => $i) {
+
+                $clase = Modulo::find($i['id']);
+
+                $clase->orden = $cnt++;
+
+                $mensaje     = ['Se actualizó correctamente','Se encontraron problemas al actualizar'];
+                $transaccion = [$request,1,'actualizar','s_modulo'];
+
+                self::$hs->ejecutarSave($clase,$mensaje,$transaccion)->original;
+            }
+
+            return response()->json([
+                'resultado' => 1,
+                'mensaje' => 'Se cambió de posicion correctamente'
+            ]);
+        }
     }
 }
