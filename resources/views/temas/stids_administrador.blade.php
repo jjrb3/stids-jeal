@@ -287,6 +287,26 @@
                 <button></button>
             </div>
             <!-- Fin Boton -->
+            <!-- Boton -->
+            <div id="clonar-etiqueta" class="ocultar">
+                <div class="col-lg-3">
+                    <a id="href" href="" class="etiqueta">
+                        <div class="ibox float-e-margins centrado">
+                            <div class="ibox-title">
+                                <i id="icono" class="fa  fa-2x"></i>
+                            </div>
+                            <div class="ibox-content ibox-heading">
+                                <span>
+                                    <h3 id="titulo"></h3>
+                                    <small id="descripcion"></small>
+                                </span>
+                            </div>
+                            <div class="ibox-content inspinia-timeline"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- Fin Boton -->
             <!-- Fin de clonar -->
         @endif
 
