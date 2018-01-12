@@ -338,13 +338,13 @@
 
         <!-- Stids -->
         <script type="text/javascript" src="{{asset('js/stids/api.js')}}"></script>
-        <script type="text/javascript" src="{{asset('js/stids/graficas.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/stids/urls.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/stids/ajax.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/stids/crearElementos.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/stids/herramientasRapidas.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/stids/mensajes.js')}}"></script>
         <script type="text/javascript" src="{{asset('js/stids/inicializador.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/si/graficas/graficas.js')}}"></script>
 
         <script type="text/javascript" src="{{asset('js/si/menu.js')}}"></script>
 

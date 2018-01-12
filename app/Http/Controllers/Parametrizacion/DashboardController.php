@@ -62,12 +62,14 @@ class DashboardController extends Controller
      *
      * @return object
      */
-    public static function ConsultarModulosAgregados(Request $request) {
+    public static function ConsultarModulosAgregados(Request $request, $tamanhio = null) {
+
+        $tamanhio = is_null($tamanhio) ? $request->get('tamanhio') : $tamanhio;
 
         $resultado = ModulosDashboard::ConsultarPorUsuario(
             $request->get('buscador'),
             $request->get('pagina'),
-            $request->get('tamanhio'),
+            $tamanhio,
             $request->session()->get('idUsuario')
         );
 
@@ -324,13 +326,15 @@ class DashboardController extends Controller
      *
      * @return object
      */
-    public static function ConsultarGraficasAgregadas(Request $request) {
+    public static function ConsultarGraficasAgregadas(Request $request, $tamanhio = null) {
+
+        $tamanhio = is_null($tamanhio) ? $request->get('tamanhio') : $tamanhio;
 
         return GraficasDashboard::ConsultarPorEmpresaUsuario(
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
-            $request->get('tamanhio'),
+            $tamanhio,
             $request->session()->get('idEmpresa'),
             $request->session()->get('idUsuario')
         );
@@ -518,5 +522,44 @@ class DashboardController extends Controller
                 'mensaje' => 'Se cambió de posicion correctamente'
             ]);
         }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-30 - 02:03 PM
+     * @see: 1. GraficasDashboard::ObtenerPorUsuarioGrafica.
+     *       2. GraficasDashboard::ObtenerPorUsuario.
+     *       3. $hs->ejecutarSave.
+     *
+     * Sube de posicion una grafica del dashboard
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return array
+     */
+    public static function ConsultarDashboard(Request $request) {
+
+        $datos      = null;
+        $idUsuario  = $request->session()->get('idUsuario');
+
+        $usuario = Usuario::find($idUsuario);
+
+        if ($usuario->id_tipo_dashboard_usuario === 1) {
+
+            $datos = self::ConsultarModulosAgregados($request, 10000)->toArray();
+        }
+        elseif ($usuario->id_tipo_dashboard_usuario === 2) {
+
+            $datos = self::ConsultarGraficasAgregadas($request, 10000)->toArray();
+        }
+
+        $datos = $datos['total'] > 0 ? $datos['data'] : null;
+
+        return response()->json([
+            'tipo'  => (int)$usuario->id_tipo_dashboard_usuario,
+            'datos' => $datos
+        ]);
     }
 }

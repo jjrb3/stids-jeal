@@ -61,7 +61,7 @@
                 <div class="row">
 
                     @if($pg && in_array('1',$pg['id']))
-                    <div class="col-lg-8">
+                    <div id="bloque-grafica-usuario-transaccion" class="col-lg-8 ocultar">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>
@@ -86,7 +86,7 @@
                     @endif
 
                     @if($pg && in_array('2',$pg['id']))
-                    <div class="col-lg-4">
+                    <div id="bloque-grafica-usuario-total" class="col-lg-4 ocultar">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>
