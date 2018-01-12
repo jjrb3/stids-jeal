@@ -223,14 +223,16 @@ class Usuario extends Model
      *
      * @return array
      */
-    public static function TransaccionesPorRango($idEmpresa,$mes) {
+    public static function TransaccionesPorRango($idEmpresa, $mes) {
         try {
-            $resultado = DB::select(
-                "SELECT fecha,
+
+            $sql = "SELECT anhio,
+                        fecha,
                         estado,
                         COUNT(estado) AS cantidad
                 FROM (
                     SELECT  su.estado,
+                            YEAR(MAX(st.fecha_alteracion)) AS anhio,
                             MONTH(MAX(st.fecha_alteracion)) AS fecha
                     FROM s_usuario su
                     INNER JOIN s_transacciones st ON st.id_alterado = su.id
@@ -241,11 +243,14 @@ class Usuario extends Model
                     GROUP BY su.usuario,
                              su.estado
                 ) usuario
-                GROUP BY  fecha,
+                GROUP BY  anhio,
+                          fecha,
                           estado
-                ORDER BY  fecha ASC,
-                          estado ASC"
-            );
+                ORDER BY  anhio,
+                          fecha,
+                          estado ASC";
+
+            $resultado = DB::select($sql);
 
             return isset($resultado[0]) ? $resultado : [];
 

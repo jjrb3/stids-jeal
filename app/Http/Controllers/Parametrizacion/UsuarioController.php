@@ -408,7 +408,7 @@ class UsuarioController extends Controller
      */
     public function ConsultarTransacciones(Request $request)
     {
-        $transacciones = $this->TransaccionesPorRangoFecha(6,$request->session()->get('idEmpresa'));
+        $transacciones = $this->TransaccionesPorRangoFecha(9,$request->session()->get('idEmpresa'));
 
         return response()->json([
             'resultado'     => 1,
@@ -434,26 +434,39 @@ class UsuarioController extends Controller
     {
         $rango      = [];
         $detalle    = [];
+        $restaAnhio = 0;
+        $j          = 1;
+
+
 
         for ($i=0;$i<$meses;$i++) {
 
-            $mes = (int)date('m', strtotime("-{$i} month", strtotime(date('Y-m-d'))));
+            $mes    = (int)date('m', strtotime("-" . ($meses - $i - 1) . " month", strtotime(date('Y-m-d'))));
 
-            $rango[$mes][-1]    = 0;
-            $rango[$mes][0]     = 0;
-            $rango[$mes][1]     = 0;
-            $rango[$mes]['mes'] = HerramientaStidsController::$nombreMeses[$mes];
+            $rango[$j][-1]    = 0;
+            $rango[$j][0]     = 0;
+            $rango[$j][1]     = 0;
+            $rango[$j]['mes'] = HerramientaStidsController::$nombreMeses[$mes];
 
-            if ($transacciones = Usuario::TransaccionesPorRango($idEmpresa,$mes)) {
+            if ($transacciones = Usuario::TransaccionesPorRango($idEmpresa, $mes)) {
+
+                $fechaMes = '';
 
                 foreach ($transacciones as $transaccion) {
 
-                    $rango[$transaccion->fecha][$transaccion->estado] = $transaccion->cantidad;
+                    $fechaMes = $transaccion->fecha < 10 ? "0{$transaccion->fecha}" : $transaccion->fecha;
+
+                    $rango[$j][$transaccion->estado] = $transaccion->cantidad;
                 }
             }
+
+            if ($mes == 1) {
+                $restaAnhio++;
+            }
+
+            $j++;
         }
 
-        ksort($rango);
 
         # Version para graficas
         foreach ($rango as $r) {
