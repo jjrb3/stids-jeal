@@ -57,6 +57,191 @@
 
     <div class="row">
         <div class="col-lg-12">
+            <br>
+            <div  id="pestanhia-cliente" class="tabs-container">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#informacion">Información</a></li>
+                    <li class=""><a data-toggle="tab" href="#actividad-economica">Actividad economica</a></li>
+                    <li class=""><a data-toggle="tab" href="#informacion-financiera">Información financiera</a></li>
+                    <li class=""><a data-toggle="tab" href="#referencia-personal">Referencia personal</a></li>
+                    <li class=""><a data-toggle="tab" href="#referencia-familiar">Referencia familiar</a></li>
+                    <li class=""><a data-toggle="tab" href="#observaciones">Observaciones</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="informacion" class="tab-pane active">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Tipo de Identificación.</label>
+                                            <div>
+                                                <select id="id_tipo_identificacion" name="id_tipo_identificacion" class="select2 form-control m-b" required>
+                                                    <option value="">Seleccione...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Identificación.</label>
+                                            <div>
+                                                <input id="identificacion" type="text" class="form-control" name="identificacion" placeholder="Digite documento">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Nombres.</label>
+                                            <div>
+                                                <input id="nombres" type="text" class="form-control m-b" name="nombres" placeholder="Digite los nombres" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Apellidos.</label>
+                                            <div>
+                                                <input id="apellidos" type="text" class="form-control m-b" name="apellidos" placeholder="Digite los apellidos" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Estado Civil.</label>
+                                            <div>
+                                                <select id="id_estado_civil" name="id_estado_civil" class="select2 form-control m-b">
+                                                    <option>Seleccione...</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Fecha de Nacimiento.</label>
+                                            <div>
+                                                <input id="fecha_nacimiento" type="date" class="form-control m-b" name="fecha_nacimiento" placeholder="aaaa/mm/dd">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Email Personal.</label>
+                                            <div>
+                                                <input id="email_personal" type="email" class="form-control m-b" name="email_personal" placeholder="ejemplo@hotmail.com">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Dirección de Residencia.</label>
+                                            <div>
+                                                <input id="direccion" type="text" class="form-control m-b" name="direccion" placeholder="Digite la dirección" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 ocultar">
+                                        <div class="form-group">
+                                            <label>País.</label>
+                                            <div>
+                                                <select id="pais" name="pais" class="select2 form-control m-b" required></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 ocultar">
+                                        <div class="form-group">
+                                            <label>Departamento.</label>
+                                            <div>
+                                                <select id="departamento" name="departamento" class="select2 form-control m-b" required></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 ocultar">
+                                        <div class="form-group">
+                                            <label>Ciudad.</label>
+                                            <div>
+                                                <select id="id_ciudad" name="id_ciudad" class="select2 form-control m-b" required></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Barrio de Residencia.</label>
+                                            <div>
+                                                <input id="barrio" type="text" class="form-control m-b" name="barrio" placeholder="Digite el barrio" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Teléfono de Residencia.</label>
+                                            <div>
+                                                <input id="telefono" type="text" class="form-control m-b" name="telefono" placeholder="Digite el teléfono" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label>Celular Personal.</label>
+                                            <div>
+                                                <input id="celular" type="text" class="form-control m-b formato-celular" name="celular" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="actividad-economica" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="informacion-financiera" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="referencia-personal" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="referencia-familiar" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="observaciones" class="tab-pane">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
             <div class="wrapper wrapper-content">
                 <div class="row">
                     <div class="col-lg-12">
@@ -74,132 +259,6 @@
                                     <div class="row">
                                         <div id="mensajeGuardar"></div>
                                         <form id="formulario">
-                                            <div class="col-lg-12">
-                                                <h3 class="modal-title" align="center">Información del Cliente</h3>
-                                                <br>
-                                                <br>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Tipo de Identificación.</label>
-                                                    <div>
-                                                        <select id="id_tipo_identificacion" name="id_tipo_identificacion" class="select2 form-control m-b" required>
-                                                            <option value="">Seleccione...</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Identificación.</label>
-                                                    <div>
-                                                        <input id="identificacion" type="text" class="form-control" name="identificacion" placeholder="Digite documento">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Nombres.</label>
-                                                    <div>
-                                                        <input id="nombres" type="text" class="form-control m-b" name="nombres" placeholder="Digite los nombres" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Apellidos.</label>
-                                                    <div>
-                                                        <input id="apellidos" type="text" class="form-control m-b" name="apellidos" placeholder="Digite los apellidos" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Estado Civil.</label>
-                                                    <div>
-                                                        <select id="id_estado_civil" name="id_estado_civil" class="select2 form-control m-b">
-                                                            <option>Seleccione...</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Fecha de Nacimiento.</label>
-                                                    <div>
-                                                        <input id="fecha_nacimiento" type="date" class="form-control m-b" name="fecha_nacimiento" placeholder="aaaa/mm/dd">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Email Personal.</label>
-                                                    <div>
-                                                        <input id="email_personal" type="email" class="form-control m-b" name="email_personal" placeholder="ejemplo@hotmail.com">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Dirección de Residencia.</label>
-                                                    <div>
-                                                        <input id="direccion" type="text" class="form-control m-b" name="direccion" placeholder="Digite la dirección" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 ocultar">
-                                                <div class="form-group">
-                                                    <label>País.</label>
-                                                    <div>
-                                                        <select id="pais" name="pais" class="select2 form-control m-b" required></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 ocultar">
-                                                <div class="form-group">
-                                                    <label>Departamento.</label>
-                                                    <div>
-                                                        <select id="departamento" name="departamento" class="select2 form-control m-b" required></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 ocultar">
-                                                <div class="form-group">
-                                                    <label>Ciudad.</label>
-                                                    <div>
-                                                        <select id="id_ciudad" name="id_ciudad" class="select2 form-control m-b" required></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Barrio de Residencia.</label>
-                                                    <div>
-                                                        <input id="barrio" type="text" class="form-control m-b" name="barrio" placeholder="Digite el barrio" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Teléfono de Residencia.</label>
-                                                    <div>
-                                                        <input id="telefono" type="text" class="form-control m-b" name="telefono" placeholder="Digite el teléfono" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Celular Personal.</label>
-                                                    <div>
-                                                        <input id="celular" type="text" class="form-control m-b formato-celular" name="celular" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-
 
                                             <div class="col-lg-12">
                                                 <br>
