@@ -231,12 +231,6 @@
             </div>
             <br>
             <br>
-            <br>
-            <div class="footer">
-                <div class="pull-right">
-                    <strong>Copyright </strong> Stids S.A.S &copy; 2017
-                </div>
-            </div>
         </div>
     </div>
     <!-- Fin contenido de la pagina -->

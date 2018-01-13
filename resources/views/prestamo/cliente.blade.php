@@ -542,12 +542,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="footer">
-                <div class="pull-right">
-                    <strong>Copyright </strong> Stids Jeal &copy; 2017
-                </div>
-            </div>
         </div>
     </div>
     <!-- Fin contenido de la pagina -->
@@ -662,8 +656,7 @@
     <!-- Fin modal -->
 @endsection
 
-@section('script') 
-    <script>var globalPermisos = [{{$idsPermiso}}]</script>
+@section('script')
     <script type="text/javascript" src="{{asset('js/si/prestamo/codeudor.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/cliente.js')}}"></script>
     <script>

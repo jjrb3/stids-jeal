@@ -143,6 +143,11 @@
 
             @yield('content')
 
+            <div class="footer">
+                <div class="pull-right">
+                    <strong>Copyright </strong> Stids Jeal &copy; 2018
+                </div>
+            </div>
         </div>
 
         <div id="clonar" style="display: none">

@@ -117,18 +117,10 @@
                     <div id='paginacion'></div>
                 </div>
             </div>
-            <div class="footer">
-                <div class="pull-right">
-                    <strong>Copyright </strong> Stids Jeal &copy; 2017
-                    <input type="hidden" id="idActualizar">
-                    <input type="hidden" id="id-sucursal">
-                </div>
-            </div>
         </div>
     </div>
     <!-- Fin contenido de la pagina -->
 
-    </div>
 @endsection
 
 @section('script') 

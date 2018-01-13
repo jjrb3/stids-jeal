@@ -260,23 +260,12 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-12">
-            <br>
-            <br>
-            <div class="footer">
-                <div class="pull-right">
-                    <strong>Copyright </strong> Stids Jeal &copy; 2017
-                </div>
-            </div>
-        </div>
     </div>
     <!-- Fin contenido de la pagina -->
 
 @endsection
 
 @section('script')
-    <script>var globalPermisos = [{{$idsPermiso}}]</script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/reportes.js')}}"></script>
     <script>_verificarPermisos()</script>
 @endsection

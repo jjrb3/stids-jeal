@@ -136,11 +136,6 @@
                     </div>
                 </div>
             </div>
-            <div class="footer">
-                <div class="pull-right">
-                    <strong>Copyright </strong> Stids Jeal &copy; 2017
-                </div>
-            </div>
         </div>
     </div>
     <!-- Fin contenido de la pagina -->
@@ -164,7 +159,7 @@
         </div>
     </div>
     <!-- Fin del Modal de Eliminar -->
-    </div>
+
 @endsection
 
 @section('script') 
