@@ -55,14 +55,14 @@
         </div>
     </div>
 
-	<div class="row">
+	<div id="contenedor-banco" class="row">
         <div class="col-lg-12">
             <div class="wrapper wrapper-content">
                 <div class="row">
-                <div class="col-lg-5">
-                <div class="ibox float-e-margins">
+                    <div class="col-lg-5">
+                        <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Lista de sexos</h5>
+                                <h5>Lista de bancos</h5>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -75,12 +75,12 @@
                                         <div class="col-lg-12">
                                             @if($op->guardar)
                                                 <div class="form-group">
-                                                    <label>Nombre del Sexo.</label>
+                                                    <label>Nombre del Banco.</label>
                                                     <input type="text"
                                                            id="nombre"
                                                            class="form-control w300"
                                                            placeholder="Digite el nombre para crear"
-                                                           onkeypress="Api.Sexo.guardarActualizar(event)"
+                                                           onkeypress="Api.Banco.crearActualizar(event)"
                                                     >
                                                 </div>
                                                 <br>
@@ -111,10 +111,10 @@
 @endsection
 
 @section('script') 
-    <script type="text/javascript" src="{{asset('js/si/parametrizacion/sexo.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/parametrizacion/banco.js')}}"></script>
 
     <script>
         Api.permisos = [{{$permisos}}];
-        Api.Sexo.constructor();
+        Api.Banco.constructor();
     </script>
 @endsection
