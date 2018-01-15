@@ -73,7 +73,8 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div  id="pestanhia-cliente" class="tabs-container">
+            <form id="formulario-cliente"></form>
+            <div id="pestanhia-cliente" class="tabs-container">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#informacion">Información</a></li>
                     <li class=""><a data-toggle="tab" href="#actividad-economica">Actividad economica</a></li>
@@ -88,54 +89,54 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <label>Tipo de Identificación.</label>
-                                    <select id="id-tipo-identificacion" class="form-control m-b chosen-select"></select>
+                                    <select id="id-tipo-identificacion" class="form-control m-b chosen-select" form="formulario-cliente"></select>
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Identificación.</label>
-                                    <input id="identificacion" type="text" class="form-control" placeholder="Digite documento">
+                                    <input id="identificacion" type="text" class="form-control" placeholder="Digite documento" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Nombres.</label>
-                                    <input id="nombres" type="text" class="form-control m-b" placeholder="Digite los nombres">
+                                    <input id="nombres" type="text" class="form-control m-b" placeholder="Digite los nombres" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Apellidos.</label>
-                                    <input id="apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos">
+                                    <input id="apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Estado Civil.</label>
-                                    <select id="id-estado-civil" class="form-control m-b chosen-select"></select>
+                                    <select id="id-estado-civil" class="form-control m-b chosen-select" form="formulario-cliente"></select>
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Fecha de nacimiento.</label>
                                     <div class="input-group">
-                                        <input id="fecha-nacimiento" type="text" class="form-control m-b datepicker" placeholder="Digite la fecha de nacimiento">
+                                        <input id="fecha-nacimiento" type="text" class="form-control m-b datepicker" placeholder="Digite la fecha de nacimiento" form="formulario-cliente">
                                         <span class="input-group-addon icono-calendario"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Email Personal.</label>
-                                    <input id="email-personal" type="email" class="form-control m-b" name="email_personal" placeholder="ejemplo@hotmail.com">
+                                    <input id="email-personal" type="email" class="form-control m-b" name="email_personal" placeholder="ejemplo@hotmail.com" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3 form-group">
                                     <label>Ciudad.</label>
-                                    <input id="ciudad" type="text" class="form-control autocompletar-ciudades" data-id="id-municipio" data-name="municipio">
+                                    <input id="ciudad" type="text" class="form-control autocompletar-ciudades" data-id="id-municipio" data-name="municipio" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Dirección de Residencia.</label>
-                                    <input id="direccion" type="text" class="form-control m-b" placeholder="Digite la dirección">
+                                    <input id="direccion" type="text" class="form-control m-b" placeholder="Digite la dirección" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Barrio de Residencia.</label>
-                                    <input id="barrio" type="text" class="form-control m-b" name="barrio" placeholder="Digite el barrio">
+                                    <input id="barrio" type="text" class="form-control m-b" name="barrio" placeholder="Digite el barrio" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Teléfono de Residencia.</label>
-                                    <input id="telefono" type="text" class="form-control m-b" name="telefono" placeholder="Digite el teléfono">
+                                    <input id="telefono" type="text" class="form-control m-b" name="telefono" placeholder="Digite el teléfono" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Celular Personal.</label>
-                                    <input id="celular" type="text" class="form-control m-b formato-celular" name="celular">
+                                    <input id="celular" type="text" class="form-control m-b formato-celular" name="celular" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-12" id="ca-botones-cliente">
                                     <br>
@@ -164,39 +165,39 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <label>Ocupación u Oficio.</label>
-                                    <select id="id-ocupacion" class="chosen-select form-control m-b"></select>
+                                    <select id="id-ocupacion" class="chosen-select form-control m-b" form="formulario-cliente"></select>
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Nombre de la Empresa.</label>
-                                    <input id="empresa-nombre" type="text" class="form-control m-b" placeholder="Digite la empresa">
+                                    <input id="empresa-nombre" type="text" class="form-control m-b" placeholder="Digite la empresa" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Cargo.</label>
-                                    <input id="empresa-cargo" type="text" class="form-control m-b" placeholder="Digite su cargo actual">
+                                    <input id="empresa-cargo" type="text" class="form-control m-b" placeholder="Digite su cargo actual" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Area u Dependencia.</label>
-                                    <input id="empresa-area" type="text" class="form-control m-b" placeholder="Digite la empresa">
+                                    <input id="empresa-area" type="text" class="form-control m-b" placeholder="Digite la empresa" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Barrio.</label>
-                                    <input id="empresa-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio">
+                                    <input id="empresa-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Dirección.</label>
-                                    <input id="empresa-direccion" type="text" class="form-control m-b" placeholder="Digite la dirección">
+                                    <input id="empresa-direccion" type="text" class="form-control m-b" placeholder="Digite la dirección" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Teléfono.</label>
-                                    <input id="empresa-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono">
+                                    <input id="empresa-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Fecha de Ingreso.</label>
-                                    <input id="empresa-fecha-ingreso" type="text" class="form-control m-b datepicker" placeholder="Digite la fecha de ingreso">
+                                    <input id="empresa-fecha-ingreso" type="text" class="form-control m-b datepicker" placeholder="Digite la fecha de ingreso" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Antiguedad en Meses.</label>
-                                    <input id="empresa-antiguedad-meses" type="text" class="form-control m-b numerico" placeholder="Digite antiguedad en meses">
+                                    <input id="empresa-antiguedad-meses" type="text" class="form-control m-b numerico" placeholder="Digite antiguedad en meses" form="formulario-cliente">
                                 </div>
                             </div>
                         </div>
@@ -206,23 +207,23 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <label>Banco.</label>
-                                    <select id="id-banco-cliente" class="form-control m-b chosen-select"></select>
+                                    <select id="id-banco-cliente" class="form-control m-b chosen-select" form="formulario-cliente"></select>
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Cuenta de Ahorro.</label>
-                                    <input id="no-cuenta" type="text" class="form-control m-b formato-numerico" placeholder="Digite número de cuenta">
+                                    <input id="no-cuenta" type="text" class="form-control m-b formato-numerico" placeholder="Digite número de cuenta" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Sueldo.</label>
-                                    <input id="sueldo" type="text" class="form-control m-b formato-numerico" placeholder="Digite su sueldo">
+                                    <input id="sueldo" type="text" class="form-control m-b formato-numerico" placeholder="Digite su sueldo" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Ingresos.</label>
-                                    <input id="ingresos" type="text" class="form-control m-b formato-numerico" placeholder="Digite sus ingresos">
+                                    <input id="ingresos" type="text" class="form-control m-b formato-numerico" placeholder="Digite sus ingresos" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Egresos.</label>
-                                    <input id="egresos" type="text" class="form-control m-b formato-numerico" placeholder="Digite sus egresos">
+                                    <input id="egresos" type="text" class="form-control m-b formato-numerico" placeholder="Digite sus egresos" form="formulario-cliente">
                                 </div>
                             </div>
                         </div>
@@ -232,31 +233,23 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <label>Nombres.</label>
-                                    <input id="ref-personal-nombres" type="text" class="form-control m-b" placeholder="Digite los nombres">
+                                    <input id="ref-personal-nombres" type="text" class="form-control m-b" placeholder="Digite los nombres" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Apellidos.</label>
-                                    <input id="ref-personal-apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos">
+                                    <input id="ref-personal-apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Barrio de Residencia.</label>
-                                    <input id="ref-personal-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio">
+                                    <input id="ref-personal-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Teléfono de Residencia.</label>
-                                    <input id="ref-personal-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono">
+                                    <input id="ref-personal-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Celular Personal.</label>
-                                    <input id="ref-personal-celular" type="text" class="form-control m-b formato-celular">
-                                </div>
-                                <div class="col-lg-3">
-                                    <label>Banco.</label>
-                                    <select id="id-banco-ref-personal" class="form-control m-b chosen-select"></select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label>Cuenta de Ahorro.</label>
-                                    <input id="ref-personal-no-cuenta" type="text" class="form-control m-b formato-numerico" placeholder="Digite número de cuenta">
+                                    <input id="ref-personal-celular" type="text" class="form-control m-b formato-celular" form="formulario-cliente">
                                 </div>
                             </div>
                         </div>
@@ -266,31 +259,23 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <label>Nombres.</label>
-                                    <input id="ref-familiar-nombres" type="text" class="form-control m-b" placeholder="Digite los nombres">
+                                    <input id="ref-familiar-nombres" type="text" class="form-control m-b" placeholder="Digite los nombres" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Apellidos.</label>
-                                    <input id="ref-familiar-apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos">
+                                    <input id="ref-familiar-apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Barrio de Residencia.</label>
-                                    <input id="ref-familiar-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio">
+                                    <input id="ref-familiar-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Teléfono de Residencia.</label>
-                                    <input id="ref-familiar-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono">
+                                    <input id="ref-familiar-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Celular Personal.</label>
-                                    <input id="ref-familiar-celular" type="text" class="form-control m-b formato-celular">
-                                </div>
-                                <div class="col-lg-3">
-                                    <label>Banco.</label>
-                                    <select id="id-banco-ref-familiar" class="form-control m-b chosen-select"></select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <label>Cuenta de Ahorro.</label>
-                                    <input id="ref-familiar-no-cuenta" type="text" class="form-control m-b formato-numerico" placeholder="Digite número de cuenta">
+                                    <input id="ref-familiar-celular" type="text" class="form-control m-b formato-celular" form="formulario-cliente">
                                 </div>
                             </div>
                         </div>
@@ -300,7 +285,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <label>Observaciones.</label>
-                                    <textarea id="observaciones" class="form-control m-b" rows="5"></textarea>
+                                    <textarea id="observaciones" class="form-control m-b" rows="5" form="formulario-cliente"></textarea>
                                 </div>
                             </div>
                         </div>

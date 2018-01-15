@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Prestamo;
 
 use App\Http\Controllers\HerramientaStidsController;
 
+use App\Models\Parametrizacion\Banco;
 use Illuminate\Http\Request;
 
 use App\Models\Parametrizacion\TipoIdentificacion;
@@ -24,32 +25,6 @@ class ClienteController extends Controller
     {
         self::$hs = new HerramientaStidsController();
         self::$transaccion = ['', 31, '', 'p_cliente'];
-    }
-
-
-    /**
-     * @autor: Jeremy Reyes B.
-     * @version: 1.0
-     * @date: 2018-01-13 - 12:45 PM
-     * @see: 1. Banco::consultarTodo.
-     *
-     * Consultar
-     *
-     * @param request $request: Peticiones realizadas.
-     *
-     * @return object
-     */
-    public static function Consultar(Request $request) {
-
-        $objeto = Cliente::consultarTodo(
-            $request,
-            $request->get('buscador'),
-            $request->get('pagina'),
-            $request->get('tamanhio'),
-            $request->session()->get('idEmpresa')
-        );
-
-        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
 
@@ -214,5 +189,62 @@ class ClienteController extends Controller
                 return $resultado;
             }
         }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-13 - 12:45 PM
+     * @see: 1. Banco::consultarTodo.
+     *
+     * Consultar
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function Consultar(Request $request) {
+
+        $objeto = Cliente::consultarTodo(
+            $request,
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio'),
+            $request->session()->get('idEmpresa')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 02:03 PM
+     * @see: 1. Modulo::ConsultarModulosActivos.
+     *       2. EtiquetaController::ConsultarActivos.
+     *
+     * Inicializa los parametros del formulario.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function InicializarFormulario(Request $request) {
+
+        $idEmpresa = $request->session()->get('idEmpresa');
+
+        $tipoIdentificacion = TipoIdentificacion::consultarActivo($request, $idEmpresa);
+        $estadoCivil        = EstadoCivil::ConsultarActivo($request);
+        $ocupacion          = Ocupacion::ConsultarActivo($request);
+        $banco              = Banco::consultarActivo($request, $idEmpresa);
+
+        return response()->json([
+            'tipo_identificacion'   => $tipoIdentificacion,
+            'estado_civil'          => $estadoCivil,
+            'ocupacion'             => $ocupacion,
+            'bancos'                => $banco
+        ]);
     }
 }

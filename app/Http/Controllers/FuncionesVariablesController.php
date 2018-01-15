@@ -25,7 +25,7 @@ class FuncionesVariablesController extends Controller
             return $clase->$metodo($request);
         }
         else {
-            return json_decode([]);
+            return response()->json([]);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Prestamo;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 
 class EstadoCivil extends Model
@@ -9,6 +10,8 @@ class EstadoCivil extends Model
     public $timestamps = false;
     protected $table = "p_estado_civil";
 
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'EstadoCivil';
 
     /**
      * @autor Jeremy Reyes B.
@@ -17,16 +20,18 @@ class EstadoCivil extends Model
      *
      * Consultar todos los estados civiles que esten activos
      *
-     * @return array
+     * @param request $request:     Peticiones realizadas.
+     *
+     * @return object
      */
-    public static function consultarActivo() {
+    public static function ConsultarActivo($request) {
         try {
             return EstadoCivil::where('estado',1)
                 ->orderBy('nombre','ASC')
-                ->get()
-                ->toArray();
-        } catch (Exception $e) {
-            return array();
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarActivo', $e, $request);
         }
     }
 }

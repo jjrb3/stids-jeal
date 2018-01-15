@@ -65,7 +65,7 @@ class Banco extends Model
      *
      * @return object
      */
-    public static function consultarActivo($request, $idEmpresa) {
+    public static function ConsultarActivo($request, $idEmpresa) {
         
         try {
             return Banco::where('estado','1')

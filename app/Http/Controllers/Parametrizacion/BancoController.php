@@ -63,7 +63,7 @@ class BancoController extends Controller
      */
     public static function ConsultarActivos(Request $request) {
 
-        $objeto = Banco::consultarActivo(
+        $objeto = Banco::ConsultarActivo(
             $request,
             $request->session()->get('idEmpresa')
         );
