@@ -56,8 +56,23 @@
     </div>
 
     <div class="row">
+        <br>
         <div class="col-lg-12">
-            <br>
+            <div class="alert alert-dismissable alert-info justificado">
+                <label>
+                    Información.
+                </label>
+                <p>
+                    En las siguientes pestañas podrá crear o actualizar la información personal, actividad economica,
+                    información financiera, referencia personal, referencia familiar y observaciones de un cliente.
+                    Recuerde llenar todos los datos que se requieren para poder realizar alguna acción.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
             <div  id="pestanhia-cliente" class="tabs-container">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#informacion">Información</a></li>
@@ -71,126 +86,75 @@
                     <div id="informacion" class="tab-pane active">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Tipo de Identificación.</label>
-                                            <div>
-                                                <select id="id_tipo_identificacion" name="id_tipo_identificacion" class="select2 form-control m-b" required>
-                                                    <option value="">Seleccione...</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                <div class="col-lg-3">
+                                    <label>Tipo de Identificación.</label>
+                                    <select id="id-tipo-identificacion" class="form-control m-b chosen-select"></select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Identificación.</label>
+                                    <input id="identificacion" type="text" class="form-control" placeholder="Digite documento">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Nombres.</label>
+                                    <input id="nombres" type="text" class="form-control m-b" placeholder="Digite los nombres">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Apellidos.</label>
+                                    <input id="apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Estado Civil.</label>
+                                    <select id="id-estado-civil" class="form-control m-b chosen-select"></select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Fecha de nacimiento.</label>
+                                    <div class="input-group">
+                                        <input id="fecha-nacimiento" type="text" class="form-control m-b datepicker" placeholder="Digite la fecha de nacimiento">
+                                        <span class="input-group-addon icono-calendario"><i class="fa fa-calendar"></i></span>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Identificación.</label>
-                                            <div>
-                                                <input id="identificacion" type="text" class="form-control" name="identificacion" placeholder="Digite documento">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Nombres.</label>
-                                            <div>
-                                                <input id="nombres" type="text" class="form-control m-b" name="nombres" placeholder="Digite los nombres" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Apellidos.</label>
-                                            <div>
-                                                <input id="apellidos" type="text" class="form-control m-b" name="apellidos" placeholder="Digite los apellidos" required>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Estado Civil.</label>
-                                            <div>
-                                                <select id="id_estado_civil" name="id_estado_civil" class="select2 form-control m-b">
-                                                    <option>Seleccione...</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Fecha de Nacimiento.</label>
-                                            <div>
-                                                <input id="fecha_nacimiento" type="date" class="form-control m-b" name="fecha_nacimiento" placeholder="aaaa/mm/dd">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Email Personal.</label>
-                                            <div>
-                                                <input id="email_personal" type="email" class="form-control m-b" name="email_personal" placeholder="ejemplo@hotmail.com">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Dirección de Residencia.</label>
-                                            <div>
-                                                <input id="direccion" type="text" class="form-control m-b" name="direccion" placeholder="Digite la dirección" required>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3 ocultar">
-                                        <div class="form-group">
-                                            <label>País.</label>
-                                            <div>
-                                                <select id="pais" name="pais" class="select2 form-control m-b" required></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 ocultar">
-                                        <div class="form-group">
-                                            <label>Departamento.</label>
-                                            <div>
-                                                <select id="departamento" name="departamento" class="select2 form-control m-b" required></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 ocultar">
-                                        <div class="form-group">
-                                            <label>Ciudad.</label>
-                                            <div>
-                                                <select id="id_ciudad" name="id_ciudad" class="select2 form-control m-b" required></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Barrio de Residencia.</label>
-                                            <div>
-                                                <input id="barrio" type="text" class="form-control m-b" name="barrio" placeholder="Digite el barrio" required>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Teléfono de Residencia.</label>
-                                            <div>
-                                                <input id="telefono" type="text" class="form-control m-b" name="telefono" placeholder="Digite el teléfono" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label>Celular Personal.</label>
-                                            <div>
-                                                <input id="celular" type="text" class="form-control m-b formato-celular" name="celular" required>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Email Personal.</label>
+                                    <input id="email-personal" type="email" class="form-control m-b" name="email_personal" placeholder="ejemplo@hotmail.com">
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <label>Ciudad.</label>
+                                    <input id="ciudad" type="text" class="form-control autocompletar-ciudades" data-id="id-municipio" data-name="municipio">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Dirección de Residencia.</label>
+                                    <input id="direccion" type="text" class="form-control m-b" placeholder="Digite la dirección">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Barrio de Residencia.</label>
+                                    <input id="barrio" type="text" class="form-control m-b" name="barrio" placeholder="Digite el barrio">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Teléfono de Residencia.</label>
+                                    <input id="telefono" type="text" class="form-control m-b" name="telefono" placeholder="Digite el teléfono">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Celular Personal.</label>
+                                    <input id="celular" type="text" class="form-control m-b formato-celular" name="celular">
+                                </div>
+                                <div class="col-lg-12" id="ca-botones-cliente">
+                                    <br>
+                                    @if($op->guardar)
+                                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Cliente.crearActualizar()">
+                                            <i class="fa fa-floppy-o"></i>&nbsp;
+                                            Guardar
+                                        </button>
+                                    @endif
+                                    @if($op->actualizar)
+                                        <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('cliente')">
+                                            <i class="fa fa-times"></i>
+                                            Cancelar
+                                        </button>
+                                        <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Cliente.crearActualizar()">
+                                            <i class="fa fa-pencil-square-o"></i>&nbsp;
+                                            Actualizar
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -198,7 +162,41 @@
                     <div id="actividad-economica" class="tab-pane">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-3">
+                                    <label>Ocupación u Oficio.</label>
+                                    <select id="id-ocupacion" class="chosen-select form-control m-b"></select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Nombre de la Empresa.</label>
+                                    <input id="empresa-nombre" type="text" class="form-control m-b" placeholder="Digite la empresa">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Cargo.</label>
+                                    <input id="empresa-cargo" type="text" class="form-control m-b" placeholder="Digite su cargo actual">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Area u Dependencia.</label>
+                                    <input id="empresa-area" type="text" class="form-control m-b" placeholder="Digite la empresa">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Barrio.</label>
+                                    <input id="empresa-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Dirección.</label>
+                                    <input id="empresa-direccion" type="text" class="form-control m-b" placeholder="Digite la dirección">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Teléfono.</label>
+                                    <input id="empresa-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Fecha de Ingreso.</label>
+                                    <input id="empresa-fecha-ingreso" type="text" class="form-control m-b datepicker" placeholder="Digite la fecha de ingreso">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Antiguedad en Meses.</label>
+                                    <input id="empresa-antiguedad-meses" type="text" class="form-control m-b numerico" placeholder="Digite antiguedad en meses">
                                 </div>
                             </div>
                         </div>
@@ -206,7 +204,25 @@
                     <div id="informacion-financiera" class="tab-pane">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-3">
+                                    <label>Banco.</label>
+                                    <select id="id-banco-cliente" class="form-control m-b chosen-select"></select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Cuenta de Ahorro.</label>
+                                    <input id="no-cuenta" type="text" class="form-control m-b formato-numerico" placeholder="Digite número de cuenta">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Sueldo.</label>
+                                    <input id="sueldo" type="text" class="form-control m-b formato-numerico" placeholder="Digite su sueldo">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Ingresos.</label>
+                                    <input id="ingresos" type="text" class="form-control m-b formato-numerico" placeholder="Digite sus ingresos">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Egresos.</label>
+                                    <input id="egresos" type="text" class="form-control m-b formato-numerico" placeholder="Digite sus egresos">
                                 </div>
                             </div>
                         </div>
@@ -214,7 +230,33 @@
                     <div id="referencia-personal" class="tab-pane">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-3">
+                                    <label>Nombres.</label>
+                                    <input id="ref-personal-nombres" type="text" class="form-control m-b" placeholder="Digite los nombres">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Apellidos.</label>
+                                    <input id="ref-personal-apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Barrio de Residencia.</label>
+                                    <input id="ref-personal-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Teléfono de Residencia.</label>
+                                    <input id="ref-personal-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Celular Personal.</label>
+                                    <input id="ref-personal-celular" type="text" class="form-control m-b formato-celular">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Banco.</label>
+                                    <select id="id-banco-ref-personal" class="form-control m-b chosen-select"></select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Cuenta de Ahorro.</label>
+                                    <input id="ref-personal-no-cuenta" type="text" class="form-control m-b formato-numerico" placeholder="Digite número de cuenta">
                                 </div>
                             </div>
                         </div>
@@ -222,7 +264,33 @@
                     <div id="referencia-familiar" class="tab-pane">
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-3">
+                                    <label>Nombres.</label>
+                                    <input id="ref-familiar-nombres" type="text" class="form-control m-b" placeholder="Digite los nombres">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Apellidos.</label>
+                                    <input id="ref-familiar-apellidos" type="text" class="form-control m-b" placeholder="Digite los apellidos">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Barrio de Residencia.</label>
+                                    <input id="ref-familiar-barrio" type="text" class="form-control m-b" placeholder="Digite el barrio">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Teléfono de Residencia.</label>
+                                    <input id="ref-familiar-telefono" type="text" class="form-control m-b" placeholder="Digite el teléfono">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Celular Personal.</label>
+                                    <input id="ref-familiar-celular" type="text" class="form-control m-b formato-celular">
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Banco.</label>
+                                    <select id="id-banco-ref-familiar" class="form-control m-b chosen-select"></select>
+                                </div>
+                                <div class="col-lg-3">
+                                    <label>Cuenta de Ahorro.</label>
+                                    <input id="ref-familiar-no-cuenta" type="text" class="form-control m-b formato-numerico" placeholder="Digite número de cuenta">
                                 </div>
                             </div>
                         </div>
@@ -231,6 +299,8 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
+                                    <label>Observaciones.</label>
+                                    <textarea id="observaciones" class="form-control m-b" rows="5"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -244,339 +314,6 @@
         <div class="col-lg-12">
             <div class="wrapper wrapper-content">
                 <div class="row">
-                    <div class="col-lg-12 ocultar">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Crear cliente</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline" style="display: block;">
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <div id="mensajeGuardar"></div>
-                                        <form id="formulario">
-
-                                            <div class="col-lg-12">
-                                                <br>
-                                                <h3 class="modal-title" align="center">Actividad Economica Principal</h3>
-                                                <br>
-                                                <br>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Ocupación u Oficio.</label>
-                                                    <div>
-                                                        <select id="id_ocupacion" name="id_ocupacion" class="select2 form-control m-b">
-                                                            <option value="">Seleccione...</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Nombre de la Empresa.</label>
-                                                    <div>
-                                                        <input id="empresa_nombre" type="text" class="form-control m-b" name="empresa_nombre" placeholder="Digite la empresa">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Cargo.</label>
-                                                    <div>
-                                                        <input id="empresa_cargo" type="text" class="form-control m-b" name="empresa_cargo" placeholder="Digite su cargo actual">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Area u Dependencia.</label>
-                                                    <div>
-                                                        <input id="empresa_area" type="text" class="form-control m-b" name="empresa_area" placeholder="Digite la empresa">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3 ocultar">
-                                                <div class="form-group">
-                                                    <label>País.</label>
-                                                    <div>
-                                                        <select id="pais" name="pais" class="select2 form-control m-b" required></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 ocultar">
-                                                <div class="form-group">
-                                                    <label>Departamento.</label>
-                                                    <div>
-                                                        <select id="departamento" name="departamento" class="select2 form-control m-b" required></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3 ocultar">
-                                                <div class="form-group">
-                                                    <label>Ciudad.</label>
-                                                    <div>
-                                                        <select id="id_municipio_empresa" name="id_municipio_empresa" class="select2 form-control m-b" required></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Barrio.</label>
-                                                    <div>
-                                                        <input id="empresa_barrio" type="text" class="form-control m-b" name="empresa_barrio" placeholder="Digite el barrio">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Dirección.</label>
-                                                    <div>
-                                                        <input id="empresa_direccion" type="text" class="form-control m-b" name="empresa_direccion" placeholder="Digite la dirección">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Teléfono.</label>
-                                                    <div>
-                                                        <input id="empresa_telefono" type="text" class="form-control m-b" name="empresa_telefono" placeholder="Digite el teléfono">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Fecha de Ingreso.</label>
-                                                    <div>
-                                                        <input id="empresa_fecha_ingreso" type="date" class="form-control m-b" name="empresa_fecha_ingreso" placeholder="Digite la fecha de ingreso">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Antiguedad en Meses.</label>
-                                                    <div>
-                                                        <input id="empresa_antiguedad_meses" type="text" class="form-control m-b" name="empresa_antiguedad_meses" placeholder="Digite antiguedad en meses">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12">
-                                                <br>
-                                                <h3 class="modal-title" align="center">Información Financiera</h3>
-                                                <br>
-                                                <br>
-                                            </div>
-
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Sueldo.</label>
-                                                    <div>
-                                                        <input id="sueldo" type="text" class="form-control m-b formato-numerico" name="sueldo" placeholder="Digite su sueldo">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Ingresos.</label>
-                                                    <div>
-                                                        <input id="ingresos" type="text" class="form-control m-b formato-numerico" name="ingresos" placeholder="Digite sus ingresos">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group">
-                                                    <label>Egresos.</label>
-                                                    <div>
-                                                        <input id="egresos" type="text" class="form-control m-b formato-numerico" name="egresos" placeholder="Digite sus egresos">
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12">
-                                                <br>
-                                                <h3 class="modal-title" align="center">Referencias</h3>
-                                                <br>
-                                                <br>
-                                            </div>
-
-                                            <div class="col-lg-6">
-                                                <h3 class="modal-title" align="center">Personal</h3>
-                                                <br>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Nombres.</label>
-                                                        <div>
-                                                            <input id="ref_personal_nombres" type="text" class="form-control m-b" name="ref_personal_nombres" placeholder="Digite los nombres">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Apellidos.</label>
-                                                        <div>
-                                                            <input id="ref_personal_apellidos" type="text" class="form-control m-b" name="ref_personal_apellidos" placeholder="Digite los apellidos">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 ocultar">
-                                                    <div class="form-group">
-                                                        <label>País.</label>
-                                                        <div>
-                                                            <select id="ref_personal_pais" name="ref_personal_pais" class="select2 form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 ocultar">
-                                                    <div class="form-group">
-                                                        <label>Departamento.</label>
-                                                        <div>
-                                                            <select id="ref_personal_departamento" name="ref_personal_departamento" class="select2 form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 ocultar">
-                                                    <div class="form-group">
-                                                        <label>Ciudad.</label>
-                                                        <div>
-                                                            <select id="id_municipio_ref_personal" name="id_municipio_ref_personal" class="select2 form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Barrio de Residencia.</label>
-                                                        <div>
-                                                            <input id="ref_personal_barrio" type="text" class="form-control m-b" name="ref_personal_barrio" placeholder="Digite el barrio">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Teléfono de Residencia.</label>
-                                                        <div>
-                                                            <input id="ref_personal_telefono" type="text" class="form-control m-b" name="ref_personal_telefono" placeholder="Digite el teléfono">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Celular Personal.</label>
-                                                        <div>
-                                                            <input id="ref_personal_celular" type="text" class="form-control m-b formato-celular" name="ref_personal_celular">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <h3 class="modal-title" align="center">Familiar</h3>
-                                                <br>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Nombres.</label>
-                                                        <div>
-                                                            <input id="ref_familiar_nombres" type="text" class="form-control m-b" name="ref_familiar_nombres" placeholder="Digite los nombres">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Apellidos.</label>
-                                                        <div>
-                                                            <input id="ref_familiar_apellidos" type="text" class="form-control m-b" name="ref_familiar_apellidos" placeholder="Digite los apellidos">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 ocultar">
-                                                    <div class="form-group">
-                                                        <label>País.</label>
-                                                        <div>
-                                                            <select id="ref_familiar_pais" name="ref_familiar_pais" class="select2 form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 ocultar">
-                                                    <div class="form-group">
-                                                        <label>Departamento.</label>
-                                                        <div>
-                                                            <select id="ref_familiar_departamento" name="ref_familiar_departamento" class="select2 form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 ocultar">
-                                                    <div class="form-group">
-                                                        <label>Ciudad.</label>
-                                                        <div>
-                                                            <select id="id_municipio_ref_familiar" name="id_municipio_ref_familiar" class="select2 form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Barrio de Residencia.</label>
-                                                        <div>
-                                                            <input id="ref_familiar_barrio" type="text" class="form-control m-b" name="ref_familiar_barrio" placeholder="Digite el barrio">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Teléfono de Residencia.</label>
-                                                        <div>
-                                                            <input id="ref_familiar_telefono" type="text" class="form-control m-b" name="ref_familiar_telefono" placeholder="Digite el teléfono">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <div class="form-group">
-                                                        <label>Celular Personal.</label>
-                                                        <div>
-                                                            <input id="ref_familiar_celular" type="text" class="form-control m-b formato-celular" name="ref_familiar_celular">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-12">
-                                                <br>
-                                                <h3 class="modal-title" align="center">Observaciones</h3>
-                                                <br>
-                                                <textarea id="observaciones" name="observaciones" class="form-control m-b" rows="5"></textarea>
-                                            </div>
-
-                                            <div class="col-lg-12" id="divGuardar" align="center">
-                                                <div class="form-group">
-                                                    <label></label>
-                                                    <div>
-                                                        <button id="botonGuardar" class="btn btn-primary " type="button" onClick="guardar(false,'')" style="display:none;">
-                                                            <i class="fa fa-floppy-o"></i>&nbsp;
-                                                            Guardar
-                                                        </button>
-                                                        <button id="botonCancelar" class="btn btn-default " type="button" onclick="cancelarGuardar('formulario')" style="display:none;">
-                                                            <i class="fa fa-times"></i>
-                                                            Cancelar
-                                                        </button>
-                                                        <button id="botonActualizar" class="btn btn-primary " type="button" onClick="guardar(false,'')" style="display:none;">
-                                                            <i class="fa fa-floppy-o"></i>&nbsp;
-                                                            Actualizar
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>       
-                            </div>
-                        </div>
-                    </div>
-                
                     <div class="col-lg-12">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
