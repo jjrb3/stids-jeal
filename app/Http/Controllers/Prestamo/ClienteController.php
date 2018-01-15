@@ -12,18 +12,46 @@ use App\Models\Prestamo\EstadoCivil;
 use App\Models\Prestamo\Ocupacion;
 
 
-
 class ClienteController extends Controller
 {
+    public static $hs;
+    public static $transaccion;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
+        self::$transaccion = ['', 31, '', 'p_cliente'];
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-13 - 12:45 PM
+     * @see: 1. Banco::consultarTodo.
+     *
+     * Consultar
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public static function Consultar(Request $request) {
 
-        return Cliente::consultarTodo(
+        $objeto = Cliente::consultarTodo(
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
-            $request->get('tamanhioPagina')
+            $request->get('tamanhio'),
+            $request->session()->get('idEmpresa')
         );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
+
 
     public static function ConsultarActivos(Request $request) {
 

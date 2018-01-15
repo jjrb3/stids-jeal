@@ -13,7 +13,26 @@ class Cliente extends Model
     public $timestamps = false;
     protected $table = "p_cliente";
 
-    public static function consultarTodo($request,$buscar,$pagina,$tamanhioPagina) {
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Banco';
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 12:07 PM
+     *
+     * Consultar todos con paginación
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     * @param integer   $idEmpresa:   ID empresa.
+     *
+     * @return object
+     */
+    public static function consultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idEmpresa) {
         try {
             $currentPage = $pagina;
 
@@ -28,14 +47,18 @@ class Cliente extends Model
                 OR apellidos like '%$buscar%'
                 OR direccion like '%$buscar%'
                 OR telefono like '%$buscar%'
-                OR celular like '%$buscar%')")
-                ->where('estado','>=',0)
-                ->where('id_empresa',$request->session()->get('idEmpresa'))
-                ->orderBy('id','desc')
-                ->paginate($tamanhioPagina);
+                OR celular like '%$buscar%')"
+            )
+                ->where('estado','>','-1')
+                ->where('id_empresa',$idEmpresa)
+                ->orderBy('estado','desc')
+                ->orderBy('nombres')
+                ->orderBy('apellidos')
+                ->paginate($tamanhio);
 
-        } catch (Exception $e) {
-            return array();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarTodo', $e, $request);
         }
     }
 

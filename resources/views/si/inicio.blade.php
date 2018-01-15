@@ -74,18 +74,6 @@
     </div>
     <!-- Fin de contenido de graficas -->
 
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="wrapper wrapper-content">
-                <div class="footer">
-                    <div class="pull-right">
-                        <strong>Copyright </strong> Stids S.A.S &copy; 2016
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @section('script')

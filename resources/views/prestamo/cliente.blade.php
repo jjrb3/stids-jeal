@@ -244,7 +244,7 @@
         <div class="col-lg-12">
             <div class="wrapper wrapper-content">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 ocultar">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>Crear cliente</h5>
@@ -590,10 +590,8 @@
                             <div class="ibox-content inspinia-timeline" style="display: block;">
                                 <div class="timeline-item">
                                     <div class="row">
-                                        <div id="bloque-prestamo"></div>
-                                        <div id="mensajeTabla"></div>
-                                        <div id='tabla'></div>   
-                                        <div id='paginacion'></div>                                        
+                                        <div class="col-lg-12" id="cliente-mensaje"></div>
+                                        <div class="col-lg-12" id="cliente-tabla"></div>
                                     </div>
                                 </div>       
                             </div>
@@ -716,13 +714,11 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript" src="{{asset('js/si/prestamo/codeudor.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/cliente.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/prestamo/codeudor.js')}}"></script>
+
     <script>
-        listado();
-        _verificarPermisos();
-        var AC = Api.Cliente;
-        AC.constructor('mensaje');
-        AC.cargarParametrosFormulario();
+        Api.permisos = [{{$permisos}}];
+        Api.Cliente.constructor();
     </script>
 @endsection
