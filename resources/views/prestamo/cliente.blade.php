@@ -81,7 +81,7 @@
                     <li class=""><a data-toggle="tab" href="#informacion-financiera">Información financiera</a></li>
                     <li class=""><a data-toggle="tab" href="#referencia-personal">Referencia personal</a></li>
                     <li class=""><a data-toggle="tab" href="#referencia-familiar">Referencia familiar</a></li>
-                    <li class=""><a data-toggle="tab" href="#observaciones">Observaciones</a></li>
+                    <li class=""><a data-toggle="tab" href="#observacion">Observaciones</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="informacion" class="tab-pane active">
@@ -280,7 +280,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="observaciones" class="tab-pane">
+                    <div id="observacion" class="tab-pane">
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">

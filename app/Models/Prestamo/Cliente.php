@@ -41,7 +41,23 @@ class Cliente extends Model
                 return $currentPage;
             });
 
-            return Cliente::whereRaw(
+            return Cliente::select(
+                DB::raw(
+                    "IF(p_cliente.id_municipio <> null OR p_cliente.id_municipio <> '',
+                           (
+                              SELECT CONCAT(sp.nombre,', ',sd.nombre,', ',sm.nombre)
+                              FROM s_municipio sm
+                              INNER JOIN s_departamento sd ON sd.id = sm.id_departamento
+                              INNER JOIN s_pais         sp ON sp.id = sd.id_pais
+                              WHERE sm.id = p_cliente.id_municipio
+                           ),
+                          ''
+                        ) AS ciudad,
+                        p_cliente.*
+                    "
+                )
+            )
+                ->whereRaw(
                 "( identificacion like '%$buscar%'
                 OR nombres like '%$buscar%'
                 OR apellidos like '%$buscar%'
@@ -59,6 +75,33 @@ class Cliente extends Model
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
             return $hs->Log(self::MODULO,self::MODELO,'consultarTodo', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 03:50 PM
+     *
+     * Consultar por tipo de empresa, identificacion, documento, nombres y apellidos
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $nombre:      Nombre.
+     *
+     * @return object
+     */
+    public static function ConsultarPorEmpTipIdeNomApe($request, $idEmpresa, $idTipoIdentificacion, $identificacion, $nombres, $apellidos) {
+        try {
+            return Cliente::where('id_empresa',$idEmpresa)
+                ->where('id_tipo_identificacion',$idTipoIdentificacion)
+                ->where('identificacion',$identificacion)
+                ->where('nombres',$nombres)
+                ->where('apellidos',$apellidos)
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorEmpTipIdeNomApe', $e, $request);
         }
     }
 
@@ -81,37 +124,6 @@ class Cliente extends Model
             return Cliente::where('id','=',$id)->get()->toArray();
         } catch (Exception $e) {
             return array();
-        }
-    }
-
-    public static function eliminarPorId($request,$id) {
-        try {
-
-            $clase = Cliente::Find((int)$id);
-
-            $clase->estado = -1;
-
-            if ($clase->save()) {
-
-                HerramientaStidsController::guardarTransaccion($request,31,5,$id,'p_cliente');
-
-                return array(
-                    'resultado' => 1,
-                    'mensaje'   => 'Se eliminó correctamente',
-                );
-            }
-            else {
-                return array(
-                    'resultado' => 0,
-                    'mensaje'   => 'Se encontraron problemas al eliminar',
-                );
-            }
-        }
-        catch (Exception $e) {
-            return array(
-                'resultado' => -2,
-                'mensaje'   => 'Grave error: ' . $e,
-            );
         }
     }
 }

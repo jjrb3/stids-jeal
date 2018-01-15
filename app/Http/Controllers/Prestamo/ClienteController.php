@@ -113,64 +113,6 @@ class ClienteController extends Controller
     }
 
 
-    private function insertarCampos($clase,$request) {
-
-        # PK & FK
-        $clase->id_empresa                  = $request->session()->get('idEmpresa');
-        $clase->id_tipo_identificacion      = $request->get('id_tipo_identificacion');
-        $clase->id_estado_civil             = $request->get('id_estado_civil');
-        $clase->id_municipio                = $request->get('id_municipio');
-        $clase->id_municipio_empresa        = $request->get('id_municipio_empresa');
-        $clase->id_tipo_identificacion      = $request->get('id_tipo_identificacion');
-        $clase->id_municipio_ref_personal   = $request->get('id_municipio_ref_personal');
-        $clase->id_municipio_ref_familiar   = $request->get('id_municipio_ref_familiar');
-        $clase->id_ocupacion                = $request->get('id_ocupacion');
-
-        # Información del cliente
-        $clase->identificacion      = $request->get('identificacion');
-        $clase->nombres             = $request->get('nombres');
-        $clase->apellidos           = $request->get('apellidos');
-        $clase->fecha_nacimiento    = $request->get('fecha_nacimiento');
-        $clase->email_personal      = $request->get('email_personal');
-        $clase->barrio              = $request->get('barrio');
-        $clase->direccion           = $request->get('direccion');
-        $clase->telefono            = $request->get('telefono');
-        $clase->celular             = $request->get('celular');
-
-        # Información de su actividad economica
-        $clase->empresa_nombre              = $request->get('empresa_nombre');
-        $clase->empresa_cargo               = $request->get('empresa_cargo');
-        $clase->empresa_area                = $request->get('empresa_area');
-        $clase->empresa_barrio              = $request->get('empresa_barrio');
-        $clase->empresa_direccion           = $request->get('empresa_direccion');
-        $clase->empresa_telefono            = $request->get('empresa_telefono');
-        $clase->empresa_fecha_ingreso       = $request->get('empresa_fecha_ingreso');
-        $clase->empresa_antiguedad_meses    = $request->get('empresa_antiguedad_meses');
-
-        # Información financiera
-        $clase->sueldo      = $request->get('sueldo');
-        $clase->ingresos    = $request->get('ingresos');
-        $clase->egresos     = $request->get('egresos');
-
-        # Referencias
-        $clase->ref_personal_nombres    = $request->get('ref_personal_nombres');
-        $clase->ref_personal_apellidos  = $request->get('ref_personal_apellidos');
-        $clase->ref_personal_barrio     = $request->get('ref_personal_barrio');
-        $clase->ref_personal_telefono   = $request->get('ref_personal_telefono');
-        $clase->ref_personal_celular    = $request->get('ref_personal_celular');
-        $clase->ref_familiar_nombres    = $request->get('ref_familiar_nombres');
-        $clase->ref_familiar_apellidos  = $request->get('ref_familiar_apellidos');
-        $clase->ref_familiar_barrio     = $request->get('ref_familiar_barrio');
-        $clase->ref_familiar_telefono   = $request->get('ref_familiar_telefono');
-        $clase->ref_familiar_celular    = $request->get('ref_familiar_celular');
-
-        # Comentarios
-        $clase->observaciones = $request->get('observaciones');
-
-        return $clase;
-    }
-
-
     public function verificacion($request){
 
         $campos = array(
@@ -246,5 +188,169 @@ class ClienteController extends Controller
             'ocupacion'             => $ocupacion,
             'bancos'                => $banco
         ]);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-13 - 12:45 PM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. Cliente::ConsultarPorEmpTipIdeNomApe.
+     *       3. Cliente::find.
+     *       4. self::$hs->ejecutarSave.
+     *
+     * Crea o actualiza los datos.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function CrearActualizar(Request $request)
+    {
+        #1. Verificamos los datos enviados
+        $id             = $request->get('id');
+        $idEmpresa      = $request->session()->get('idEmpresa');
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'id_tipo_identificacion' => 'Debe seleccionar un tipo de identificación para poder guardar los cambios',
+            'identificacion' => 'Debe digitar la identificación para poder guardar los cambios',
+            'nombres' => 'Debe digitar los nombres para poder guardar los cambios',
+            'apellidos' => 'Debe digitar los apellidos para poder guardar los cambios',
+            'direccion' => 'Debe digitar la dirección para poder guardar los cambios'
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Si no es actualización consultamos si existe
+        if (!$id) {
+            $existeRegistro = Cliente::ConsultarPorEmpTipIdeNomApe(
+                $request,
+                $idEmpresa,
+                $request->get('id_tipo_identificacion'),
+                $request->get('identificacion'),
+                $request->get('nombres'),
+                $request->get('apellidos')
+            );
+        }
+        else {
+            $existeRegistro[] = Cliente::find($id);
+        }
+
+        #3. Que no se encuentre ningun error
+        if (!is_null($existeRegistro)) {
+
+            #3.1. Si existe, no esta eliminado y no es una actualización
+            if (!$id && $existeRegistro->count() && $existeRegistro[0]->estado > -1) {
+                return response()->json(self::$hs->jsonExiste);
+            }
+            #3.2. Esta eliminado o es una actualizacion lo vuelve a activar y actualiza todos sus datos
+            elseif ($id || $existeRegistro->count() && $existeRegistro[0]->estado < 0) {
+
+                $clase = $this->insertarCampos(Cliente::find($existeRegistro[0]->id), $request);
+
+                self::$transaccion[0] = $request;
+                self::$transaccion[2] = 'actualizar';
+
+                return self::$hs->ejecutarSave(
+                    $clase,
+                    $id ? self::$hs->mensajeActualizar : self::$hs->mensajeGuardar,
+                    self::$transaccion
+                );
+            }
+            #3.3. Si no existe entonces se crea
+            else {
+
+                $clase = $this->insertarCampos(new Cliente(), $request);
+
+                self::$transaccion[0] = $request;
+                self::$transaccion[2] = 'crear';
+
+                return self::$hs->ejecutarSave($clase, self::$hs->mensajeGuardar, self::$transaccion);
+            }
+        }
+        else {
+            return response()->json(self::$hs->jsonError);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 04:00 PM
+     *
+     * Insertar campos.
+     *
+     * @param object  $clase:   Clase a llenar.
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    private function insertarCampos($clase,$request) {
+
+        # PK & FK
+        $clase->id_empresa                  = $request->session()->get('idEmpresa');
+        $clase->id_tipo_identificacion      = $request->get('id_tipo_identificacion');
+        $clase->id_estado_civil             = $request->get('id_estado_civil');
+        $clase->id_municipio                = $request->get('id_municipio');
+        $clase->id_municipio_empresa        = $request->get('id_municipio_empresa');
+        $clase->id_tipo_identificacion      = $request->get('id_tipo_identificacion');
+        $clase->id_municipio_ref_personal   = $request->get('id_municipio_ref_personal');
+        $clase->id_municipio_ref_familiar   = $request->get('id_municipio_ref_familiar');
+        $clase->id_banco_cliente            = $request->get('id_banco_cliente');
+        $clase->id_ocupacion                = $request->get('id_ocupacion');
+
+        # Información del cliente
+        $clase->identificacion      = $request->get('identificacion');
+        $clase->nombres             = $request->get('nombres');
+        $clase->apellidos           = $request->get('apellidos');
+        $clase->fecha_nacimiento    = $request->get('fecha_nacimiento');
+        $clase->email_personal      = $request->get('email_personal');
+        $clase->barrio              = $request->get('barrio');
+        $clase->direccion           = $request->get('direccion');
+        $clase->telefono            = $request->get('telefono');
+        $clase->celular             = $request->get('celular');
+
+        # Información de su actividad economica
+        $clase->empresa_nombre              = $request->get('empresa_nombre');
+        $clase->empresa_cargo               = $request->get('empresa_cargo');
+        $clase->empresa_area                = $request->get('empresa_area');
+        $clase->empresa_barrio              = $request->get('empresa_barrio');
+        $clase->empresa_direccion           = $request->get('empresa_direccion');
+        $clase->empresa_telefono            = $request->get('empresa_telefono');
+        $clase->empresa_fecha_ingreso       = $request->get('empresa_fecha_ingreso');
+        $clase->empresa_antiguedad_meses    = $request->get('empresa_antiguedad_meses');
+
+        # Información financiera
+        $clase->no_cuenta   = $request->get('no_cuenta');
+        $clase->sueldo      = $request->get('sueldo');
+        $clase->ingresos    = $request->get('ingresos');
+        $clase->egresos     = $request->get('egresos');
+
+        # Referencias
+        $clase->ref_personal_nombres    = $request->get('ref_personal_nombres');
+        $clase->ref_personal_apellidos  = $request->get('ref_personal_apellidos');
+        $clase->ref_personal_barrio     = $request->get('ref_personal_barrio');
+        $clase->ref_personal_telefono   = $request->get('ref_personal_telefono');
+        $clase->ref_personal_celular    = $request->get('ref_personal_celular');
+        $clase->ref_familiar_nombres    = $request->get('ref_familiar_nombres');
+        $clase->ref_familiar_apellidos  = $request->get('ref_familiar_apellidos');
+        $clase->ref_familiar_barrio     = $request->get('ref_familiar_barrio');
+        $clase->ref_familiar_telefono   = $request->get('ref_familiar_telefono');
+        $clase->ref_familiar_celular    = $request->get('ref_familiar_celular');
+
+        # Comentarios
+        $clase->observaciones = $request->get('observaciones');
+
+        # Otros
+        $clase->estado = 1;
+
+        return $clase;
     }
 }

@@ -135,7 +135,8 @@ class HerramientaStidsController extends Controller
         if (!$request->get($nombre) && !$request->file($nombre)) {
             return response()->json(array(
                 'resultado' => 0,
-                'mensaje' => $mensaje,
+                'titulo'    => 'Advertencia',
+                'mensaje'   => $mensaje,
             ));
         }
     }
