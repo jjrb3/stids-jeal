@@ -40,101 +40,6 @@ class ClienteController extends Controller
 
 
     /**
-     * @autor Jeremy Reyes B.
-     * @version 1.0
-     * @date 2017-11-01 - 2:27 PM
-     *
-     * Consultar los parametros que se necesitan el formulario
-     *
-     * @return json
-     */
-    public static function ConsultarParametrosFormulario(Request $request) {
-
-        return response()->json(
-            array(
-                'tipo_identificacion'   => TipoIdentificacion::consultarActivo($request, $request->session()->get('idEmpresa')),
-                'estado_civil'          => EstadoCivil::consultarActivo(),
-                'ocupacion'             => Ocupacion::consultarActivo(),
-            )
-        );
-    }
-
-
-    public function Guardar(Request $request)
-    {
-        if ($this->verificacion($request)) {
-            return $this->verificacion($request);
-        }
-
-        $clase = $this->insertarCampos(new Cliente(),$request);
-
-        $mensaje = ['Se guardó correctamente',
-                    'Se encontraron problemas al guardar'];
-
-        $transaccion = [$request,31,'crear','p_cliente'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje,$transaccion);
-    }
-
-
-    public function Actualizar(Request $request)
-    {
-        if ($this->verificacion($request)) {
-            return $this->verificacion($request);
-        }
-
-        $clase = $this->insertarCampos(Cliente::Find((int)$request->get('id')),$request);
-
-        $mensaje = ['Se actualizó correctamente',
-                    'Se encontraron problemas al actualizar'];
-
-        $transaccion = [$request,31,'actualizar','p_cliente'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje,$transaccion);
-    }
-
-    public static function CambiarEstado(Request $request) {
-
-        $clase = Cliente::Find((int)$request->get('id'));
-
-        $clase->estado = $request->get('estado');
-
-        $mensaje = ['Se cambió el estado correctamente',
-                    'Se encontraron problemas al cambiar el estado'];
-
-        $transaccion = [$request,31,$clase->estado == 1 ? 'activo' : 'inactivo','p_cliente'];
-
-        return HerramientaStidsController::ejecutarSave($clase,$mensaje,$transaccion);
-    }
-
-    public function Eliminar($request)
-    {
-        return Cliente::eliminarPorId($request,$request->get('id'));
-    }
-
-
-    public function verificacion($request){
-
-        $campos = array(
-            'id_tipo_identificacion' => 'Debe seleccionar el tipo de identificación para continuar',
-            'identificacion'         => 'Debe digitar el campo documento para continuar',
-            'nombres'                => 'Debe digitar el campo nombres para continuar',
-            'apellidos'              => 'Debe digitar el campo apellidos para continuar',
-            'direccion'              => 'Debe digitar el campo dirección para continuar',
-        );
-
-        foreach ($campos as $campo => $mensaje) {
-
-            $resultado = HerramientaStidsController::verificacionCampos($request,$campo,$mensaje);
-
-            if ($resultado) {
-                return $resultado;
-            }
-        }
-    }
-
-
-    /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
      * @date: 2018-01-13 - 12:45 PM
@@ -352,5 +257,62 @@ class ClienteController extends Controller
         $clase->estado = 1;
 
         return $clase;
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 05:15 PM
+     * @see: 1. Cliente::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Cambia de estado.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function CambiarEstado(Request $request) {
+
+        $clase  = Cliente::Find((int)$request->get('id'));
+
+        if ($clase->estado === 1) {
+            $clase->estado = 0;
+        }
+        elseif ($clase->estado === 0) {
+            $clase->estado = 1;
+        }
+
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = self::$hs->estados[$clase->estado];
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEstado,self::$transaccion);
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 05:15 PM
+     * @see: 1. Cliente::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Eliminar($request)
+    {
+        $clase = Cliente::Find((int)$request->get('id'));
+
+        $clase->estado = -1;
+
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'eliminar';
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEliminar,self::$transaccion);
     }
 }
