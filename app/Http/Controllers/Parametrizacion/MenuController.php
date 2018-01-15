@@ -123,23 +123,37 @@ class MenuController extends Controller
      */
     public static function CambiarDeEmpresa(Request $request) {
 
+        $idUsuario      = !$request->session()->get('idUsuario') ? $request->session()->get('idUsuario') : $request->session()->get('idUsuarioAnterior');
         $idEmpresa      = $request->get('id_empresa');
         $idRol          = $request->get('id_rol');
         $claveMaestra   = $request->get('clave_maestra');
-        $usuario        = Usuario::Find($request->session()->get('idUsuario'));
+        $usuario        = Usuario::Find($idUsuario);
 
         if ($usuario->clave_maestra) {
 
             if (password_verify($claveMaestra, $usuario->clave_maestra)) {
 
-                $request->session()->put('idEmpresa',$idEmpresa);
-                $request->session()->put('idRol',$idRol);
-                $request->session()->put('cambioEmpresa',true);
+                $nuevoUsuario = Usuario::ConsultarPorEmpresaRol($request, $idEmpresa, $idRol);
 
-                return response()->json([
-                    'resultado' => 1,
-                    'mensaje' => 'Espere mientras es redirigido.',
-                ]);
+                if ($nuevoUsuario->count() > 0) {
+
+                    $request->session()->put('idUsuarioAnterior', $request->session()->get('idUsuario'));
+                    $request->session()->put('idUsuario', $nuevoUsuario[0]->id);
+                    $request->session()->put('idEmpresa', $idEmpresa);
+                    $request->session()->put('idRol', $idRol);
+                    $request->session()->put('cambioEmpresa', true);
+
+                    return response()->json([
+                        'resultado' => 1,
+                        'mensaje' => 'Espere mientras es redirigido.',
+                    ]);
+                }
+                else {
+                    return response()->json([
+                        'resultado' => 2,
+                        'mensaje' => 'No se encontraron usuarios para este rol, escoja otro tipo de rol para navegar.',
+                    ]);
+                }
             }
             else {
 
