@@ -371,7 +371,8 @@ class ModuloController extends Controller
                 $clase->nombre      = $request->get('nombre');
                 $clase->descripcion = $request->get('descripcion');
                 $clase->icono       = $request->get('icono');
-                $clase->estado      = 1;
+
+                $id ? null : $clase->estado = 1;
 
                 $tipo == 1 ?
                     $clase->enlace_administrador = $request->get('enlace')

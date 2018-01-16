@@ -234,9 +234,9 @@ class ClienteController extends Controller
 
         # Información financiera
         $clase->no_cuenta   = $request->get('no_cuenta');
-        $clase->sueldo      = $request->get('sueldo');
-        $clase->ingresos    = $request->get('ingresos');
-        $clase->egresos     = $request->get('egresos');
+        $clase->sueldo      = str_replace('.', '', $request->get('sueldo'));
+        $clase->ingresos    = str_replace('.', '', $request->get('ingresos'));
+        $clase->egresos     = str_replace('.', '', $request->get('egresos'));
 
         # Referencias
         $clase->ref_personal_nombres    = $request->get('ref_personal_nombres');
@@ -254,7 +254,7 @@ class ClienteController extends Controller
         $clase->observaciones = $request->get('observaciones');
 
         # Otros
-        $clase->estado = 1;
+        $request->get('id') ? null : $clase->estado = 1;
 
         return $clase;
     }

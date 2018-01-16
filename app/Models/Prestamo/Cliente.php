@@ -119,11 +119,51 @@ class Cliente extends Model
     }
 
 
-    public static function consultarId($id) {
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-16 - 06:35 AM
+     *
+     * Consultar información por id del cliente
+     *
+     * @param request $request: Peticiones realizadas.
+     * @param string  $id:      ID Cliente.
+     *
+     * @return object
+     */
+    public static function ConsultarInformacionPorId($request, $id) {
         try {
-            return Cliente::where('id','=',$id)->get()->toArray();
-        } catch (Exception $e) {
-            return array();
+            return Cliente::select(
+                'p_cliente.*',
+                's_tipo_identificacion.nombre AS nombre_tipo_identificacion',
+                'p_estado_civil.nombre AS nombre_estado_civil',
+                's_banco.nombre AS nombre_banco',
+                'p_ocupacion.nombre AS nombre_ocupacion',
+                DB::raw(
+                    "IF(p_cliente.id_municipio <> null OR p_cliente.id_municipio <> '',
+                           (
+                              SELECT CONCAT(sp.nombre,', ',sd.nombre,', ',sm.nombre)
+                              FROM s_municipio sm
+                              INNER JOIN s_departamento sd ON sd.id = sm.id_departamento
+                              INNER JOIN s_pais         sp ON sp.id = sd.id_pais
+                              WHERE sm.id = p_cliente.id_municipio
+                           ),
+                          ''
+                        ) AS ciudad
+                    "
+                )
+            )
+                ->join('s_tipo_identificacion','p_cliente.id_tipo_identificacion','s_tipo_identificacion.id')
+                ->leftJoin('p_estado_civil','p_cliente.id_estado_civil','p_estado_civil.id')
+                ->leftJoin('s_banco','p_cliente.id_banco_cliente','s_banco.id')
+                ->leftJoin('p_ocupacion','p_cliente.id_ocupacion','p_ocupacion.id')
+
+                ->where('p_cliente.id',$id)
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarInformacionPorId', $e, $request);
         }
     }
 }

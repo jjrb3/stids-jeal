@@ -102,18 +102,21 @@ class Codeudor extends Model
      *
      * Consulta el listado de codeudores por id del cliente
      *
-     * @param integer $id: Id del cliente.
+     * @param request $request: Peticiones realizadas.
+     * @param integer $id:      Id del cliente.
      *
-     * @return array: Listado de coudeudores
+     * @return object
      */
-    public static function consultarPorIdCliente($id) {
+    public static function ConsultarPorIdCliente($request, $id) {
         try {
             return Codeudor::where('id_cliente',$id)
                 ->where('estado',1)
-                ->get()
-                ->toArray();
-        } catch (Exception $e) {
-            return array();
+                ->orderBy('nombres')
+                ->orderBy('apellidos')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorIdCliente', $e, $request);
         }
     }
 

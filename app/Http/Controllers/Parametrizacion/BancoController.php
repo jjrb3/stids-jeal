@@ -129,7 +129,8 @@ class BancoController extends Controller
 
                 $clase->id_empresa  = $idEmpresa;
                 $clase->nombre      = $request->get('nombre');
-                $clase->estado      = 1;
+
+                $id ? null : $clase->estado = 1;
 
                 self::$transaccion[0] = $request;
                 self::$transaccion[2] = 'actualizar';

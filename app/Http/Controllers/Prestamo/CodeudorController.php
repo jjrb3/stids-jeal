@@ -159,7 +159,8 @@ class CodeudorController extends Controller
         $clase->direccion           = $request->get('direccion');
         $clase->telefono            = $request->get('telefono');
         $clase->celular             = $request->get('celular');
-        $clase->estado              = 1;
+
+        $request->get('id') ? null : $clase->estado = 1;
 
         return $clase;
     }

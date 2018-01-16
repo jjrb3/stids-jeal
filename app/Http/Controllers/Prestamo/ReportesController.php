@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Prestamo;
 
+use App\Models\Prestamo\Cliente;
+use App\Models\Prestamo\Codeudor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -184,5 +186,50 @@ class ReportesController extends Controller{
 
         return $pdf->download('Reporte de recaudo diario.pdf');
         //return $pdf->stream();
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-10-23 - 10:10 AM
+     * @see: 1. Empresa::Find.
+     *       2. App::make.
+     *       3. Reportes::ConsultarRecaudoDiarioPorFecha
+     *
+     * Consulta el listado de codeudores por el cliente
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return pdf
+     */
+    public static function InformacionGeneralCliente(Request $request) {
+
+        $idCliente = $request->get('id_cliente');
+
+        $pdf     = App::make('dompdf.wrapper');
+
+        $empresa     = Empresa::Find($request->session()->get('idEmpresa'));
+        $informacion = Cliente::ConsultarInformacionPorId($request, $idCliente);
+        $codeudores  = Codeudor::ConsultarPorIdCliente($request, $idCliente);
+
+
+
+        $pdf->loadHTML(
+            View('prestamo.pdf-informacion-cliente',[
+                'nombre_empresa'    => $empresa->nombre,
+                'logo_empresa'      => $empresa->imagen_logo,
+                'fecha'             => date('Y-m-d H:i:s'),
+                'usuario_generador' => $request->session()->get('nombres'),
+                'informacion'       => $informacion[0],
+                'codeudores'        => $codeudores
+            ])
+        )
+            ->setPaper('A4', 'portrait')
+            ->setWarnings(false)
+            ->save('Reporte.pdf');
+
+        //return $pdf->download('Reporte de recaudo diario.pdf');
+        return $pdf->stream("Información de {$informacion[0]->nombres} {$informacion[0]->apellidos}.pdf");
     }
 }

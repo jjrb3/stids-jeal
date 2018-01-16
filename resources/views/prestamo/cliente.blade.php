@@ -323,6 +323,16 @@
         </div>
     </div>
 
+    @if($op->exportar)
+        <form id="formulario-exportar" method=POST action="reportes" target="_blank">
+            {{ csrf_field() }}
+            <input type="hidden" name="id_cliente" id="id-cliente-exportar">
+            <input type="hidden" name="crud" value="true">
+            <input type="hidden" name="controlador" value="Reportes">
+            <input type="hidden" name="carpetaControlador" value="Prestamo">
+            <input type="hidden" name="funcionesVariables" value="InformacionGeneralCliente">
+        </form>
+    @endif
 
     <!-- Modals -->
     <!-- Detalle y codeudores -->
@@ -354,7 +364,7 @@
                                             <form id="formulario-codeudor">
                                                 <div class="col-lg-3 form-group">
                                                     <label>Cedula:</label>
-                                                    <input type="text" class="form-control numerico" id="codeudor-cedula" placeholder="Digite el número">
+                                                    <input type="text" class="form-control documento" id="codeudor-cedula" placeholder="Digite el número">
                                                 </div>
                                                 <div class="col-lg-3 form-group">
                                                     <label>Fecha de expedición:</label>
@@ -424,6 +434,5 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Cliente.constructor();
-        Api.Codeudor.constructor(7,{"nombres":"Alvaro","apellidos":"Perez"});
     </script>
 @endsection
