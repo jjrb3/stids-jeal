@@ -69,6 +69,35 @@ class Codeudor extends Model
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
+     * @date: 2018-01-15 - 08:28 PM
+     *
+     * Consultar por cliente, cedula, nombres y apellidos
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $idCliente:   ID cliente.
+     * @param string  $cedula:      Cedula.
+     * @param string  $nombres:     Nombres.
+     * @param string  $apellidos:   Apellidos.
+     *
+     * @return object
+     */
+    public static function ConsultarPorCliCedNomApe($request, $idCliente, $cedula, $nombres, $apellidos) {
+        try {
+            return Codeudor::where('id_cliente',$idCliente)
+                ->where('cedula',$cedula)
+                ->where('nombres',$nombres)
+                ->where('apellidos',$apellidos)
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorCliCedNomApe', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
      * @date: 2017-10-23 - 12:02 PM
      *
      * Consulta el listado de codeudores por id del cliente
@@ -109,51 +138,6 @@ class Codeudor extends Model
                 ->toArray()[0];
         } catch (Exception $e) {
             return array();
-        }
-    }
-
-
-    /**
-     * @autor Jeremy Reyes B.
-     * @version 1.0
-     * @date 2017-10-23 - 3:26 PM
-     * @see 1. HerramientaStidsController::guardarTransaccion.
-     *
-     * Eliminamos un codeudor y guarda la transacción.
-     *
-     * @param array     $request:   Peticiones realizadas.
-     * @param integer   $id:        Id que se eliminará.
-     *
-     * @return array: Resultado de eliminar
-     */
-    public static function eliminarPorId($request,$id) {
-        try {
-
-            $clase = Codeudor::Find((int)$id);
-
-            $clase->estado = -1;
-
-            if ($clase->save()) {
-
-                HerramientaStidsController::guardarTransaccion($request,31,5,$id,'p_codeudor');
-
-                return array(
-                    'resultado' => 1,
-                    'mensaje'   => 'Se eliminó correctamente',
-                );
-            }
-            else {
-                return array(
-                    'resultado' => 0,
-                    'mensaje'   => 'Se encontraron problemas al eliminar',
-                );
-            }
-        }
-        catch (Exception $e) {
-            return array(
-                'resultado' => -2,
-                'mensaje'   => 'Grave error: ' . $e,
-            );
         }
     }
 }

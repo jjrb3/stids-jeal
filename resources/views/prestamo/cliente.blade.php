@@ -335,7 +335,7 @@
                 </div>
                 <div class="modal-body gray-bg">
                     <div class="row">
-                        <div id="pestanhia-cliente" class="tabs-container">
+                        <div id="pestanhia-codeudor" class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#lista">Listado</a></li>
                                 <li class=""><a data-toggle="tab" href="#crear-actualizar">Crear o Actualizar</a></li>
@@ -351,46 +351,57 @@
                                 <div id="crear-actualizar" class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
-                                            <form id="form-codeudores">
-                                                <div class="form-group col-lg-3">
+                                            <form id="formulario-codeudor">
+                                                <div class="col-lg-3 form-group">
                                                     <label>Cedula:</label>
-                                                    <input type="text" class="form-control" id="cedula" name="cedula" required>
+                                                    <input type="text" class="form-control numerico" id="codeudor-cedula" placeholder="Digite el número">
                                                 </div>
-                                                <div class="form-group col-lg-3">
+                                                <div class="col-lg-3 form-group">
                                                     <label>Fecha de expedición:</label>
-                                                    <input type="date" class="form-control" id="fecha_expedicion" name="fecha_expedicion" required>
+                                                    <div class="input-group">
+                                                        <input id="fecha-expedicion" type="text" class="form-control m-b datepicker" placeholder="Digite la fecha" form="formulario-cliente">
+                                                        <span class="input-group-addon icono-calendario"><i class="fa fa-calendar"></i></span>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-lg-3">
+                                                <div class="col-lg-3 form-group">
                                                     <label>Nombres:</label>
-                                                    <input type="text" class="form-control" id="nombres" name="nombres" required>
+                                                    <input type="text" class="form-control" id="codeudor-nombres" placeholder="Digite los nombres">
                                                 </div>
-                                                <div class="form-group col-lg-3">
+                                                <div class="col-lg-3 form-group">
                                                     <label>Apellidos:</label>
-                                                    <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                                                    <input type="text" class="form-control" id="codeudor-apellidos" placeholder="Digite los apellidos">
                                                 </div>
-                                                <div class="form-group col-lg-3">
+                                                <div class="col-lg-3">
                                                     <label>Dirección:</label>
-                                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                                    <input type="text" class="form-control" id="codeudor-direccion" placeholder="Digite la dirección">
                                                 </div>
-                                                <div class="form-group col-lg-3">
+                                                <div class="col-lg-3">
                                                     <label>Teléfono:</label>
-                                                    <input type="text" class="form-control" id="telefono" name="telefono">
+                                                    <input type="text" class="form-control" id="codeudor-telefono" placeholder="Digite el teléfono">
                                                 </div>
-                                                <div class="form-group col-lg-3">
+                                                <div class="col-lg-3">
                                                     <label>Celular:</label>
-                                                    <input type="text" class="form-control" id="celular" name="celular">
+                                                    <input type="text" class="form-control formato-celular" id="codeudor-celular">
                                                 </div>
-                                                <div class="form-group col-lg-6">
-                                                    <button id="btn-cancelar" class="btn btn-default " type="button" onclick="Api.Cliente.cancelarEditarCodeudor('#form-codeudores')" style="display: none">
-                                                        <i class="fa fa-times"></i>
-                                                        Cancelar
-                                                    </button>
-                                                    <button class="btn btn-primary btn-guardar" type="button" onclick="Api.Codeudor.agregar('#form-codeudores ','modal-detalle #mensaje')" style="display: none">
-                                                        <i class="fa fa-floppy-o"></i>&nbsp;
-                                                        Guardar
-                                                    </button>
+                                                <div class="col-lg-12" id="ca-botones-codeudor">
+                                                    <br>
+                                                    @if($op->guardar)
+                                                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Codeudor.crearActualizar()">
+                                                            <i class="fa fa-floppy-o"></i>&nbsp;
+                                                            Guardar
+                                                        </button>
+                                                    @endif
+                                                    @if($op->actualizar)
+                                                        <button id="btn-cancelar" class="btn ocultar" type="button" onclick="Api.Herramientas.cancelarCA('codeudor')">
+                                                            <i class="fa fa-times"></i>
+                                                            Cancelar
+                                                        </button>
+                                                        <button id="btn-actualizar" class="btn btn-success ocultar" type="button" onClick="Api.Codeudor.crearActualizar()">
+                                                            <i class="fa fa-pencil-square-o"></i>&nbsp;
+                                                            Actualizar
+                                                        </button>
+                                                    @endif
                                                 </div>
-                                                <input type="hidden" id="id_cliente" name="id_cliente">
                                             </form>
                                         </div>
                                     </div>

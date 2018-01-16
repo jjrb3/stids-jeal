@@ -20,7 +20,7 @@ class CodeudorController extends Controller
     public function __construct()
     {
         self::$hs = new HerramientaStidsController();
-        self::$transaccion = ['', 31, '', 'p_cliente'];
+        self::$transaccion = ['', 31, '', 'p_codeudor'];
     }
 
     /**
@@ -52,133 +52,117 @@ class CodeudorController extends Controller
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
-     * @date: 2017-10-23 - 11:59 AM
-     * @see: 1. Codeudor::consultarPorId.
+     * @date: 2018-01-13 - 12:45 PM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. Codeudor::ConsultarPorEmpTipIdeNomApe.
+     *       3. Codeudor::find.
+     *       4. self::$hs->ejecutarSave.
      *
-     * Consulta el listado de codeudores por id
+     * Crea o actualiza los datos.
      *
      * @param request $request: Peticiones realizadas.
      *
-     * @return json: Codeudor
+     * @return object
      */
-    public static function ConsultarPorId(Request $request) {
+    public function CrearActualizar(Request $request)
+    {
+        #1. Verificamos los datos enviados
+        $id         = $request->get('id');
+        $idCliente  = $request->get('id_cliente');
 
-        return response()->json(Codeudor::consultarPorId($request->get('id')));
+        #1.1. Datos obligatorios
+        $datos = [
+            'cedula' => 'Debe digitar la cedula para poder guardar los cambios',
+            'nombres' => 'Debe digitar los nombres para poder guardar los cambios',
+            'apellidos' => 'Debe digitar los apellidos para poder guardar los cambios',
+            'direccion' => 'Debe digitar la dirección para poder guardar los cambios',
+            'celular' => 'Debe digitar el celular para poder guardar los cambios'
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Si no es actualización consultamos si existe
+        if (!$id) {
+            $existeRegistro = Codeudor::ConsultarPorCliCedNomApe(
+                $request,
+                $idCliente,
+                $request->get('cedula'),
+                $request->get('nombres'),
+                $request->get('apellidos')
+            );
+        }
+        else {
+            $existeRegistro[] = Codeudor::find($id);
+        }
+
+        #3. Que no se encuentre ningun error
+        if (!is_null($existeRegistro)) {
+
+            #3.1. Si existe, no esta eliminado y no es una actualización
+            if (!$id && $existeRegistro->count() && $existeRegistro[0]->estado > -1) {
+                return response()->json(self::$hs->jsonExiste);
+            }
+            #3.2. Esta eliminado o es una actualizacion lo vuelve a activar y actualiza todos sus datos
+            elseif ($id || $existeRegistro->count() && $existeRegistro[0]->estado < 0) {
+
+                $clase = $this->insertarCampos(Codeudor::find($existeRegistro[0]->id), $request);
+
+                self::$transaccion[0] = $request;
+                self::$transaccion[2] = 'actualizar';
+
+                return self::$hs->ejecutarSave(
+                    $clase,
+                    $id ? self::$hs->mensajeActualizar : self::$hs->mensajeGuardar,
+                    self::$transaccion
+                );
+            }
+            #3.3. Si no existe entonces se crea
+            else {
+
+                $clase = $this->insertarCampos(new Codeudor(), $request);
+
+                self::$transaccion[0] = $request;
+                self::$transaccion[2] = 'crear';
+
+                return self::$hs->ejecutarSave($clase, self::$hs->mensajeGuardar, self::$transaccion);
+            }
+        }
+        else {
+            return response()->json(self::$hs->jsonError);
+        }
     }
 
 
     /**
-     * @autor Jeremy Reyes B.
-     * @version 1.0
-     * @date 2017-10-23 - 10:57 am
-     * @see 1. HerramientaStidsController::verificationDatas.
-     *      2. HerramientaStidsController::ejecutarSave.
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 08:29 PM
      *
-     * Guardamos un codeudor.
+     * Insertar campos.
      *
-     * @param array $request: Peticiones realizadas.
+     * @param object  $clase:   Clase a llenar.
+     * @param request $request: Peticiones realizadas.
      *
-     * @return json: Resultado de guardar
+     * @return object
      */
-    public function Guardar(Request $request)
-    {
-        $result = HerramientaStidsController::verificationDatas(
-            $request,
-            array(
-                'cedula'            => 'Debe digitar la cedula para continuar',
-                'fecha_expedicion'  => 'Debe digitar la fecha de expedición para continuar',
-                'nombres'           => 'Debe digitar los nombres para continuar',
-                'apellidos'         => 'Debe digitar los apellidos para continuar',
-                'direccion'         => 'Debe digitar la dirección para continuar',
-            )
-        );
+    private function insertarCampos($clase,$request) {
 
+        $clase->id_cliente          = $request->get('id_cliente');
+        $clase->cedula              = $request->get('cedula');
+        $clase->fecha_expedicion    = $request->get('fecha_expedicion');
+        $clase->nombres             = $request->get('nombres');
+        $clase->apellidos           = $request->get('apellidos');
+        $clase->direccion           = $request->get('direccion');
+        $clase->telefono            = $request->get('telefono');
+        $clase->celular             = $request->get('celular');
+        $clase->estado              = 1;
 
-        if ($result) {return $result;}
-
-
-        $transaccion    = [$request,31,'crear','p_codeudor'];
-        $message        = ['Se guardó correctamente','Se encontraron problemas al guardar'];
-
-
-        $codeudor = new Codeudor();
-
-        $codeudor->id_cliente       = trim($request->get('id_cliente'));
-        $codeudor->cedula           = trim($request->get('cedula'));
-        $codeudor->fecha_expedicion = trim($request->get('fecha_expedicion'));
-        $codeudor->nombres          = trim($request->get('nombres'));
-        $codeudor->apellidos        = trim($request->get('apellidos'));
-        $codeudor->direccion        = trim($request->get('direccion'));
-        $codeudor->telefono         = trim($request->get('telefono'));
-        $codeudor->celular          = trim($request->get('celular'));
-
-        return HerramientaStidsController::ejecutarSave($codeudor,$message,$transaccion);
+        return $clase;
     }
 
 
-    /**
-     * @autor Jeremy Reyes B.
-     * @version 1.0
-     * @date 2017-10-23 - 10:57 am
-     * @see 1. HerramientaStidsController::verificationDatas.
-     *      2. HerramientaStidsController::ejecutarSave.
-     *
-     * Actualizamos un codeudor.
-     *
-     * @param array $request: Peticiones realizadas.
-     *
-     * @return json: Resultado de actualizar
-     */
-    public function Actualizar(Request $request)
-    {
-        $result = HerramientaStidsController::verificationDatas(
-            $request,
-            array(
-                'cedula'            => 'Debe digitar la cedula para continuar',
-                'fecha_expedicion'  => 'Debe digitar la cedula para continuar',
-                'nombres'           => 'Debe digitar la cedula para continuar',
-                'apellidos'         => 'Debe digitar la cedula para continuar',
-                'direccion'         => 'Debe digitar la cedula para continuar',
-            )
-        );
-
-
-        if ($result) {return $result;}
-
-
-        $transaccion    = [$request,31,'actualizar','p_codeudor'];
-        $message        = ['Se actualizó correctamente','Se encontraron problemas al actualizar'];
-
-
-        $codeudor = Codeudor::Find((int)trim($request->get('id')));
-
-        $codeudor->id_cliente       = trim($request->get('id_cliente'));
-        $codeudor->cedula           = trim($request->get('cedula'));
-        $codeudor->fecha_expedicion = trim($request->get('fecha_expedicion'));
-        $codeudor->nombres          = trim($request->get('nombres'));
-        $codeudor->apellidos        = trim($request->get('apellidos'));
-        $codeudor->direccion        = trim($request->get('direccion'));
-        $codeudor->telefono         = trim($request->get('telefono'));
-        $codeudor->celular          = trim($request->get('celular'));
-
-        return HerramientaStidsController::ejecutarSave($codeudor,$message,$transaccion);
-    }
-
-
-    /**
-     * @autor Jeremy Reyes B.
-     * @version 1.0
-     * @date 2017-10-23 - 3:23 PM
-     * @see 1. Codeudor::eliminarPorId.
-     *
-     * Eliminamos un codeudor.
-     *
-     * @param array $request: Peticiones realizadas.
-     *
-     * @return json: Resultado de eliminar
-     */
-    public function Eliminar($request)
-    {
-        return Codeudor::eliminarPorId($request,$request->get('id'));
-    }
 }
