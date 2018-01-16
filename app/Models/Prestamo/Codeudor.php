@@ -13,6 +13,58 @@ class Codeudor extends Model
     public $timestamps = false;
     protected $table = "p_codeudor";
 
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Codeudor';
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 07:55 PM
+     *
+     * Consultar todos con paginación
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     * @param integer   $idCliente:   ID cliente.
+     *
+     * @return object
+     */
+    public static function consultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idCliente)
+    {
+        try {
+            $currentPage = $pagina;
+
+            // Fuerza a estar en la pagina
+            Paginator::currentPageResolver(function () use ($currentPage) {
+                return $currentPage;
+            });
+
+            return Codeudor::whereRaw(
+                    "
+                    ( 
+                        cedula like '%$buscar%'
+                        OR nombres like '%$buscar%'
+                        OR apellidos like '%$buscar%'
+                        OR direccion like '%$buscar%'
+                        OR telefono like '%$buscar%'
+                        OR celular like '%$buscar%'
+                    )
+                "
+                )
+                ->where('estado', '1')
+                ->where('id_cliente', $idCliente)
+                ->orderBy('nombres')
+                ->orderBy('apellidos')
+                ->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO, self::MODELO, 'consultarTodo', $e, $request);
+        }
+    }
+
 
     /**
      * @autor: Jeremy Reyes B.

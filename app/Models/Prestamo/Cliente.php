@@ -14,7 +14,7 @@ class Cliente extends Model
     protected $table = "p_cliente";
 
     const MODULO = 'Parametrizacion';
-    const MODELO = 'Banco';
+    const MODELO = 'Cliente';
 
 
     /**

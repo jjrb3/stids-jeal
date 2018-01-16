@@ -224,3 +224,10 @@
 .ml-none {
     margin-left: 0px!important;
 }
+
+/* Modal */
+.modal-header {
+    background-color: #2f4050;
+    color: #fff;
+}
+

@@ -9,23 +9,43 @@ use Illuminate\Http\Request;
 use App\Models\Prestamo\Codeudor;
 
 
-class CodeudorController extends Controller{
+class CodeudorController extends Controller
+{
+    public static $hs;
+    public static $transaccion;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
+        self::$transaccion = ['', 31, '', 'p_cliente'];
+    }
 
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
-     * @date: 2017-10-23 - 10:10 AM
-     * @see: 1. Codeudor::consultarPorIdCliente.
+     * @date: 2018-01-13 - 07:59 PM
+     * @see: 1. Codeudor::consultarTodo.
      *
-     * Consulta el listado de codeudores por el cliente
+     * Consultar
      *
      * @param request $request: Peticiones realizadas.
      *
-     * @return json: Codeudor
+     * @return object
      */
-    public static function ConsultarPorIdCliente(Request $request) {
+    public static function ConsultarPorClientePaginado(Request $request) {
 
-        return response()->json(Codeudor::consultarPorIdCliente($request->get('id')));
+        $objeto = Codeudor::consultarTodo(
+            $request,
+            $request->get('buscador'),
+            $request->get('pagina'),
+            $request->get('tamanhio'),
+            $request->get('id_cliente')
+        );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
 

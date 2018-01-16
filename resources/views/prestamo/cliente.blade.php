@@ -6,7 +6,7 @@
     <input type="hidden" id="idPadre" value="{{$idPadre}}">
     <input type="hidden" id="idHijo" value="{{$idHijo}}">
 
-    <div class="row  border-bottom white-bg dashboard-header">
+    <div class="row border-bottom white-bg dashboard-header">
         <div class="col-sm-8">
             <h2 style="font-weight: 500;">{{$menuAdministrador['menu'][$idPadre]['submenu'][$idHijo]['nombre']}}</h2>
             <small>{{$menuAdministrador['menu'][$idPadre]['submenu'][$idHijo]['descripcion']}}</small>
@@ -312,7 +312,6 @@
                             <div class="ibox-content inspinia-timeline" style="display: block;">
                                 <div class="timeline-item">
                                     <div class="row">
-                                        <div class="col-lg-12" id="cliente-mensaje"></div>
                                         <div class="col-lg-12" id="cliente-tabla"></div>
                                     </div>
                                 </div>       
@@ -323,107 +322,79 @@
             </div>
         </div>
     </div>
-    <!-- Fin contenido de la pagina -->
+
 
     <!-- Modals -->
     <!-- Detalle y codeudores -->
-    <div id="modal-detalle" class="modal fade" aria-hidden="true">
+    <div id="modal-codeudor" class="modal fade" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class="modal-title">&nbsp;Detalle del cliente <span id="nombre-cliente"></span></h3>
+                    <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                    <h3 class="modal-title">&nbsp;Codeudores de <span id="nombre-completo"></span></h3>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body gray-bg">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <strong>Identificación. </strong>
-                            <span id="identificacion"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Dirección. </strong>
-                            <span id="direccion"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Teléfono. </strong>
-                            <span id="telefono"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Celular. </strong>
-                            <span id="celular"></span>&nbsp;
-                        </div>&nbsp;&nbsp;&nbsp;
-
-                        <!-- Formulario de codeudores -->
-                        <br>
-                        <br>
-                        <h3 class="modal-title" align="center">Crear codeudor</h3>
-                        <br>
-                        <form id="form-codeudores">
-                            <div class="form-group col-lg-3">
-                                <label>Cedula:</label>
-                                <input type="text" class="form-control" id="cedula" name="cedula" required>
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label>Fecha de expedición:</label>
-                                <input type="date" class="form-control" id="fecha_expedicion" name="fecha_expedicion" required>
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label>Nombres:</label>
-                                <input type="text" class="form-control" id="nombres" name="nombres" required>
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label>Apellidos:</label>
-                                <input type="text" class="form-control" id="apellidos" name="apellidos" required>
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label>Dirección:</label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" required>
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label>Teléfono:</label>
-                                <input type="text" class="form-control" id="telefono" name="telefono">
-                            </div>
-                            <div class="form-group col-lg-3">
-                                <label>Celular:</label>
-                                <input type="text" class="form-control" id="celular" name="celular">
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <button id="btn-cancelar" class="btn btn-default " type="button" onclick="Api.Cliente.cancelarEditarCodeudor('#form-codeudores')" style="display: none">
-                                    <i class="fa fa-times"></i>
-                                    Cancelar
-                                </button>
-                                <button class="btn btn-primary btn-guardar" type="button" onclick="Api.Codeudor.agregar('#form-codeudores ','modal-detalle #mensaje')" style="display: none">
-                                    <i class="fa fa-floppy-o"></i>&nbsp;
-                                    Guardar
-                                </button>
-                            </div>
-                            <input type="hidden" id="id_cliente" name="id_cliente">
-                        </form>
-                        <!-- Fin formulario de codeudores -->
-
-                        <!-- Listado de codeudores -->
-                        <div class="col-lg-12">
-                            <div id="mensaje-crud"></div>
-                            <div id="mensaje"></div>
-                            <br>
-                            <h3 class="modal-title" align="center">Listado de Codeudores</h3>
-                            <br>
-                            <div class="table-responsive" id="tabla-codeudores">
-                                <table class="table table-bordered table-hover table-striped tablesorter">
-                                    <thead>
-                                    <tr>
-                                        <th>Cedula</th>
-                                        <th>Fecha de expedición</th>
-                                        <th>Nombres</th>
-                                        <th>Apellidos</th>
-                                        <th>Dirección</th>
-                                        <th>Teléfono</th>
-                                        <th>Celular</th>
-                                        <th>Opciones</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        <div id="pestanhia-cliente" class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#lista">Listado</a></li>
+                                <li class=""><a data-toggle="tab" href="#crear-actualizar">Crear o Actualizar</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="lista" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-12" id="codeudor-tabla"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="crear-actualizar" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <form id="form-codeudores">
+                                                <div class="form-group col-lg-3">
+                                                    <label>Cedula:</label>
+                                                    <input type="text" class="form-control" id="cedula" name="cedula" required>
+                                                </div>
+                                                <div class="form-group col-lg-3">
+                                                    <label>Fecha de expedición:</label>
+                                                    <input type="date" class="form-control" id="fecha_expedicion" name="fecha_expedicion" required>
+                                                </div>
+                                                <div class="form-group col-lg-3">
+                                                    <label>Nombres:</label>
+                                                    <input type="text" class="form-control" id="nombres" name="nombres" required>
+                                                </div>
+                                                <div class="form-group col-lg-3">
+                                                    <label>Apellidos:</label>
+                                                    <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                                                </div>
+                                                <div class="form-group col-lg-3">
+                                                    <label>Dirección:</label>
+                                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                                </div>
+                                                <div class="form-group col-lg-3">
+                                                    <label>Teléfono:</label>
+                                                    <input type="text" class="form-control" id="telefono" name="telefono">
+                                                </div>
+                                                <div class="form-group col-lg-3">
+                                                    <label>Celular:</label>
+                                                    <input type="text" class="form-control" id="celular" name="celular">
+                                                </div>
+                                                <div class="form-group col-lg-6">
+                                                    <button id="btn-cancelar" class="btn btn-default " type="button" onclick="Api.Cliente.cancelarEditarCodeudor('#form-codeudores')" style="display: none">
+                                                        <i class="fa fa-times"></i>
+                                                        Cancelar
+                                                    </button>
+                                                    <button class="btn btn-primary btn-guardar" type="button" onclick="Api.Codeudor.agregar('#form-codeudores ','modal-detalle #mensaje')" style="display: none">
+                                                        <i class="fa fa-floppy-o"></i>&nbsp;
+                                                        Guardar
+                                                    </button>
+                                                </div>
+                                                <input type="hidden" id="id_cliente" name="id_cliente">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -442,5 +413,6 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Cliente.constructor();
+        Api.Codeudor.constructor(7,{"nombres":"Alvaro","apellidos":"Perez"});
     </script>
 @endsection
