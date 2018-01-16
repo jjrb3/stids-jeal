@@ -13,7 +13,27 @@ class Prestamo extends Model
     public $timestamps = false;
     protected $table = "p_prestamo";
 
-    public static function consultarTodo($request,$buscar,$pagina,$tamanhioPagina) {
+
+    const MODULO = 'Parametrizacion';
+    const MODELO = 'Prestamo';
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 12:07 PM
+     *
+     * Consultar todos con paginación
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     * @param integer   $idEmpresa:   ID empresa.
+     *
+     * @return object
+     */
+    public static function ConsultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idEmpresa) {
         try {
             $currentPage = $pagina;
 
@@ -24,6 +44,7 @@ class Prestamo extends Model
 
             return Prestamo::select(
                 DB::raw("CONCAT(p_cliente.nombres,' ',p_cliente.apellidos) as cliente"),
+                'p_prestamo.no_prestamo AS no',
                 'p_cliente.identificacion',
                 'p_forma_pago.descripcion AS forma_pago',
                 'p_estado_pago.descripcion AS estado_pago',
@@ -34,25 +55,31 @@ class Prestamo extends Model
                 ->join('p_forma_pago','p_prestamo.id_forma_pago','=','p_forma_pago.id')
                 ->join('p_estado_pago','p_prestamo.id_estado_pago','=','p_estado_pago.id')
                 ->join('p_tipo_prestamo','p_prestamo.id_tipo_prestamo','=','p_tipo_prestamo.id')
-                ->whereRaw(
-                    "( p_cliente.identificacion like '%$buscar%'
-                    OR p_cliente.nombres like '%$buscar%'
-                    OR p_cliente.apellidos like '%$buscar%'
-                    OR p_forma_pago.descripcion like '%$buscar%'
-                    OR p_estado_pago.descripcion like '%$buscar%'
-                    OR p_tipo_prestamo.descripcion like '%$buscar%'
-                    OR p_prestamo.no_prestamo like '%$buscar%'
-                    OR p_prestamo.monto_requerido like '%$buscar%'
-                    OR p_prestamo.total_intereses like '%$buscar%'
-                    OR p_prestamo.fecha_pago_inicial like '%$buscar%')")
-                    ->where('p_prestamo.estado',1)
-                    ->where('p_prestamo.id_empresa',$request->session()->get('idEmpresa'))
-                    ->where('p_prestamo.id_estado_pago','<>',3)
-                    ->orderBy('p_prestamo.id','desc')
-                    ->paginate($tamanhioPagina);
 
-        } catch (Exception $e) {
-            return array();
+                ->whereRaw(
+                    "( 
+                        p_cliente.identificacion like '%$buscar%'
+                        OR p_cliente.nombres like '%$buscar%'
+                        OR p_cliente.apellidos like '%$buscar%'
+                        OR p_forma_pago.descripcion like '%$buscar%'
+                        OR p_estado_pago.descripcion like '%$buscar%'
+                        OR p_tipo_prestamo.descripcion like '%$buscar%'
+                        OR p_prestamo.no_prestamo like '%$buscar%'
+                        OR p_prestamo.monto_requerido like '%$buscar%'
+                        OR p_prestamo.total_intereses like '%$buscar%'
+                        OR p_prestamo.fecha_pago_inicial like '%$buscar%'
+                    )"
+                )
+                    ->where('p_prestamo.estado',1)
+                    ->where('p_prestamo.id_empresa',$idEmpresa)
+                    ->where('p_prestamo.id_estado_pago','<>',3)
+                    ->orderBy('estado','desc')
+                    ->orderBy('p_prestamo.id','desc')
+                    ->paginate($tamanhio);
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'consultarTodo', $e, $request);
         }
     }
 

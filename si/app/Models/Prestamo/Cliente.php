@@ -32,7 +32,7 @@ class Cliente extends Model
      *
      * @return object
      */
-    public static function consultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idEmpresa) {
+    public static function ConsultarTodo($request, $buscar = null, $pagina = 1, $tamanhio = 10, $idEmpresa) {
         try {
             $currentPage = $pagina;
 

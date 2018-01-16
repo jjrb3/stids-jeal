@@ -71,141 +71,97 @@
                             </div>
                             <div class="ibox-content inspinia-timeline" style="display: block;">
                                 <div class="timeline-item">
-                                    <div class="row">
-                                        <div id="mensajeGuardar"></div>
-                                    </div>
-                                        <form id="formulario" class="formulario-prestamo">
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <div class="form-group">
-                                                        <label>Clientes</label>
-                                                        <div>
-                                                            <select id="id_cliente" name="id_cliente" class="form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="form-group">
-                                                        <label>Tipo prestamo</label>
-                                                        <div>
-                                                            <select id="id_tipo_prestamo" name="id_tipo_prestamo" class="form-control m-b" required></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1" style="display:none">
-                                                    <div class="form-group">
-                                                        <label>Mora %</label>
-                                                        <div>
-                                                            <div class="input-group">
-                                                                <input id="mora" type="text" class="form-control m-b simple-field-data-mask" data-mask="00.0" data-mask-reverse="true" name="mora" value="0" placeholder="00.0" required>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                    <form id="formulario-prestamo">
+                                        <div class="row">
+                                            <div class="col-lg-6 form-group">
+                                                <label>Clientes.</label>
+                                                <select id="id-cliente" class="form-control m-b chosen-select"></select>
+                                            </div>
+                                            <div class="col-lg-3 form-group">
+                                                <label>Tipo prestamo.</label>
+                                                <select id="id-tipo-prestamo" class="form-control m-b chosen-select"></select>
+                                            </div>
+                                            <div class="col-lg-3 form-group">
+                                                <label>Fecha del pago inicial.</label>
+                                                <div class="input-group">
+                                                    <input id="fecha-pago-inicial" type="text" class="form-control m-b datepicker" maxlength="10" placeholder="Seleccione una fecha">
+                                                    <span class="input-group-addon icono-calendario"><i class="fa fa-calendar"></i></span>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-lg-2">
-                                                    <div class="form-group">
-                                                        <label>Monto solicitado</label>
-                                                        <div class="input-group">
-                                                            <span class="input-group-addon" id="basic-addon1">$</span>
-                                                            <input id="monto_solicitado" type="text" class="form-control m-b" placeholder="000,000,000" required>
-                                                            <input id="monto_requerido" name="monto_requerido" type="hidden">
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-2">
+                                                <label>Monto solicitado.</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon" id="basic-addon1">$</span>
+                                                    <input id="monto-requerido" type="text" class="form-control formato-moneda" placeholder="000,000,000">
                                                 </div>
-                                                <div class="col-lg-1">
-                                                    <div class="form-group">
-                                                        <label>Intereses</label>
-                                                        <div class="input-group">
-                                                            <input id="intereses" type="text" class="form-control m-b simple-field-data-mask" data-mask="00.0" data-mask-reverse="true" name="interes" placeholder="00.0" required>
-                                                        </div>
-                                                    </div>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <label>Intereses</label>
+                                                <div class="input-group">
+                                                    <input id="intereses" type="text" class="form-control m-b formato-porcentaje" placeholder="00.0">
                                                 </div>
-                                                <div class="col-lg-3">
-                                                    <div class="form-group">
-                                                        <label>Forma de pago</label>
-                                                        <select id="id_forma_pago" name="id_forma_pago" class="form-control m-b" required></select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1">
-                                                    <div class="form-group">
-                                                        <label>Cuotas</label>
-                                                        <div class="input-group">
-                                                            <input id="no_cuotas" type="text" class="form-control m-b simple-field-data-mask" data-mask="000" placeholder="0" name="no_cuotas" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1">
-                                                    <div class="form-group" align="center">
-                                                        <label>Total %</label>
-                                                        <div id="total-intereses" style="line-height: 30px;">
-                                                            $0
-                                                        </div>
-                                                        <input type="hidden" name="total_intereses" id="total_intereses">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-1">
-                                                    <div class="form-group" align="center">
-                                                        <label>Total</label>
-                                                        <div id="total-general" style="line-height: 30px;">
-                                                            $0
-                                                        </div>
-                                                        <input type="hidden" name="total" id="total">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <div class="form-group">
-                                                        <label>Fecha del pago inicial</label>
-                                                        <div class="input-group">
-                                                            <input id="fecha_pago_inicial" type="date" class="form-control m-b " name="fecha_pago_inicial" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <label>Forma de pago.</label>
+                                                <select id="id-forma-pago" class="form-control m-b chosen-select"></select>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <label>Cuotas.</label>
+                                                <input id="no-cuotas" type="text" class="form-control m-b" maxlength="2">
+                                            </div>
+                                            <div class="col-lg-2 centrado">
+                                                <label>Total Intereses.</label>
+                                                <div id="total-intereses" style="line-height: 30px;">$0</div>
+                                            </div>
+                                            <div class="col-lg-2 centrado">
+                                                <label>Total.</label>
+                                                <div id="total-general" style="line-height: 30px;">$0</div>
+                                            </div>
 
-                                                <div class="col-lg-12" id="divGuardar">
-                                                    <button id="botonSimular" class="btn btn-success " type="button">
-                                                        <i class="fa fa-list-alt"></i>&nbsp;
-                                                        Simular prestamo
-                                                    </button>
-                                                    <button id="botonGuardar" class="btn btn-primary " type="button" onClick="guardar(false,'')" style="display:none;">
+                                            <div class="col-lg-12">
+                                                <button id="btn-simular" class="btn btn-success" type="button" onclick="Api.Prestamo.simularPrestamo()">
+                                                    <i class="fa fa-list-alt"></i>&nbsp;
+                                                    Simular prestamo
+                                                </button>
+                                                @if($op->guardar)
+                                                    <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Prestamo.crearActualizar()">
                                                         <i class="fa fa-floppy-o"></i>&nbsp;
                                                         Crear prestamo
                                                     </button>
-                                                    <button id="botonCancelar" class="btn btn-default " type="button" onclick="cancelarGuardar('formulario')" style="display:none;">
-                                                        <i class="fa fa-times"></i>
-                                                        Cancelar
-                                                    </button>
-                                                    <button id="botonActualizar" class="btn btn-primary " type="button" onClick="guardar(false,'')" style="display:none;">
-                                                        <i class="fa fa-floppy-o"></i>&nbsp;
-                                                        Actualizar
-                                                    </button>
-                                                </div>
+                                                @endif
                                             </div>
-                                        </form>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                
+
+
                     <div class="col-lg-12">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Lista de prestamos</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline" style="display: block;">
-                                <div class="timeline-item">
-                                    <div class="row" id="tabla-prestamo">
-                                        <div id="mensajeTabla"></div>
-                                        <div id='tabla'></div>   
-                                        <div id='paginacion'></div>                                        
+                        <form id="formulario-cliente"></form>
+                        <div id="pestanhia-cliente" class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#lista-prestamos">Lista de prestamos</a></li>
+                                <li class=""><a data-toggle="tab" href="#detalle-prestamos">Detalle del prestamo</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="lista-prestamos" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-12" id="prestamo-tabla"></div>
+                                        </div>
                                     </div>
-                                </div>       
+                                </div>
+                                <div id="detalle-prestamos" class="tab-pane">
+                                    <div class="panel-body">
+                                        <div class="row">
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -392,6 +348,7 @@
             </div>
         </div>
     </div>
+    <br>
     <!-- Fin contenido de la pagina -->
 
     <!-- Modals -->
@@ -714,12 +671,12 @@
 @section('script')
     <script type="text/javascript" src="{{asset('js/si/prestamo/calculos.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo.js')}}"></script>
+    <!--<script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle-pago.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/si/prestamo/prestamosPagos.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/prestamo/prestamosPagos.js')}}"></script>-->
+
     <script>
-        llenarInputsGuardar();
-        listado();
-        _verificarPermisos();
+        Api.permisos = [{{$permisos}}];
+        Api.Prestamo.constructor();
     </script>
 @endsection

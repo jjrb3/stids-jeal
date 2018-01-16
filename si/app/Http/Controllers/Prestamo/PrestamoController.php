@@ -14,26 +14,43 @@ use App\Models\Parametrizacion\Empresa;
 
 class PrestamoController extends Controller
 {
+    public static $hs;
+    public static $transaccion;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
+        self::$transaccion = ['', 31, '', 'p_cliente'];
+    }
+
     /**
      * @autor Jeremy Reyes B.
-     * @version 1.0
-     * @date 2017-10-08 - 09:54 am
+     * @version 2.0
+     * @date_create 2017-10-08 - 09:54 AM
+     * @date_modify 2018-01-18 - 04-31 PM <Jeremy Reyes B.>
      * @see 1. Prestamo::consultarTodo.
+     *      2. self::$hs->jsonError.
      *
      * Consultamos todos los datos activos del prestamo
      *
      * @param array $request: Peticiones realizadas.
      *
-     * @return json
+     * @return object
      */
     public static function Consultar(Request $request) {
 
-        return Prestamo::consultarTodo(
+        $objeto = Prestamo::ConsultarTodo(
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
-            $request->get('tamanhioPagina')
+            $request->get('tamanhio'),
+            $request->session()->get('idEmpresa')
         );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
 

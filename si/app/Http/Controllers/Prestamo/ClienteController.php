@@ -53,7 +53,7 @@ class ClienteController extends Controller
      */
     public static function Consultar(Request $request) {
 
-        $objeto = Cliente::consultarTodo(
+        $objeto = Cliente::ConsultarTodo(
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
