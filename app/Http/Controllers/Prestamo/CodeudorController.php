@@ -165,4 +165,28 @@ class CodeudorController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 08:45 PM
+     * @see: 1. Codeudor::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Eliminar($request)
+    {
+        $clase = Codeudor::Find((int)$request->get('id'));
+
+        $clase->estado = -1;
+
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'eliminar';
+
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEliminar,self::$transaccion);
+    }
 }
