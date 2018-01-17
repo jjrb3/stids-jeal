@@ -77,9 +77,9 @@
                                                 <label>Clientes.</label>
                                                 <select id="id-cliente" class="form-control m-b chosen-select"></select>
                                             </div>
-                                            <div class="col-lg-3 form-group">
-                                                <label>Tipo prestamo.</label>
-                                                <select id="id-tipo-prestamo" class="form-control m-b chosen-select"></select>
+                                            <div class="col-lg-3">
+                                                <label>Forma de pago.</label>
+                                                <select id="id-forma-pago" class="form-control m-b chosen-select"></select>
                                             </div>
                                             <div class="col-lg-3 form-group">
                                                 <label>Fecha del pago inicial.</label>
@@ -90,26 +90,26 @@
                                             </div>
                                         </div>
                                         <div class="row">
+                                            <div class="col-lg-3 form-group">
+                                                <label>Tipo prestamo.</label>
+                                                <select id="id-tipo-prestamo" class="form-control m-b chosen-select" onchange="Api.Prestamo.calcularPrestamo()"></select>
+                                            </div>
                                             <div class="col-lg-2">
                                                 <label>Monto solicitado.</label>
                                                 <div class="input-group">
                                                     <span class="input-group-addon" id="basic-addon1">$</span>
-                                                    <input id="monto-requerido" type="text" class="form-control formato-moneda" placeholder="000,000,000">
+                                                    <input id="monto-requerido" type="text" class="form-control formato-moneda" placeholder="000,000,000" onkeyup="Api.Prestamo.calcularPrestamo()">
                                                 </div>
                                             </div>
                                             <div class="col-lg-1">
-                                                <label>Intereses</label>
+                                                <label>Interes.</label>
                                                 <div class="input-group">
-                                                    <input id="intereses" type="text" class="form-control m-b formato-porcentaje" placeholder="00.0">
+                                                    <input id="intereses" type="text" class="form-control m-b formato-porcentaje" placeholder="00.0" onkeyup="Api.Prestamo.calcularPrestamo()">
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <label>Forma de pago.</label>
-                                                <select id="id-forma-pago" class="form-control m-b chosen-select"></select>
                                             </div>
                                             <div class="col-lg-1">
                                                 <label>Cuotas.</label>
-                                                <input id="no-cuotas" type="text" class="form-control m-b" maxlength="2" placeholder="00">
+                                                <input id="no-cuotas" type="text" class="form-control m-b centrado" maxlength="2" placeholder="00" onkeyup="Api.Prestamo.calcularPrestamo()">
                                             </div>
                                             <div class="col-lg-2 centrado">
                                                 <label>Total Intereses.</label>
@@ -353,76 +353,84 @@
 
     <!-- Modals -->
     <!-- Simular credito -->
-    <div id="modal-simular-credito" class="modal fade" aria-hidden="true" style="display: none;">
+    <div id="modal-simular" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h3 class="modal-title">&nbsp;Simulador de prestamo</h3>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body gray-bg">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <strong>Cliente. </strong>
-                            <span id="simulacion-nombre-cliente"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Forma de pago. </strong>
-                            <span id="simulacion-forma-pago"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Tipo de prestamo. </strong>
-                            <span id="simulacion-tipo-prestamo"></span>
-                            <br>
-                            <strong>Monto. </strong>
-                            <span id="simulacion-monto"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Interes. </strong>
-                            <span id="simulacion-intereses"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>No. Cuotas. </strong>
-                            <span id="simulacion-cuotas"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Total interes. </strong>
-                            <span id="simulacion-total-interes"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Total general. </strong>
-                            <span id="simulacion-total-general"></span>
-
-                            <br>
-                            <button class="btn btn-info float-right" onclick="Api.Prestamo.descargarSimulacionPrestamo()">
-                                <i class="fa fa-cloud-download"></i>
-                                &nbsp;
-                                Descargar
-                            </button>
-                            <br>
-                            <br>
-                            <div class="table-responsive" id="tabla-simulacion-prestamo">
-                                <table class="table table-bordered table-hover table-striped tablesorter">
-                                    <thead>
-                                        <tr>
-                                            <th>No. Cuota</th>
-                                            <th>Fecha pago</th>
-                                            <th>Valor</th>
-                                            <th>Intereses</th>
-                                            <th>Total a pagar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                        <div class="col-lg-12 ibox-content">
+                            <div class="col-lg-4">
+                                <strong>Cliente. </strong>
+                                <span id="simulacion-nombre-cliente"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>Forma de pago. </strong>
+                                <span id="simulacion-forma-pago"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>Tipo de prestamo. </strong>
+                                <span id="simulacion-tipo-prestamo"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>Monto. </strong>
+                                <span id="simulacion-monto"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>Interes. </strong>
+                                <span id="simulacion-intereses"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>No. Cuotas. </strong>
+                                <span id="simulacion-cuotas"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>Total interes. </strong>
+                                <span id="simulacion-total-interes"></span>
+                            </div>
+                            <div class="col-lg-4">
+                                <strong>Total general. </strong>
+                                <span id="simulacion-total-general"></span>
                             </div>
 
-                            <form id="form-descargar-simulacion" method=POST action="pdf" target="_blank">
-                                {{ csrf_field() }}
-                                <input type="hidden" name="crud" value="true">
-                                <input type="hidden" name="controlador" value="Prestamo">
-                                <input type="hidden" name="carpetaControlador" value="Prestamo">
-                                <input type="hidden" name="funcionesVariables" value="DescargarSimulacion">
-                                <input type="hidden" id="encabezado" name="encabezado" value="">
-                                <input type="hidden" id="tabla" name="tabla" value="">
-                            </form>
-
+                            <div class="col-lg-12">
+                                <br>
+                                <form id="form-descargar-simulacion" method=POST action="pdf" target="_blank">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="crud" value="true">
+                                    <input type="hidden" name="controlador" value="Prestamo">
+                                    <input type="hidden" name="carpetaControlador" value="Reportes">
+                                    <input type="hidden" name="funcionesVariables" value="DescargarSimulacion">
+                                    <input type="hidden" id="encabezado" name="encabezado" value="">
+                                    <input type="hidden" id="tabla" name="tabla" value="">
+                                </form>
+                                <button class="btn btn-info float-right" onclick="Api.Prestamo.descargarSimulacion()">
+                                    <i class="fa fa-cloud-download"></i>
+                                    &nbsp;
+                                    Descargar
+                                </button>
+                                <br>
+                                <br>
+                                <div class="table-responsive" id="tabla-simulacion">
+                                    <table class="table table-bordered table-hover table-striped tablesorter">
+                                        <thead>
+                                            <tr>
+                                                <th class="centrado">Periodo</th>
+                                                <th class="centrado">Fecha pago</th>
+                                                <th class="centrado">Saldo inicial</th>
+                                                <th class="centrado">Cuota</th>
+                                                <th class="centrado">Interes</th>
+                                                <th class="centrado">Abono a capital</th>
+                                                <th class="centrado">Saldo final</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

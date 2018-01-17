@@ -163,14 +163,16 @@ class PrestamoController extends Controller
             $request->get('detalle'),
             $request,
             $request->get('id_cliente'),
-            $request->get('id_forma_pago'));
+            $request->get('id_forma_pago')
+        );
 
-        return response()->json(array(
+        return response()->json([
             'resultado'         => 1,
+            'titulo'            => 'Realizado',
             'mensaje'           => 'Se guardó correctamente',
             'prestamo'          => $rPrestamo->original,
             'prestamo_detalle'  => $rDetalle,
-        ));
+        ]);
     }
 
 
@@ -275,7 +277,7 @@ class PrestamoController extends Controller
 
         $idEmpresa = $request->session()->get('idEmpresa');
 
-        $clientes       = Cliente::ConsultarActivo($request, $idEmpresa);
+        $clientes       = Cliente::ConsultarCodigoNombreActivo($request, $idEmpresa);
         $tipoPrestamo   = TipoPrestamo::ConsultarActivo($request);
         $formaPago      = FormaPago::ConsultarActivo($request);
 
