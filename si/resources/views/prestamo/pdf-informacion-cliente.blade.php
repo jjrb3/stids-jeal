@@ -103,19 +103,14 @@
     @endif
     <div class="titulo">Información General</div>
     <div class="subtitulo">Información general del cliente y sus codeudores.</div>
-    <br>
-    <div class="texto">
-        <strong>Fecha:</strong> {{$fecha}}.
-        &nbsp;&nbsp;&nbsp;
-        <strong>Reporte generado por:</strong> {{$usuario_generador}}.
-    </div>
 </header>
 <footer>
     <table>
         <tr>
             <td>
                 <p class="izq">
-                    {{$nombre_empresa}}
+                    {{$nombre_empresa}} -
+                    <span class="generado">Generador por {{$usuario_generador}} {{date('Y-m-d H:i:s')}}</span>.
                 </p>
             </td>
             <td>

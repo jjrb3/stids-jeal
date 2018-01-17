@@ -104,21 +104,14 @@
     <img src="{{asset("recursos/imagenes/empresa_logo/$logo_empresa")}}" height="100" width="280" class="float-right">
     <div class="titulo">Listado de permisos</div>
     <div class="subtitulo">Información de todos los permisos que tiene una empresa. </div>
-    <br>
-    <div class="texto">
-        <strong>Empresa:</strong> {{$nombre_permiso_empresa}}.
-        &nbsp;&nbsp;&nbsp;
-        <strong>Fecha:</strong> {{$fecha}}.
-        &nbsp;&nbsp;&nbsp;
-        <strong>Reporte generado por:</strong> {{$usuario_generador}}.
-    </div>
 </header>
 <footer>
     <table>
         <tr>
             <td>
                 <p class="izq">
-                    {{$nombre_empresa}}
+                    {{$nombre_empresa}} -
+                    <span class="generado">Generador por {{$usuario_generador}} {{date('Y-m-d H:i:s')}}</span>.
                 </p>
             </td>
             <td>
