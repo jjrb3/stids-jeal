@@ -106,15 +106,28 @@ class Cliente extends Model
     }
 
 
-    public static function consultarActivo($request) {
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-17 - 10:26 AM
+     *
+     * Consultar activos por empresa
+     *
+     * @param request $request:     Peticiones realizadas.
+     * @param string  $idEmpresa:   ID empresa.
+     *
+     * @return object
+     */
+    public static function ConsultarActivo($request, $idEmpresa) {
         try {
             return Cliente::select(DB::raw("CONCAT(p_cliente.nombres,' ',p_cliente.apellidos) as nombre"),'p_cliente.*')
                 ->where('estado',1)
-                ->where('id_empresa',$request->session()->get('idEmpresa'))
-                ->get()
-                ->toArray();
-        } catch (Exception $e) {
-            return array();
+                ->where('id_empresa',$idEmpresa)
+                ->orderBy('nombre')
+                ->get();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarActivo', $e, $request);
         }
     }
 

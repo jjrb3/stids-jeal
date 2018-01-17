@@ -109,7 +109,7 @@
                                             </div>
                                             <div class="col-lg-1">
                                                 <label>Cuotas.</label>
-                                                <input id="no-cuotas" type="text" class="form-control m-b" maxlength="2">
+                                                <input id="no-cuotas" type="text" class="form-control m-b" maxlength="2" placeholder="00">
                                             </div>
                                             <div class="col-lg-2 centrado">
                                                 <label>Total Intereses.</label>

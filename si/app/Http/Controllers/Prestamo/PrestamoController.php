@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Prestamo;
 
 use App\Http\Controllers\HerramientaStidsController;
 
+use App\Models\Prestamo\Cliente;
+use App\Models\Prestamo\FormaPago;
 use App\Models\Prestamo\PrestamoDetalle;
+use App\Models\Prestamo\TipoPrestamo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -253,5 +256,33 @@ class PrestamoController extends Controller
 
         return $pdf->download('Simulación.pdf');
         //return $pdf->stream();
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-17 - 10:25 PM
+     * @see: 1. Modulo::ConsultarModulosActivos.
+     *
+     * Inicializa los parametros del formulario.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function InicializarFormulario(Request $request) {
+
+        $idEmpresa = $request->session()->get('idEmpresa');
+
+        $clientes       = Cliente::ConsultarActivo($request, $idEmpresa);
+        $tipoPrestamo   = TipoPrestamo::ConsultarActivo($request);
+        $formaPago      = FormaPago::ConsultarActivo($request);
+
+        return response()->json([
+            'clientes'      => $clientes,
+            'tipo_prestamo' => $tipoPrestamo,
+            'forma_pago'    => $formaPago
+        ]);
     }
 }

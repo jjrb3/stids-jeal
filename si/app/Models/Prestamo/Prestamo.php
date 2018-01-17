@@ -46,9 +46,9 @@ class Prestamo extends Model
                 DB::raw("CONCAT(p_cliente.nombres,' ',p_cliente.apellidos) as cliente"),
                 'p_prestamo.no_prestamo AS no',
                 'p_cliente.identificacion',
-                'p_forma_pago.descripcion AS forma_pago',
+                'p_forma_pago.nombre AS forma_pago',
                 'p_estado_pago.descripcion AS estado_pago',
-                'p_tipo_prestamo.descripcion AS tipo_prestamo',
+                'p_tipo_prestamo.nombre AS tipo_prestamo',
                 'p_prestamo.*'
             )
                 ->join('p_cliente','p_prestamo.id_cliente','=','p_cliente.id')
@@ -61,9 +61,9 @@ class Prestamo extends Model
                         p_cliente.identificacion like '%$buscar%'
                         OR p_cliente.nombres like '%$buscar%'
                         OR p_cliente.apellidos like '%$buscar%'
-                        OR p_forma_pago.descripcion like '%$buscar%'
+                        OR p_forma_pago.nombre like '%$buscar%'
                         OR p_estado_pago.descripcion like '%$buscar%'
-                        OR p_tipo_prestamo.descripcion like '%$buscar%'
+                        OR p_tipo_prestamo.nombre like '%$buscar%'
                         OR p_prestamo.no_prestamo like '%$buscar%'
                         OR p_prestamo.monto_requerido like '%$buscar%'
                         OR p_prestamo.total_intereses like '%$buscar%'
@@ -79,7 +79,7 @@ class Prestamo extends Model
 
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
-            return $hs->Log(self::MODULO,self::MODELO,'consultarTodo', $e, $request);
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTodo', $e, $request);
         }
     }
 

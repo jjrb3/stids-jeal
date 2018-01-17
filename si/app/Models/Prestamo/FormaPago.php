@@ -2,6 +2,7 @@
 
 namespace App\Models\Prestamo;
 
+use App\Http\Controllers\HerramientaStidsController;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -10,14 +11,29 @@ class FormaPago extends Model
     public $timestamps = false;
     protected $table = "p_forma_pago";
 
-    public static function consultarActivo() {
+    const MODULO = 'Prestamo';
+    const MODELO = 'FormaPago';
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-17 - 10:26 AM
+     *
+     * Consultar activos
+     *
+     * @param request $request:     Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarActivo($request) {
         try {
-            return FormaPago::select(DB::raw("p_forma_pago.descripcion AS nombre"),'p_forma_pago.*')
-                ->where('estado',1)
+            return FormaPago::where('estado',1)
                 ->get()
                 ->toArray();
-        } catch (Exception $e) {
-            return array();
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarActivo', $e, $request);
         }
     }
 }
