@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Prestamo;
 
+use App\Http\Controllers\HerramientaStidsController;
 use App\Models\Prestamo\Cliente;
 use App\Models\Prestamo\Codeudor;
 use Illuminate\Http\Request;
@@ -10,9 +11,8 @@ use Illuminate\Support\Facades\App;
 use App\Models\Parametrizacion\Empresa;
 use App\Models\Prestamo\Reportes;
 
-class ReportesController extends Controller{
-
-
+class ReportesController extends Controller
+{
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
@@ -231,5 +231,42 @@ class ReportesController extends Controller{
 
         //return $pdf->download('Reporte de recaudo diario.pdf');
         return $pdf->stream("Información de {$informacion[0]->nombres} {$informacion[0]->apellidos}.pdf");
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-08 - 10:50 AM
+     * @see: 1. Empresa::Find.
+     *       2. App::make.
+     *
+     * Descarga la simulación creada en el prestamo.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return pdf
+     */
+    public static function DescargarSimulacion(Request $request) {
+
+        $pdf     = App::make('dompdf.wrapper');
+
+        $empresa = Empresa::Find($request->session()->get('idEmpresa'));
+
+        $pdf->loadHTML(
+            View('prestamo.pdf-simulacion',[
+                'nombre_empresa'    => $empresa->nombre,
+                'logo_empresa'      => $empresa->imagen_logo,
+                'usuario_generador' => $request->session()->get('nombres'),
+                'encabezado'        => explode(';',$request->get('encabezado')),
+                'tabla'             => array_filter(explode('}',$request->get('tabla'))),
+                'meses'             => HerramientaStidsController::$nombreMeses
+            ])
+        )
+            ->setWarnings(false)
+            ->save('Simulación.pdf');
+
+        //return $pdf->download('Simulación.pdf');
+        return $pdf->stream('Simulación.pdf');
     }
 }

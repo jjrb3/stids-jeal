@@ -398,20 +398,22 @@
 
                             <div class="col-lg-12">
                                 <br>
-                                <form id="form-descargar-simulacion" method=POST action="pdf" target="_blank">
-                                    {{ csrf_field() }}
-                                    <input type="hidden" name="crud" value="true">
-                                    <input type="hidden" name="controlador" value="Prestamo">
-                                    <input type="hidden" name="carpetaControlador" value="Reportes">
-                                    <input type="hidden" name="funcionesVariables" value="DescargarSimulacion">
-                                    <input type="hidden" id="encabezado" name="encabezado" value="">
-                                    <input type="hidden" id="tabla" name="tabla" value="">
-                                </form>
-                                <button class="btn btn-info float-right" onclick="Api.Prestamo.descargarSimulacion()">
+                                @if($op->exportar)
+                                    <form id="formulario-exportar-simulacion" method=POST action="pdf" target="_blank">
+                                        {{ csrf_field() }}
+                                        <input type="hidden" name="crud" value="true">
+                                        <input type="hidden" name="controlador" value="Reportes">
+                                        <input type="hidden" name="carpetaControlador" value="Prestamo">
+                                        <input type="hidden" name="funcionesVariables" value="DescargarSimulacion">
+                                        <input type="hidden" id="encabezado" name="encabezado" value="">
+                                        <input type="hidden" id="tabla" name="tabla" value="">
+                                    </form>
+                                    <button class="btn btn-info float-right" onclick="Api.Prestamo.descargarSimulacion()">
                                     <i class="fa fa-cloud-download"></i>
                                     &nbsp;
                                     Descargar
                                 </button>
+                                @endif
                                 <br>
                                 <br>
                                 <div class="table-responsive" id="tabla-simulacion">

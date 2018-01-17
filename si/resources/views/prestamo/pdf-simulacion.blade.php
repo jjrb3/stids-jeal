@@ -99,7 +99,7 @@
     <div class="titulo">Simulación de Prestamo</div>
     <div class="subtitulo">
         Prestamo solicitado por el cliente <strong>{{$encabezado[0]}}</strong>
-        con fecha de inicio de pago el <strong>{{substr($encabezado[8],8,2)}}</strong> de <strong>{{$meses[substr($encabezado[8],5,2)]}}</strong> de <strong>{{substr($encabezado[8],0,4)}}</strong>.</div>
+        con fecha de inicio de pago el <strong>{{substr($encabezado[8],8,2)}}</strong> de <strong>{{$meses[(int)substr($encabezado[8],5,2)]}}</strong> de <strong>{{substr($encabezado[8],0,4)}}</strong>.</div>
     <br>
     <div class="texto">
         <strong>Tipo de Prestamo:</strong> {{$encabezado[1]}}.
@@ -135,12 +135,13 @@
     <table class="table table-bordered table-hover table-striped tablesorter" cellpadding="0" cellspacing="0">
         <thead>
         <tr>
-            <th>No. Cuota</th>
-            <th>Fecha de Pago</th>
-            <th>Capital</th>
-            <th>Amortizacion a Capital</th>
-            <th>Intereses</th>
-            <th>Total a Pagar</th>
+            <th>Periodo</th>
+            <th>Fecha pago</th>
+            <th>Saldo inicial</th>
+            <th>Cuota</th>
+            <th>Interes</th>
+            <th>Abono a capital</th>
+            <th>Saldo final</th>
         </tr>
         </thead>
         <tbody>
@@ -153,13 +154,15 @@
                     <td align="center">${{number_format($columna[3])}}</td>
                     <td align="center">${{number_format($columna[4])}}</td>
                     <td align="center">${{number_format($columna[5])}}</td>
+                    <td align="center">${{number_format($columna[6])}}</td>
                 </tr>
             @endforeach
         <tr>
             <td colspan="3" class="pie-tabla">Total</td>
-            <td align="center">${{number_format($encabezado[3])}}</td>
-            <td align="center">${{number_format($encabezado[6])}}</td>
             <td align="center">${{number_format($encabezado[7])}}</td>
+            <td align="center">${{number_format($encabezado[6])}}</td>
+            <td align="center">${{number_format($encabezado[3])}}</td>
+            <td class="pie-tabla">&nbsp;</td>
         </tr>
         </tbody>
     </table>
