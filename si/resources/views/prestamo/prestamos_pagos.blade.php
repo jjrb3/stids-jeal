@@ -126,7 +126,7 @@
                                                     Simular prestamo
                                                 </button>
                                                 @if($op->guardar)
-                                                    <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Prestamo.crearActualizar()">
+                                                    <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Prestamo.crear()">
                                                         <i class="fa fa-floppy-o"></i>&nbsp;
                                                         Crear prestamo
                                                     </button>
@@ -440,6 +440,7 @@
         </div>
     </div>
     <!-- Fin simular credito -->
+
     <!-- Refinanciación -->
     <div id="modal-refinanciacion" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">

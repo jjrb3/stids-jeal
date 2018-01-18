@@ -13,6 +13,19 @@ use App\Models\Prestamo\Prestamo;
 
 class PrestamoDetalleController extends Controller
 {
+    public static $hs;
+    public static $transaccion;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
+        self::$transaccion = ['', 32, '', 'p_prestamo_detalle'];
+    }
+
+
     public static function ConsultarPorPrestamo(Request $request) {
 
         return PrestamoDetalle::consultarPorPrestamo(
@@ -37,11 +50,26 @@ class PrestamoDetalleController extends Controller
     }
 
 
-    public static function guardarPorCadena($idPrestamo, $cadena, $request,$idCliente,$idFormaPago, $cuota = 0, $refinanciacion = 0) {
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-18 - 03:41 PM
+     *
+     * Guardar detalle del prestamo por cadena.
+     *
+     * @param request $request:         Peticiones realizadas.
+     * @param object  $idPrestamo:      ID del prestamo.
+     * @param request $cadena:          Cadena de listado de cuotas a guardar.
+     * @param request $idCliente:       ID del cliente.
+     * @param request $idFormaPago:     ID de la forma de pago.
+     * @param request $cuota:           Cuota.
+     * @param request $refinanciacion:  Numero de refinanciación.
+     *
+     * @return array
+     */
+    public function GuardarPorCadena($request, $idPrestamo, $cadena, $idCliente, $idFormaPago, $cuota = 0, $refinanciacion = 0) {
 
         $columnas    = array_filter(explode('}',$cadena));
-        $mensaje     = ['Se guardó correctamente','Se encontraron problemas al guardar'];
-        $transaccion = [$request,32,'crear','p_prestamo_detalle'];
         $jsonResult  = [];
 
 
@@ -58,14 +86,17 @@ class PrestamoDetalleController extends Controller
             $clase->id_estado_pago      = $refinanciacion > 0 ? 11 : 4;
             $clase->no_cuota            = $data[0] + $cuota;
             $clase->fecha_pago          = $data[1];
-            $clase->capital             = $data[2];
-            $clase->amortizacion        = $data[3];
+            $clase->saldo_inicial       = $data[2];
+            $clase->cuota               = $data[3];
             $clase->intereses           = $data[4];
-            $clase->total               = $data[5];
+            $clase->abono_capital       = $data[5];
+            $clase->saldo_final         = isset($data[6]) ? $data[6] : 0;
             $clase->no_refinanciacion   = $refinanciacion;
 
-            $jsonResult[] = HerramientaStidsController::ejecutarSave($clase,$mensaje,$transaccion);
+            self::$transaccion[0] = $request;
+            self::$transaccion[2] = 'crear';
 
+            $jsonResult[] = self::$hs->ejecutarSave($clase, self::$hs->mensajeGuardar, self::$transaccion)->original;
         }
 
         return $jsonResult;

@@ -26,7 +26,7 @@ class PrestamoController extends Controller
     public function __construct()
     {
         self::$hs = new HerramientaStidsController();
-        self::$transaccion = ['', 31, '', 'p_cliente'];
+        self::$transaccion = ['', 32, '', 'p_prestamo'];
     }
 
     /**
@@ -143,25 +143,64 @@ class PrestamoController extends Controller
     }
 
 
-    public function Guardar(Request $request)
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-13 - 12:45 PM
+     * @see: 1. self::$hs->verificationDatas.
+     *       2. $this->insertarCampos.
+     *       3. self::$hs->ejecutarSave.
+     *       4. PrestamoDetalleController::guardarPorCadena.
+     *
+     * Guarda la información
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function Crear(Request $request)
     {
-        if ($this->verificacion($request)) {
-            return $this->verificacion($request);
-        }
+        #1. Verificamos los datos enviados
 
+        #1.1. Datos obligatorios
+        $datos = [
+            'id_cliente'            => 'Debe seleccionar un cliente para poder guardar los cambios',
+            'id_tipo_prestamo'      => 'Debe seleccionar un tipo de prestamo para poder guardar los cambios',
+            'id_forma_pago'         => 'Debe seleccionar una forma de pago para poder guardar los cambios',
+            'fecha_pago_inicial'    => 'Debe digitar la fecha inicial del pago para poder guardar los cambios',
+            'monto'                 => 'Debe digitar el monto para poder guardar los cambios',
+            'interes'               => 'Debe digitar el interes para poder guardar los cambios',
+            'cuotas'                => 'Debe digitar el no. de cuotas para poder guardar los cambios',
+            'total_interes'         => 'Se encontraron problemas, realice nuevamente el calculo del interes para poder guardar los cambios',
+            'total_general'         => 'Se encontraron problemas, realice nuevamente el calculo del total para poder guardar los cambios'
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Llenamos el objeto con los datos a guardar
         $clase = $this->insertarCampos(new Prestamo(),$request);
 
         $clase->no_prestamo = HerramientaStidsController::cerosIzquierda(Prestamo::obtenerNoPrestamo($request));
 
-        $mensaje = ['Se guardó correctamente','Se encontraron problemas al guardar'];
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'crear';
 
-        $transaccion = [$request,32,'crear','p_prestamo'];
 
-        $rPrestamo  = json_decode(json_encode(HerramientaStidsController::ejecutarSave($clase,$mensaje,$transaccion)));
-        $rDetalle   = PrestamoDetalleController::guardarPorCadena(
-            $rPrestamo->original->id,
-            $request->get('detalle'),
+        #3. Guardamos los datos
+        $rPrestamo = self::$hs->ejecutarSave($clase, self::$hs->mensajeGuardar, self::$transaccion);
+
+
+        #4. Guardamos el detalle del prestamo
+        $prestamoDetalle = new PrestamoDetalleController();
+
+        $rDetalle = $prestamoDetalle->GuardarPorCadena(
             $request,
+            $rPrestamo->original['id'],
+            $request->get('cadena_cuotas'),
             $request->get('id_cliente'),
             $request->get('id_forma_pago')
         );
@@ -176,12 +215,18 @@ class PrestamoController extends Controller
     }
 
 
-    public function Eliminar($request)
-    {
-        return Prestamo::eliminarPorId($request,$request->get('id'));
-    }
-
-
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-18 - 03:08 PM
+     *
+     * Insertar campos.
+     *
+     * @param object  $clase:   Clase a llenar.
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     private function insertarCampos($clase,$request) {
 
         $clase->id_empresa          = $request->session()->get('idEmpresa');
@@ -189,38 +234,14 @@ class PrestamoController extends Controller
         $clase->id_forma_pago       = $request->get('id_forma_pago');
         $clase->id_estado_pago      = 4;
         $clase->id_tipo_prestamo    = $request->get('id_tipo_prestamo');
-        $clase->monto_requerido     = $request->get('monto_requerido');
+        $clase->monto_requerido     = $request->get('monto');
         $clase->intereses           = $request->get('interes');
-        //$clase->mora                = $request->get('mora');
-        $clase->no_cuotas           = $request->get('no_cuotas');
-        $clase->total_intereses     = $request->get('total_intereses');
-        $clase->total               = $request->get('total');
+        $clase->no_cuotas           = $request->get('cuotas');
+        $clase->total_intereses     = $request->get('total_interes');
+        $clase->total               = $request->get('total_general');
         $clase->fecha_pago_inicial  = $request->get('fecha_pago_inicial');
 
         return $clase;
-    }
-
-
-    public function verificacion($request){
-
-        $campos = array(
-            'id_cliente'         => 'Debe seleccionar el cliente para continuar',
-            //'mora'             => 'Debe digitar el porcentaje de mora para continuar',
-            'monto_requerido'    => 'Debe digitar el monto requerido para continuar',
-            'interes'            => 'Debe digitar el campo interes para continuar',
-            'id_forma_pago'      => 'Debe seleccionar la forma de pago para continuar',
-            'no_cuotas'          => 'Debe digitar el numero de cuotas para continuar',
-            'fecha_pago_inicial' => 'Debe digitar el campo fecha de pago inicial para continuar para continuar',
-        );
-
-        foreach ($campos as $campo => $mensaje) {
-
-            $resultado = HerramientaStidsController::verificacionCampos($request,$campo,$mensaje);
-
-            if ($resultado) {
-                return $resultado;
-            }
-        }
     }
 
 
