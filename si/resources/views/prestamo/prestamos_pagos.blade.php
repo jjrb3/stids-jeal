@@ -141,11 +141,10 @@
 
 
                     <div class="col-lg-12">
-                        <form id="formulario-cliente"></form>
-                        <div id="pestanhia-cliente" class="tabs-container">
+                        <div id="pestanhia-prestamo" class="tabs-container">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#lista-prestamos">Lista de prestamos</a></li>
-                                <li class=""><a data-toggle="tab" href="#detalle-prestamos">Detalle del prestamo</a></li>
+                                <li class=""><a data-toggle="tab" href="#detalle-prestamo">Detalle del prestamo</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="lista-prestamos" class="tab-pane active">
@@ -155,114 +154,67 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="detalle-prestamos" class="tab-pane">
+                                <div id="detalle-prestamo" class="tab-pane">
                                     <div class="panel-body">
                                         <div class="row">
-
+                                            <div id="informacion-prestamo-detalle" class="ocultar">
+                                                <div class="col-lg-4">
+                                                    <strong>No. Prestamo.</strong>
+                                                    <span id="detalle-no-prestamo"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Cliente.</strong>
+                                                    <span id="detalle-cliente"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Tipo de prestamo.</strong>
+                                                    <span id="detalle-tipo-prestamo"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Forma de pago.</strong>
+                                                    <span id="detalle-forma-pago"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Estado de pago.</strong>
+                                                    <span id="detalle-estado-pago"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Intereses.</strong>
+                                                    <span id="detalle-intereses"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>No. Cuotas.</strong>
+                                                    <span id="detalle-no-cuotas"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Monto solicitado.</strong>
+                                                    <span id="detalle-monto"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Total intereses.</strong>
+                                                    <span id="detalle-total-intereses"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Total.</strong>
+                                                    <span id="detalle-total"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Total saldo pagado.</strong>
+                                                    <span id="total-saldo-pagado"></span>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <strong>Total a pagar.</strong>
+                                                    <span id="total-a-pagar"></span>
+                                                </div>
+                                                <div class="col-lg-12">&nbsp;</div>
+                                            </div>
+                                            <div class="col-lg-12" id="prestamo-detalle-tabla"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="col-lg-9" id="bloque-detalle" style="display:none">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Detalle del prestamo</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline">
-                                <div class="timeline-item" id="tabla-detalle">
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <strong>No. Prestamo.</strong>
-                                            <span id="detalle-no-prestamo"></span>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <strong>Cliente.</strong>
-                                            <span id="detalle-cliente"></span>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <strong>Tipo de prestamo.</strong>
-                                            <span id="detalle-tipo-prestamo"></span>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <strong>Forma de pago.</strong>
-                                            <span id="detalle-forma-pago"></span>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <strong>Estado de pago.</strong>
-                                            <span id="detalle-estado-pago"></span>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <strong>Intereses.</strong>
-                                            <span id="detalle-intereses"></span>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <strong>No. Cuotas.</strong>
-                                            <span id="detalle-no-cuotas"></span>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <strong>Monto solicitado.</strong>
-                                            <span id="detalle-monto"></span>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <strong>Total intereses.</strong>
-                                            <span id="detalle-total-intereses"></span>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <strong>Total.</strong>
-                                            <span id="detalle-total"></span>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <strong>Total saldo pagado.</strong>
-                                            <span id="total-saldo-pagado"></span>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <strong>Total a pagar.</strong>
-                                            <span id="total-a-pagar"></span>
-                                        </div>
-
-                                        <div class="col-lg-12">
-                                            <br>
-                                            <p>
-                                                Para realizar pagos con un valor superior al saldo de la fecha de pago presione
-                                                <a id="" onClick="Api.LoanDetail.showPaymentWithHigherValue()">
-                                                    <span class="enlace">Aquí</span>.
-                                                </a>
-                                                &nbsp;Si quieres hacer una refinanciación de este prestamo presione
-                                                <a id="btn-refinanciar" onClick="">
-                                                    <span class="enlace">Aquí</span>.
-                                                </a>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <input type="hidden" id="id-prestamo-detalle">
-                                            <div id="mensaje-tabla-detalle"></div>
-                                            <br>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div id='tabla-prestamo-detalle'></div>
-                                        <div id='paginacion-detalle'></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <div class="col-lg-3" id="bloque-pago" style="display: none;">
                         <div class="ibox float-e-margins">
@@ -352,7 +304,7 @@
     <!-- Fin contenido de la pagina -->
 
     <!-- Modals -->
-    <!-- Simular credito -->
+    <!-- Simular prestamo -->
     <div id="modal-simular" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -439,7 +391,7 @@
             </div>
         </div>
     </div>
-    <!-- Fin simular credito -->
+    <!-- Fin simular prestamo -->
 
     <!-- Refinanciación -->
     <div id="modal-refinanciacion" class="modal fade" aria-hidden="true" style="display: none;">
@@ -682,12 +634,13 @@
 @section('script')
     <script type="text/javascript" src="{{asset('js/si/prestamo/calculos.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo.js')}}"></script>
-    <!--<script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle-pago.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle.js')}}"></script>
+    <!--<script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle-pago.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamosPagos.js')}}"></script>-->
 
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
+        Api.Prestamo.detalle(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Autorizado","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":4,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":0,"total_intereses":204318,"total_mora":0,"total":1252118,"total_pagado":0,"fecha_pago_inicial":"2018-01-17","fecha_ultimo_pago":null,"fecha_ultima_refinanciacion":null,"observacion":null,"estado":1})
     </script>
 @endsection
