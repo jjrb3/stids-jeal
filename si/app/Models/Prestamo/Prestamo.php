@@ -70,7 +70,7 @@ class Prestamo extends Model
                         OR p_prestamo.fecha_pago_inicial like '%$buscar%'
                     )"
                 )
-                    ->where('p_prestamo.estado',1)
+                    ->where('p_prestamo.estado', '>', '-1')
                     ->where('p_prestamo.id_empresa',$idEmpresa)
                     ->where('p_prestamo.id_estado_pago','<>',3)
                     ->orderBy('estado','desc')

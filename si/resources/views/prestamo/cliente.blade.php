@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Identificación.</label>
-                                    <input id="identificacion" type="text" class="form-control" placeholder="Digite documento" form="formulario-cliente">
+                                    <input id="identificacion" type="text" class="form-control formato-numerico" placeholder="Digite documento" form="formulario-cliente">
                                 </div>
                                 <div class="col-lg-3">
                                     <label>Nombres.</label>
@@ -364,7 +364,7 @@
                                             <form id="formulario-codeudor">
                                                 <div class="col-lg-3 form-group">
                                                     <label>Cedula:</label>
-                                                    <input type="text" class="form-control documento" id="codeudor-cedula" placeholder="Digite el número">
+                                                    <input type="text" class="form-control formato-numerico" id="codeudor-cedula" placeholder="Digite el número">
                                                 </div>
                                                 <div class="col-lg-3 form-group">
                                                     <label>Fecha de expedición:</label>
