@@ -26,15 +26,31 @@ class PrestamoDetalleController extends Controller
     }
 
 
+    /**
+     * @autor Jeremy Reyes B.
+     * @version 1.0
+     * @date_create 2018-01-17 - 05:20 PM
+     * @see 1. PrestamoDetalle::consultarTodo.
+     *      2. self::$hs->jsonError.
+     *
+     * Consultamos todos los datos activos del prestamo
+     *
+     * @param array $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public static function ConsultarPorPrestamo(Request $request) {
 
-        return PrestamoDetalle::consultarPorPrestamo(
+        $objeto = PrestamoDetalle::ConsultarTodoPorPrestamo(
             $request,
             $request->get('buscador'),
             $request->get('pagina'),
-            $request->get('tamanhioPagina'),
-            $request->get('id')
+            $request->get('tamanhio'),
+            $request->get('idPrestamo'),
+            $request->session()->get('idEmpresa')
         );
+
+        return is_null($objeto) ? (object)self::$hs->jsonError : $objeto;
     }
 
     public static function ConsultById(Request $request) {

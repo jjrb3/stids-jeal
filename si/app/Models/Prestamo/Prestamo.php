@@ -13,8 +13,7 @@ class Prestamo extends Model
     public $timestamps = false;
     protected $table = "p_prestamo";
 
-
-    const MODULO = 'Parametrizacion';
+    const MODULO = 'Prestamo';
     const MODELO = 'Prestamo';
 
 

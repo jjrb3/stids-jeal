@@ -13,7 +13,27 @@ class PrestamoDetalle extends Model
     public $timestamps = false;
     protected $table = "p_prestamo_detalle";
 
-    public static function consultarPorPrestamo($request,$buscar,$pagina = 1,$tamanhioPagina = 100000,$id) {
+    const MODULO = 'Prestamo';
+    const MODELO = 'PrestamoDetalle';
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-15 - 12:07 PM
+     *
+     * Consultar todos con paginación
+     *
+     * @param request   $request:     Peticiones realizadas.
+     * @param string    $buscar:      Texto a buscar.
+     * @param integer   $pagina:      Pagina actual.
+     * @param integer   $tamanhio:    Tamaño de la pagina.
+     * @param integer   $idPrestamo:  ID prestamp.
+     * @param integer   $idEmpresa:   ID empresa.
+     *
+     * @return object
+     */
+    public static function ConsultarTodoPorPrestamo($request,$buscar,$pagina = 1,$tamanhioPagina = 100000, $idPrestamo, $idEmpresa) {
         try {
             $currentPage = $pagina;
 
@@ -22,22 +42,33 @@ class PrestamoDetalle extends Model
                 return $currentPage;
             });
 
-            return PrestamoDetalle::select(DB::raw("*, 
-                                                    IF(total - valor_pagado < 1, 0, total - valor_pagado) AS saldo,
-                                                    intereses + mora AS total_intereses"))
+            return PrestamoDetalle::select(
+                DB::raw(
+                    "p_prestamo_detalle.*, 
+                    IF(p_prestamo_detalle.cuota - p_prestamo_detalle.valor_pagado < 1, 0, p_prestamo_detalle.cuota - p_prestamo_detalle.valor_pagado) AS cuota_a_pagar,
+                    p_prestamo_detalle.intereses + p_prestamo_detalle.mora AS total_intereses"
+                ),
+                'p_prestamo_detalle.no_cuota AS no',
+                'p_estado_pago.descripcion AS estado_pago'
+            )
+                ->join('p_estado_pago','p_prestamo_detalle.id_estado_pago','=','p_estado_pago.id')
                 ->whereRaw(
-                "( capital like '%$buscar%'
-                OR amortizacion like '%$buscar%'
-                OR fecha_pago like '%$buscar%'
-                OR intereses like '%$buscar%')")
-                ->where('estado','=',1)
-                ->where('id_empresa',$request->session()->get('idEmpresa'))
-                ->where('id_prestamo',$id)
-                ->orderBy('id','asc')
+                "( 
+                    p_prestamo_detalle.saldo_inicial like '%$buscar%'
+                    OR p_prestamo_detalle.cuota like '%$buscar%'
+                    OR p_prestamo_detalle.fecha_pago like '%$buscar%'
+                    OR p_prestamo_detalle.intereses like '%$buscar%'
+                  )"
+                )
+                ->where('p_prestamo_detalle.estado','=',1)
+                ->where('p_prestamo_detalle.id_empresa',$idEmpresa)
+                ->where('p_prestamo_detalle.id_prestamo',$idPrestamo)
+                ->orderBy('p_prestamo_detalle.id','asc')
                 ->paginate($tamanhioPagina);
 
         } catch (\Exception $e) {
-            return array();
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTodo', $e, $request);
         }
     }
 
@@ -375,7 +406,7 @@ class PrestamoDetalle extends Model
     public static function actualizarFechaDesdeCuota($request,$idPrestamo,$cuota,$fecha) {
         try {
 
-            $prestamoDetalle = PrestamoDetalle::consultarPorPrestamo($request,null,null,null,$idPrestamo);
+            $prestamoDetalle = PrestamoDetalle::ConsultarTodoPorPrestamo($request,null,null,null,$idPrestamo);
             $resultado       = [];
 
             if ($prestamoDetalle) {
