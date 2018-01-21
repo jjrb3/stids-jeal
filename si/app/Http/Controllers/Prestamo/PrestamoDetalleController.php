@@ -140,37 +140,6 @@ class PrestamoDetalleController extends Controller
 
     /**
      * @autor Jeremy Reyes B.
-     * @version 1.0
-     * @date 2017-10-08 - 10:57 am
-     * @see 1. HerramientaStidsController::verificationDatas.
-     *
-     * Agrega un pago con valor superior al saldo de la fecha de pago.
-     *
-     * @param array $request: Peticiones realizadas.
-     *
-     * @return array
-     */
-    public function AddPaymentWithHigherValue(Request $request)
-    {
-        $result = HerramientaStidsController::verificationDatas(
-            $request,
-            array(
-                'saldo' => 'Debe digitar el saldo para continuar',
-            )
-        );
-
-        if ($result) {return $result;}
-
-        return PrestamoDetalle::pagarCuota(
-            $request,
-            $request->get('saldo'),
-            $request->get('id_prestamo')
-        );
-    }
-
-
-    /**
-     * @autor Jeremy Reyes B.
      * @version 2.0
      * @date 2017-11-11 - 11:19 AM
      * @see 1. HerramientaStidsController::verificationDatas.
@@ -278,5 +247,88 @@ class PrestamoDetalleController extends Controller
                 return $resultado;
             }
         }
+    }
+
+
+    /**
+     * @autor Jeremy Reyes B.
+     * @version 1.0
+     * @date 2018-01-21 - 09:01 AM
+     * @see 1. HerramientaStidsController::verificationDatas.
+     *
+     * Realiza un pago.
+     *
+     * @param array $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function GuardarPago(Request $request) {
+
+        #0. Inicializacion de variables
+        $idEmpresa   = $request->session()->get('idEmpresa');
+        $idPrestamo  = $request->get('id_prestamo');
+        $valor       = $request->get('valor');
+        $observacion = $request->get('observacion');
+        $rPago       = [];
+        $estado      = 10;  # Al dia
+
+
+        #1. Verificamos los datos enviados
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'valor' => 'Debe digitar el valor que desea pagar para poder guardar los cambios',
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
+
+
+        #2. Verificamos si tiene pagos atrasados
+        $saldoAtrasado = PrestamoDetalle::ConsultarSaldoAtrasado($request, $idEmpresa, $idPrestamo)[0];
+
+        if ($saldoAtrasado->saldo > 0) {
+
+            $clase = PrestamoDetalle::find($saldoAtrasado->id);
+
+            #2.1. Si el valor a pagar es mayor que la deuda entonces
+            if ($valor > $saldoAtrasado->saldo) {
+
+                $valor -= $saldoAtrasado->saldo;
+                $estado = 10; #Al dia
+            }
+            else {
+                $estado = 12; #Atrasado
+            }
+
+            $clase->valor_pagado    = $saldoAtrasado->saldo;
+            $clase->id_estado_pago  = $estado;
+
+            self::$transaccion[0] = $request;
+            self::$transaccion[2] = 'crear';
+
+            #2.1. Guardamos el pago en la cuota.
+            //$rPago[] = self::$hs->Guardar($request, $clase, self::$hs->mensajeGuardar, self::$transaccion);
+
+            #2.2. Guardamos el pago en la tabla de pagos.
+            $PDP = new PrestamoDetallePagoController();
+
+            /*$rPago[] = $PDP->GuardarPago(
+                $request,
+                $saldoAtrasado->id,
+                $estado,
+                $saldoAtrasado->saldo,
+                $observacion
+            );*/
+        }
+
+        if ($valor > 0) {
+
+            $cuotas = PrestamoDetalle::ConsultarPorFechaMayor();
+        }
+
+        die;
     }
 }

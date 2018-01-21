@@ -406,18 +406,18 @@
                         <label>Valor a pagar.</label>
                         <div class="input-group">
                             <span class="input-group-addon icono-calendario">$</span>
-                            <input id="fecha-pago-inicial" type="text" class="form-control m-b formato-moneda" maxlength="10" placeholder="000,000,000">
+                            <input id="pagos-valor" type="text" class="form-control m-b formato-moneda" placeholder="000,000,000">
                         </div>
                         <br>
                         <label>Observación.</label>
                         <div>
-                            <textarea id="observacion" class="form-control" rows="5" placeholder="Digite una observación para este pago."></textarea>
+                            <textarea id="pagos-observacion" class="form-control" rows="5" placeholder="Digite una observación para este pago."></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer gray-bg centrado">
                     @if($op->guardar)
-                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Prestamo.guardarPago()">
+                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.PrestamoDetalle.guardarPago()">
                             <i class="fa fa-floppy-o"></i>&nbsp;
                             Guardar pago
                         </button>

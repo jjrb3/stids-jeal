@@ -5,6 +5,9 @@ use App\Models\Parametrizacion\Transacciones;
 
 class HerramientaStidsController extends Controller
 {
+    const MODULO = 'Sistema';
+    const CONTROLADOR = 'HerramientaStidsController';
+
     public static $accion = array(
         'consultar' => 0,
         'crear' => 1,
@@ -102,7 +105,7 @@ class HerramientaStidsController extends Controller
 
                 # Guardamos la transaccion
                 if ($transaccion) {
-                    HerramientaStidsController::guardarTransaccion(
+                    self::guardarTransaccion(
                         $transaccion[0],
                         $transaccion[1],
                         self::$accion[$transaccion[2]],
@@ -128,6 +131,56 @@ class HerramientaStidsController extends Controller
                 'mensaje' => 'Grave error, contacte con del administrador del sistema.',
                 'error' => $e
             ]);
+        }
+    }
+
+
+    /**
+     * @autor Jeremy Reyes B.
+     * @version 1.0
+     * @date 2018-01-21 - 10:11 AM
+     * @see 1. self::guardarTransaccion.
+     *
+     * Guardar o actualizar transacciones de la DB
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param object    $clase:         Objeto de datos que se guardara.
+     * @param array     $mensaje:       Arreglo de mensajes.
+     * @param array     $transaccion:   Arreglo de parametros para transacciones.
+     *
+     * @return object
+     */
+    public static function Guardar($request, $clase, $mensaje, $transaccion = '') {
+        try {
+            if ($clase->save()) {
+
+                # Guardamos la transaccion
+                if ($transaccion) {
+                    self::guardarTransaccion(
+                        $transaccion[0],
+                        $transaccion[1],
+                        self::$accion[$transaccion[2]],
+                        $clase->id,
+                        $transaccion[3]);
+                }
+
+                return response()->json(array(
+                    'titulo' => 'Realizado',
+                    'resultado' => 1,
+                    'mensaje' => $mensaje[0],
+                    'id' => $clase->id,
+                ));
+            }
+            else {
+                return response()->json(array(
+                    'resultado' => 0,
+                    'titulo' => 'Advertencia',
+                    'mensaje' => $mensaje[1],
+                ));
+            }
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::CONTROLADOR,'Guardar', $e, $request);
         }
     }
 

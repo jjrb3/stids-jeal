@@ -406,7 +406,7 @@ class PrestamoDetalle extends Model
     public static function actualizarFechaDesdeCuota($request,$idPrestamo,$cuota,$fecha) {
         try {
 
-            $prestamoDetalle = PrestamoDetalle::ConsultarTodoPorPrestamo($request,null,null,null,$idPrestamo);
+            $prestamoDetalle = PrestamoDetalle::ConsultarTodoPorPrestamo($request,null,null,null, $idPrestamo);
             $resultado       = [];
 
             if ($prestamoDetalle) {
@@ -469,6 +469,70 @@ class PrestamoDetalle extends Model
                 'resultado' => -1,
                 'mensaje' => 'Se enconraron errores al realiar la consulta para actualizar las fechas'
             ];
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-10 - 12:04 PM
+     *
+     * Obtengo la fecha y el saldo atrasado que se tiene que pagar
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param integer   $idEmpresa:     ID empresa.
+     * @param integer   $idPrestamo:    ID prestamo.
+     *
+     * @return object
+     */
+    public static function ConsultarSaldoAtrasado($request, $idEmpresa, $idPrestamo) {
+        try {
+
+            return DB::select(
+                "SELECT MAX(id)                           AS id,
+                        MAX(fecha_pago)                   AS fecha_pago,
+                        SUM(cuota) - SUM(valor_pagado)    AS saldo
+                FROM p_prestamo_detalle
+                WHERE id_empresa = {$idEmpresa}
+                AND id_prestamo = {$idPrestamo}
+                AND fecha_pago <= NOW()");
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarSaldoAtrasado', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-10 - 12:04 PM
+     *
+     * Obtengo la fecha y el saldo atrasado que se tiene que pagar
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param integer   $idEmpresa:     ID empresa.
+     * @param integer   $idPrestamo:    ID prestamo.
+     *
+     * @return object
+     */
+    public static function ConsultarPorFechaMayor($request, $idEmpresa, $idPrestamo) {
+        try {
+
+            return DB::select(
+                "SELECT MAX(id)                           AS id,
+                        MAX(fecha_pago)                   AS fecha_pago,
+                        SUM(cuota) - SUM(valor_pagado)    AS saldo
+                FROM p_prestamo_detalle
+                WHERE id_empresa = {$idEmpresa}
+                AND id_prestamo = {$idPrestamo}
+                AND fecha_pago <= NOW()");
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarSaldoAtrasado', $e, $request);
         }
     }
 }

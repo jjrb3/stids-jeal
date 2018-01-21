@@ -13,6 +13,19 @@ use App\Models\Prestamo\Prestamo;
 
 class PrestamoDetallePagoController extends Controller
 {
+    public static $hs;
+    public static $transaccion;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        self::$hs = new HerramientaStidsController();
+        self::$transaccion = ['', 32, '', 'p_prestamo_detalle_pago'];
+    }
+
+
     public function Add(Request $request) {
 
         if ($this->Check($request))
@@ -183,5 +196,39 @@ class PrestamoDetallePagoController extends Controller
             'prestamo_detalle_pago' => $rPrestamoDetallePago,
             'datos_financieros'     => $rDatosFinancieros
         ]);
+    }
+
+
+    /**
+     * @autor Jeremy Reyes B.
+     * @version 1.0
+     * @date 2018-01-21 - 10:20 AM
+     * @see 1. HerramientaStidsController::verificationDatas.
+     *
+     * Realiza un pago.
+     *
+     * @param array     $request:           Peticiones realizadas.
+     * @param integer   $idPrestamoDetalle: ID prestamo detalle.
+     * @param integer   $idEstadoPago:      ID estado pago.
+     * @param integer   $valor:             Valor.
+     * @param string    $observacion:       Observación.
+     *
+     * @return object
+     */
+    public function GuardarPago($request, $idPrestamoDetalle, $idEstadoPago, $valor, $observacion) {
+
+        $clase = new PrestamoDetallePago();
+
+        $clase->id_empresa          = $request->session()->get('idEmpresa');
+        $clase->id_prestamo_detalle = $idPrestamoDetalle;
+        $clase->id_estado_pago      = $idEstadoPago;
+        $clase->monto_pagado        = $valor;
+        $clase->observacion         = $observacion;
+
+
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'crear';
+
+        return self::$hs->Guardar($request, $clase, self::$hs->mensajeGuardar, self::$transaccion);
     }
 }
