@@ -152,52 +152,6 @@ class PrestamoDetallePagoController extends Controller
     }
 
 
-    /**
-     * @autor Jeremy Reyes B.
-     * @version 2.0
-     * @date 2017-11-11 - 02:23 PM
-     * @see 1. PrestamoDetallePago::eliminarPorDetallePrestamo.
-     *      2. HerramientaStidsController::ejecutarSave.
-     *      3. Prestamo::actualizarDatosFinacieros.
-     *
-     * Elimina el pago realizado en una cuota
-     *
-     * @param array $request: Peticiones realizadas.
-     *
-     * @return json
-     */
-    public function BorrarPago($request){
-
-        $idPrestamoDetalle = $request->get('id');
-
-        #1. Eliminamos por el detalle del prestamo los pagos realizados.
-        PrestamoDetallePago::eliminarPorDetallePrestamo($request,$idPrestamoDetalle);
-
-        #2. Obtenemos la cuota seleccionada
-        $prestamoDetalle = PrestamoDetalle::Find($idPrestamoDetalle);
-
-        $prestamoDetalle->valor_pagado = 0;
-        $idPrestamo = $prestamoDetalle->id_prestamo;
-
-        $mensaje     = ['Se actualizó correctamente','Se encontraron problemas al actualizar'];
-        $transaccion = [$request,32,'actualizar','p_prestamo_detalle'];
-
-        #3. Actualizamos en 0 el pago realizado
-        $rPrestamoDetallePago = HerramientaStidsController::ejecutarSave($prestamoDetalle,$mensaje,$transaccion);
-
-
-        #4. Actualizamos los datos financieros de este prestamo
-        $rDatosFinancieros = Prestamo::ActualizarDatosFinacieros($request,[$idPrestamo]);
-
-
-        return response()->json([
-            'resultado'             => 1,
-            'mensaje'               => 'Se borró las transacciones realizadas correctamente.',
-            'prestamo_detalle_pago' => $rPrestamoDetallePago,
-            'datos_financieros'     => $rDatosFinancieros
-        ]);
-    }
-
 
     /**
      * @autor Jeremy Reyes B.
