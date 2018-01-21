@@ -272,6 +272,9 @@ class PrestamoDetalleController extends Controller
         $rPago       = [];
         $estado      = 10;  # Al dia
 
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'crear';
+
 
         #1. Verificamos los datos enviados
 
@@ -306,29 +309,86 @@ class PrestamoDetalleController extends Controller
             $clase->valor_pagado    = $saldoAtrasado->saldo;
             $clase->id_estado_pago  = $estado;
 
-            self::$transaccion[0] = $request;
-            self::$transaccion[2] = 'crear';
-
             #2.1. Guardamos el pago en la cuota.
-            //$rPago[] = self::$hs->Guardar($request, $clase, self::$hs->mensajeGuardar, self::$transaccion);
+            $rPago[] = self::$hs->Guardar($request, $clase, self::$hs->mensajeGuardar, self::$transaccion);
 
             #2.2. Guardamos el pago en la tabla de pagos.
             $PDP = new PrestamoDetallePagoController();
 
-            /*$rPago[] = $PDP->GuardarPago(
+            $rPago[] = $PDP->GuardarPago(
                 $request,
                 $saldoAtrasado->id,
                 $estado,
                 $saldoAtrasado->saldo,
                 $observacion
-            );*/
+            );
         }
+
+
+        #3. Si paga mas de la cuenta o el pago es mayor de la fecha actual
+        if ($valor > 0) {
+
+            $cuotas = PrestamoDetalle::ConsultarPorEmpPreFecMay($request, $idEmpresa, $idPrestamo, $saldoAtrasado->fecha_pago);
+
+            if ($cuotas->count() > 0) {
+
+                foreach ($cuotas as $cuota) {
+
+                    if ($valor > 0 && $cuota->valor_pagado < $cuota->cuota) {
+
+                        $calculo = 0;
+
+                        if ($valor + $cuota->valor_pagado > $cuota->cuota) {
+
+                            $calculo = $cuota->cuota;
+                            $valor  -= $cuota->cuota - $cuota->valor_pagado;
+                        }
+                        else {
+                            $calculo = $valor;
+                            $valor   = 0;
+                        }
+
+                        $clase = PrestamoDetalle::find($cuota->id);
+
+                        $clase->valor_pagado    = $calculo;
+                        $clase->id_estado_pago  = 10;
+
+                        $rPago[] = self::$hs->Guardar($request, $clase, self::$hs->mensajeGuardar, self::$transaccion);
+
+                        $PDP = new PrestamoDetallePagoController();
+
+                        $rPago[] = $PDP->GuardarPago(
+                            $request,
+                            $cuota->id,
+                            10,
+                            $calculo,
+                            $observacion
+                        );
+                    }
+                }
+            }
+        }
+
+
+        #4. Actualizamos los datos de la tabla prestamo
+        Prestamo::ActualizarDatosFinacieros($request, [$idPrestamo], false, date('Y-m-d H:i:s'), $estado);
 
         if ($valor > 0) {
 
-            $cuotas = PrestamoDetalle::ConsultarPorFechaMayor();
+            return response()->json([
+                'resultado' => 2,
+                'titulo'    => 'Informacion',
+                'mensaje'   => 'Se guardó el pago correctamente pero sobró un total de $' . number_format($valor),
+                'datos'     => $rPago
+            ]);
         }
-
-        die;
+        else {
+            return response()->json([
+                'resultado' => 1,
+                'titulo'    => 'Realizado',
+                'mensaje'   => 'Se guardó el pago correctamente',
+                'datos'     => $rPago
+            ]);
+        }
     }
 }

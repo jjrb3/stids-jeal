@@ -118,7 +118,7 @@ class PrestamoController extends Controller
 
 
         #5. Actualizamos los datos financieros de este prestamo
-        $rDatosFinancieros = Prestamo::actualizarDatosFinacieros($request,[$idPrestamo]);
+        $rDatosFinancieros = Prestamo::ActualizarDatosFinacieros($request,[$idPrestamo]);
 
 
         return response()->json([

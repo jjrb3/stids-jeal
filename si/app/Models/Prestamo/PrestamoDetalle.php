@@ -515,24 +515,23 @@ class PrestamoDetalle extends Model
      * @param array     $request:       Peticiones realizadas.
      * @param integer   $idEmpresa:     ID empresa.
      * @param integer   $idPrestamo:    ID prestamo.
+     * @param string    $fecha:         Fecha.
      *
      * @return object
      */
-    public static function ConsultarPorFechaMayor($request, $idEmpresa, $idPrestamo) {
+    public static function ConsultarPorEmpPreFecMay($request, $idEmpresa, $idPrestamo, $fecha) {
         try {
 
-            return DB::select(
-                "SELECT MAX(id)                           AS id,
-                        MAX(fecha_pago)                   AS fecha_pago,
-                        SUM(cuota) - SUM(valor_pagado)    AS saldo
-                FROM p_prestamo_detalle
-                WHERE id_empresa = {$idEmpresa}
-                AND id_prestamo = {$idPrestamo}
-                AND fecha_pago <= NOW()");
+            return PrestamoDetalle::where('id_empresa',$idEmpresa)
+                ->where('id_prestamo',$idPrestamo)
+                ->where('estado',1)
+                ->where('fecha_pago', '>', $fecha)
+                ->orderBy('id')
+                ->get();
 
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
-            return $hs->Log(self::MODULO,self::MODELO,'ConsultarSaldoAtrasado', $e, $request);
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorEmpPreFM', $e, $request);
         }
     }
 }

@@ -71,7 +71,7 @@ class Prestamo extends Model
                 )
                     ->where('p_prestamo.estado', '>', '-1')
                     ->where('p_prestamo.id_empresa',$idEmpresa)
-                    ->where('p_prestamo.id_estado_pago','<>',3)
+                    //->where('p_prestamo.id_estado_pago','<>', 3)
                     ->orderBy('estado','desc')
                     ->orderBy('p_prestamo.id','desc')
                     ->paginate($tamanhio);
@@ -161,10 +161,12 @@ class Prestamo extends Model
      *
      * @param array   $request:     Peticiones realizadas.
      * @param array   $idsPrestamo: Ids del prestamo.
+     * @param bool    $sistema:     Si es el sisteman o agrega las transaccion.
+     * @param string  $fechaPago:   Fecha del ultimo pago.
      *
      * @return array: Resultado de la actualización
      */
-    public static function actualizarDatosFinacieros($request,$idsPrestamo = array(),$sistema = false) {
+    public static function ActualizarDatosFinacieros($request, $idsPrestamo = array(), $sistema = false, $fechaPago = null, $idEstadoPago = null) {
 
         try {
 
@@ -173,7 +175,7 @@ class Prestamo extends Model
                             id_prestamo,
                             SUM(intereses)      AS total_intereses,
                             SUM(mora)           AS total_mora,
-                            SUM(total)          AS total,
+                            SUM(cuota)          AS total,
                             SUM(valor_pagado)   AS total_pagado'
                     )
                 )
@@ -184,7 +186,6 @@ class Prestamo extends Model
 
 
             if ($idsPrestamo) {
-
                 $listaPrestamo = $listaPrestamo->whereIn('id_prestamo', $idsPrestamo);
             }
 
@@ -201,6 +202,12 @@ class Prestamo extends Model
                 $prestamo->total_mora       = $item['total_mora'];
                 $prestamo->total            = $item['total'];
                 $prestamo->total_pagado     = $item['total_pagado'];
+
+                if ($fechaPago) {
+                    $prestamo->fecha_ultimo_pago = $fechaPago;
+                }
+
+                $prestamo->id_estado_pago = $prestamo->total_pagado >= $prestamo->total ? 3 : $idEstadoPago;
 
                 if ($prestamo->save()) {
 
