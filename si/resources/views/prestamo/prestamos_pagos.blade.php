@@ -524,7 +524,7 @@
     </div>
     <!-- Fin Refinanciación -->
     <!-- Ver mas detalle del prestamo -->
-    <div id="modal-detalle-prestamo" class="modal fade" aria-hidden="true" style="display: none;">
+    <div id="modal-detalle-prestamo" class="modal" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -670,8 +670,7 @@
     <script type="text/javascript" src="{{asset('js/si/prestamo/calculos.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle.js')}}"></script>
-    <!--<script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle-pago.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/si/prestamo/prestamosPagos.js')}}"></script>-->
+    <!--<script type="text/javascript" src="{{asset('js/si/prestamo/prestamosPagos.js')}}"></script>-->
 
     <script>
         Api.permisos = [{{$permisos}}];
