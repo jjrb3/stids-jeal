@@ -393,6 +393,41 @@
     </div>
     <!-- Fin simular prestamo -->
 
+    <!-- Realizar pagos -->
+    <div id="modal-pagos" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Realizar pagos</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label>Valor a pagar.</label>
+                        <div class="input-group">
+                            <span class="input-group-addon icono-calendario">$</span>
+                            <input id="fecha-pago-inicial" type="text" class="form-control m-b formato-moneda" maxlength="10" placeholder="000,000,000">
+                        </div>
+                        <br>
+                        <label>Observación.</label>
+                        <div>
+                            <textarea id="observacion" class="form-control" rows="5" placeholder="Digite una observación para este pago."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer gray-bg centrado">
+                    @if($op->guardar)
+                        <button id="btn-guardar" class="btn btn-primary" type="button" onClick="Api.Prestamo.guardarPago()">
+                            <i class="fa fa-floppy-o"></i>&nbsp;
+                            Guardar pago
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin realizar pagos -->
+
     <!-- Refinanciación -->
     <div id="modal-refinanciacion" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">
@@ -641,6 +676,6 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
-        Api.Prestamo.detalle(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Autorizado","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":4,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":0,"total_intereses":204318,"total_mora":0,"total":1252118,"total_pagado":0,"fecha_pago_inicial":"2018-01-17","fecha_ultimo_pago":null,"fecha_ultima_refinanciacion":null,"observacion":null,"estado":1})
+        Api.Prestamo.realizarPago(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Autorizado","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":4,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":0,"total_intereses":204318,"total_mora":0,"total":1252118,"total_pagado":0,"fecha_pago_inicial":"2018-01-17","fecha_ultimo_pago":null,"fecha_ultima_refinanciacion":null,"observacion":null,"estado":1})
     </script>
 @endsection
