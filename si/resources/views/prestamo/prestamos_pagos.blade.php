@@ -676,6 +676,5 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
-        Api.Prestamo.realizarPago(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Autorizado","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":4,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":0,"total_intereses":204318,"total_mora":0,"total":1252118,"total_pagado":0,"fecha_pago_inicial":"2018-01-17","fecha_ultimo_pago":null,"fecha_ultima_refinanciacion":null,"observacion":null,"estado":1})
     </script>
 @endsection
