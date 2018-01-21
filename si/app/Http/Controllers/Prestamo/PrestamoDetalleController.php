@@ -192,61 +192,29 @@ class PrestamoDetalleController extends Controller
     }
 
 
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-21 - 05:15 PM
+     * @see: 1. PrestamoDetalle::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
     public function Eliminar($request)
     {
-        return PrestamoDetalle::eliminarPorId($request,$request->get('id'));
-    }
+        $clase = PrestamoDetalle::Find((int)$request->get('id'));
 
+        $clase->estado = -1;
 
-    private function insertarCampos($clase,$request) {
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'eliminar';
 
-        if (!$request->get('actualizacionRapida')) {
-
-            $clase->id_empresa          = $request->session()->get('idEmpresa');
-            $clase->id_cliente          = $request->get('id_cliente');
-            $clase->id_forma_pago       = $request->get('id_forma_pago');
-            $clase->id_estado_pago      = 4;
-            $clase->id_tipo_prestamo    = $request->get('id_tipo_prestamo');
-            $clase->monto_requerido     = $request->get('monto_requerido');
-            $clase->intereses           = $request->get('interes');
-            $clase->no_cuotas           = $request->get('no_cuotas');
-            $clase->total_intereses     = $request->get('total_intereses');
-            $clase->total               = $request->get('total');
-            $clase->fecha_pago_inicial  = $request->get('fecha_pago_inicial');
-        }
-        else {
-            $clase->fecha_pago = $request->get('fecha_pago');
-        }
-
-        return $clase;
-    }
-
-
-    public function verificacion($request){
-
-        $camposRapidos = array(
-            'fecha_pago' => 'Debe digitar la fecha de pago para continuar',
-        );
-
-        $camposCompletos = array(
-            'id_cliente'         => 'Debe seleccionar el cliente para continuar',
-            'monto_requerido'    => 'Debe digitar el monto requerido para continuar',
-            'interes'            => 'Debe digitar el campo interes para continuar',
-            'id_forma_pago'      => 'Debe seleccionar la forma de pago para continuar',
-            'no_cuotas'          => 'Debe digitar el numero de cuotas para continuar',
-            'fecha_pago_inicial' => 'Debe digitar el campo fecha de pago inicial para continuar para continuar',
-        );
-
-        $campos = $request->get('actualizacionRapida') ? $camposRapidos : array_merge($camposCompletos,$camposRapidos);
-
-        foreach ($campos as $campo => $mensaje) {
-
-            $resultado = HerramientaStidsController::verificacionCampos($request,$campo,$mensaje);
-
-            if ($resultado) {
-                return $resultado;
-            }
-        }
+        return self::$hs->ejecutarSave($clase,self::$hs->mensajeEliminar,self::$transaccion);
     }
 
 
