@@ -387,4 +387,56 @@ class PrestamoDetalleController extends Controller
             'datos_financieros'     => $rDatosFinancieros
         ]);
     }
+
+
+    /**
+     * @autor Jeremy Reyes B.
+     * @version 3.0
+     * @date_create 2017-11-11 - 02:23 PM
+     * @date_modify 2018-01-21 - 01:58 PM <Jeremy Reyes B.>
+     * @see 1. PrestamoDetallePago::eliminarPorDetallePrestamo.
+     *      2. HerramientaStidsController::ejecutarSave.
+     *      3. Prestamo::actualizarDatosFinacieros.
+     *
+     * Borra el pago realizado
+     *
+     * @param array $request: Peticiones realizadas.
+     *
+     * @return json
+     */
+    public function GuardarAmpliacion($request){
+
+        $clase = PrestamoDetalle::find($request->get('id'));
+
+        $clase->mora            += $request->get('valor');
+        $clase->cuota            = $clase->abono_capital + $clase->intereses + $clase->mora;
+        $clase->id_estado_pago   = 1;
+
+
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'eliminar';
+
+        #3. Actualizamos en 0 el pago realizado
+        $rPrestamoDetallePago = self::$hs->Guardar(
+            $request,
+            $clase,
+            self::$hs->mensajeGuardar,
+            self::$transaccion
+        );
+
+        #4. Actualizamos los datos financieros de este prestamo
+        $rDatosFinancieros = Prestamo::ActualizarDatosFinacieros(
+            $request,
+            [$clase->id_prestamo],
+            false,
+            null,
+            1
+        );
+
+        return response()->json([
+            'resultado' => 1,
+            'titulo'    => 'Realiado',
+            'mensaje'   => 'Se realizó la ampliacion de la cuota correctamente.'
+        ]);
+    }
 }
