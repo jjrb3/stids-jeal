@@ -60,7 +60,7 @@ class PrestamoDetalle extends Model
                     OR p_prestamo_detalle.intereses like '%$buscar%'
                   )"
                 )
-                ->where('p_prestamo_detalle.estado','=',1)
+                ->where('p_prestamo_detalle.estado','>','-1')
                 ->where('p_prestamo_detalle.id_empresa',$idEmpresa)
                 ->where('p_prestamo_detalle.id_prestamo',$idPrestamo)
                 ->orderBy('p_prestamo_detalle.id','asc')

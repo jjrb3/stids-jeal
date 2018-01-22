@@ -429,50 +429,70 @@
     <!-- Fin realizar pagos -->
 
     <!-- Refinanciación -->
-    <div id="modal-refinanciacion" class="modal fade" aria-hidden="true" style="display: none;">
+    <div id="modal-refinanciar" class="modal fade" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class="modal-title">&nbsp;Refinanciar prestamo</h3>
+                    <h3 class="modal-title">&nbsp;Refinanciar prestamo <span id="refinanciar-no-prestamo"></span></h3>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body blanco-oscuro">
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-4">
                             <strong>Cliente. </strong>
-                            <span id="refinanciacion-nombre-cliente"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Forma de pago. </strong>
-                            <span id="refinanciacion-forma-pago"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Tipo de prestamo. </strong>
-                            <span id="refinanciacion-tipo-prestamo"></span>
-                            &nbsp;&nbsp;&nbsp;
-                            <strong>Monto. </strong>
-                            <span id="refinanciacion-monto"></span>
-                            <br>
-                            <input type="hidden" id="refinanciar-monto">
-                            <input type="hidden" id="refinanciar-intereses">
-                            <input type="hidden" id="refinanciar-id-forma-pago">
-                            <input type="hidden" id="refinanciar-id-tipo-prestamo">
-                            <input type="hidden" id="refinanciar-siguiente-cuota">
-                            <input type="hidden" id="refinanciar-nueva-cuota">
-                            <br>
-                            <br>
+                            <span id="refinanciar-nombre-cliente"></span>
                         </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label>Fecha pago inicial.</label>
-                                <div>
-                                    <input type="date" id="fecha-inicial" class="form-control m-b" value="{{date('Y-m-d')}}">
-                                </div>
+                        <div class="col-lg-4">
+                            <strong>Forma de pago. </strong>
+                            <span id="refinanciar-forma-pago"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Tipo de prestamo. </strong>
+                            <span id="refinanciar-tipo-prestamo"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Monto. </strong>
+                            <span id="refinanciar-monto"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Interes. </strong>
+                            <span id="refinanciar-intereses"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>No. Cuotas. </strong>
+                            <span id="refinanciar-cuotas"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Total interes. </strong>
+                            <span id="refinanciar-total-interes"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Total general. </strong>
+                            <span id="refinanciar-total-general"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <strong>Total deuda. </strong>
+                            <span id="refinanciar-total-deuda"></span>
+                        </div>
+                        <div class="col-lg-12">
+                            <br><br>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <label>Valor a refinanciar.</label>
+                            <input type="text" id="refinanciar-valor-refinanciar" class="form-control m-b" disabled="disabled">
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <label>Fecha pago inicial.</label>
+                            <div class="input-group">
+                                <input type="text" id="refinanciar-fecha-inicial" class="form-control m-b datepicker" value="{{date('Y-m-d')}}" maxlength="10">
+                                <span class="input-group-addon icono-calendario"><i class="fa fa-calendar"></i></span>
                             </div>
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label>Cuotas.</label>
                                 <div>
-                                    <input type="text" id="cuotas" data-numero-minimo="" class="form-control m-b numerico" value="1">
+                                    <input type="text" id="refinanciacion-cuotas" data-numero-minimo="" class="form-control m-b numerico" value="1" readonly>
                                 </div>
                             </div>
                         </div>
@@ -487,29 +507,29 @@
                                 </div>
                             </div>
                         </div>
+                        <br>
                         <div class="col-lg-12">
-                            <div id="mensaje"></div>
-                            <br>
-                            <div class="table-responsive" id="tabla-refinanciacion">
-                                <table class="table table-bordered table-hover table-striped tablesorter">
-                                    <thead>
-                                    <tr>
-                                        <th class="centrado">No. Cuota</th>
-                                        <th class="centrado">Fecha pago</th>
-                                        <th class="centrado">Capital</th>
-                                        <th class="centrado">Amortizacion</th>
-                                        <th class="centrado">Intereses</th>
-                                        <th class="centrado">Total a pagar</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
+                        <div class="table-responsive" id="tabla-simulacion-refinanciar">
+                            <table class="table table-bordered table-hover table-striped tablesorter">
+                                <thead>
+                                <tr>
+                                    <th class="centrado">Periodo</th>
+                                    <th class="centrado">Fecha pago</th>
+                                    <th class="centrado">Saldo inicial</th>
+                                    <th class="centrado">Cuota</th>
+                                    <th class="centrado">Interes</th>
+                                    <th class="centrado">Abono a capital</th>
+                                    <th class="centrado">Saldo final</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                             <br>
                             <div class="form-group">
                                 <label>Observación.</label>
                                 <div>
-                                    <textarea id="observacion" class="form-control" rows="5"></textarea>
+                                    <textarea id="observacion" class="form-control" rows="4"></textarea>
                                 </div>
                             </div>
                             <button id="btn-guardar-refinanciacion" class="btn btn-primary btn-guardar" type="button" onclick="">
@@ -675,5 +695,6 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
+        Api.Prestamo.refinanciar(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Autorizado","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":4,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":0,"total_intereses":204318,"total_mora":0,"total":1252122,"total_pagado":567559,"fecha_pago_inicial":"2018-01-17","fecha_ultimo_pago":"2018-01-21 14:08:26","fecha_ultima_refinanciacion":null,"observacion":null,"estado":1})
     </script>
 @endsection

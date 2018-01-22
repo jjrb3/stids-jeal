@@ -231,3 +231,6 @@
     color: #fff;
 }
 
+.modal-body {
+    background-color: #c3c3c30d!important;
+}
