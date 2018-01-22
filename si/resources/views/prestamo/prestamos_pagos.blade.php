@@ -513,79 +513,36 @@
     </div>
     <!-- Fin ampliacion -->
 
-    <!-- Ver mas detalle del prestamo -->
-    <div id="modal-detalle-prestamo" class="modal" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
+    <!-- Ampliacion -->
+    <div id="modal-cambiar-fecha" class="modal fade" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h3 class="modal-title">&nbsp;Detalle del prestamo No.<span id="no-prestamo"></span></h3>
+                    <h3 class="modal-title">Fecha de la cuota No. <span id="cambiar-fecha-no-cuota"></span></h3>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-lg-12" id="mdp-mensaje">
-                        </div>
-
-                        <div id="magnification" style="display:none;">
-                            <div class="col-lg-12">
-                                <br>
-                                <label>Ampliación para los días retrasados (saldo / 30 * días).</label>
-                                <br>
-                                <br>
-                            </div>
-
-                            <div class="col-lg-2">
-                                <div class="form-group">
-                                    <label>Saldo.</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon" id="basic-addon1">$</span>
-                                        <input type="text" id="valor-intereses" class="form-control m-b" min="1">
-                                    </div>
-                                </div>
-                                <br>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group">
-                                    <label>Días.</label>
-                                    <div>
-                                        <input type="text" id="dias" class="form-control m-b numerico" min="1" max="999" value="0" onkeyup="Api.LoanDetail.calculateMagnification()">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="form-group">
-                                    <label>Resultado.</label>
-                                    <div>
-                                        <input type="text" id="result-magnification" class="form-control m-b numerico">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>Observación.</label>
-                                <div>
-                                    <textarea id="observacion" class="form-control m-b" rows="5"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <button id="botonActualizar" class="btn btn-primary " type="button" onclick="" style="">
-                                <i class="fa fa-floppy-o"></i>&nbsp;
-                                Actualizar
-                            </button>
-                            <button id="botonSimular" class="btn btn-success " type="button" onClick="Api.LoanDetail.showMagnification()">
-                                <i class="fa fa-usd"></i>&nbsp;
-                                Ampliación
-                            </button>
+                        <label>Nueva fecha.</label>
+                        <div class="input-group">
+                            <input id="cambiar-fecha" type="text" class="form-control m-b datepicker">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer gray-bg centrado">
+                    @if($op->actualizar)
+                        <button id="btn-guardar" class="btn btn-success" type="button" onClick="Api.PrestamoDetalle.guardarFecha()">
+                            <i class="fa fa-pencil-square-o"></i>&nbsp;
+                            Actualizar fecha
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-    <!-- Fin ver mas detalle del prestamo -->
+    <!-- Fin ampliacion -->
+
     <!-- Fin Modals -->
 
 @endsection
@@ -599,7 +556,5 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
-        Api.Prestamo.detalle(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Refinanciado","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":11,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":13,"total_intereses":290494,"total_mora":0,"total":1545131,"total_pagado":567559,"fecha_pago_inicial":"2018-01-23","fecha_ultimo_pago":"2018-01-21 14:08:26","fecha_ultima_refinanciacion":"2018-01-22 12:56:48","observacion":null,"estado":1})
-        Api.PrestamoDetalle.ampliar(1159,{"id":1159,"id_empresa":1,"id_cliente":7,"id_prestamo":91,"id_forma_pago":4,"id_estado_pago":4,"no_cuota":"1","fecha_pago":"2017-12-17","saldo_inicial":1047800,"cuota":118751,"intereses":31434,"abono_capital":87317,"mora":0,"saldo_final":960483,"valor_pagado":0,"no_refinanciacion":0,"observacion":null,"estado":0,"cuota_a_pagar":118751,"total_intereses":31434,"no":"1","estado_pago":"Autorizado"});
     </script>
 @endsection

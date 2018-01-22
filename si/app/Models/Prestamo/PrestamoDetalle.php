@@ -397,10 +397,11 @@ class PrestamoDetalle extends Model
      *
      * @return array: Resultado
      */
-    public static function actualizarFechaDesdeCuota($request,$idPrestamo,$cuota,$fecha) {
+    public static function ActualizarFechaDesdeCuota($request,$idPrestamo,$cuota,$fecha) {
+
         try {
 
-            $prestamoDetalle = PrestamoDetalle::ConsultarTodoPorPrestamo($request,null,null,null, $idPrestamo);
+            $prestamoDetalle = PrestamoDetalle::ConsultarTodoPorPrestamo($request,null,null,null, $idPrestamo, $request->session()->get('idEmpresa'));
             $resultado       = [];
 
             if ($prestamoDetalle) {

@@ -119,43 +119,38 @@ class PrestamoDetalleController extends Controller
      *
      * @param array $request: Peticiones realizadas.
      *
-     * @return json
+     * @return object
      */
-    public function UpdateModal(Request $request) {
+    public function ActualizarFecha(Request $request) {
 
-        #1. Verificamos los campos
-        if ($resultado = HerramientaStidsController::verificacionCampos(
-                $request,
-                'fecha_pago',
-                'Debe digitar la fecha de pago para continuar'
-            )) {
-            return $resultado;
-        }
+        #1. Verificamos los datos enviados
+
+        #1.1. Datos obligatorios
+        $datos = [
+            'fecha' => 'Debe seleccionar una fecha poder actualizar los cambios',
+        ];
+
+        #1.2. Verificación de los datos obligatorios con los enviados
+        if($respuesta = self::$hs->verificationDatas($request,$datos)) {
+            return $respuesta;
+        };
 
 
-        #2. Asignamos el valor de la mora
-        $mora = $request->get('mora') ? (int)$request->get('mora') : 0;
-
-
-        #3. Obtenemos
+        #2. Obtenemos
         $clase = PrestamoDetalle::Find((int)$request->get('id'));
 
-        $clase->total       = $clase->amortizacion + $clase->intereses + $mora;
-        $clase->fecha_pago  = $request->get('fecha_pago');
-        $clase->mora        = $mora;
-        $clase->total       = $clase->amortizacion + $clase->intereses + $clase->mora;
-        $clase->observacion = $request->get('observacion');
+        $clase->fecha_pago  = $request->get('fecha');
 
-        $mensaje     = ['Se actualizó correctamente','Se encontraron problemas al actualizar'];
-        $transaccion = [$request,32,'actualizar','p_prestamo_detalle'];
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'actualizar';
 
 
         #4. Actualizamos
-        $resultado = HerramientaStidsController::ejecutarSave($clase,$mensaje,$transaccion);
+        $resultado = self::$hs->Guardar($request, $clase, self::$hs->mensajeActualizar, self::$transaccion);
 
 
         #5. Actualizamos la fecha de todas las cuotas que sean mayores a la cuota actual
-        PrestamoDetalle::actualizarFechaDesdeCuota($request,$clase->id_prestamo,$clase->no_cuota,$request->get('fecha_pago'));
+        PrestamoDetalle::ActualizarFechaDesdeCuota($request,$clase->id_prestamo,$clase->no_cuota,$request->get('fecha'));
 
         return $resultado;
     }
@@ -248,6 +243,7 @@ class PrestamoDetalleController extends Controller
 
             #2.1. Guardamos el pago en la cuota.
             $rPago[] = self::$hs->Guardar($request, $clase, self::$hs->mensajeGuardar, self::$transaccion);
+
 
             #2.2. Guardamos el pago en la tabla de pagos.
             $PDP = new PrestamoDetallePagoController();
