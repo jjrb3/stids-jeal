@@ -164,7 +164,7 @@ class Prestamo extends Model
      * @param bool    $sistema:     Si es el sisteman o agrega las transaccion.
      * @param string  $fechaPago:   Fecha del ultimo pago.
      *
-     * @return array: Resultado de la actualización
+     * @return object
      */
     public static function ActualizarDatosFinacieros($request, $idsPrestamo = array(), $sistema = false, $fechaPago = null, $idEstadoPago = null) {
 
@@ -180,16 +180,16 @@ class Prestamo extends Model
                     )
                 )
                 ->where('id_empresa', $request->session()->get('idEmpresa'))
-                ->where('estado', 1)
+                ->where('estado', '>', '-1')
                 ->groupBy('id_prestamo')
                 ->get();
-
 
             if ($idsPrestamo) {
                 $listaPrestamo = $listaPrestamo->whereIn('id_prestamo', $idsPrestamo);
             }
 
             $listaPrestamo = $listaPrestamo->toArray();
+
 
             $resultado = [];
 
@@ -236,10 +236,8 @@ class Prestamo extends Model
             return $resultado;
 
         } catch (\Exception $e) {
-            return [
-                'resultado' => -1,
-                'mensaje' => "Se encontraron errores al momento de consultar los datos del prestamo"
-            ];
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ActualizarDatosFinacieros', $e, $request);
         }
     }
 }

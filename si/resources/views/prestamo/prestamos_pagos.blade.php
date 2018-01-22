@@ -215,87 +215,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-3" id="bloque-pago" style="display: none;">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Pago de cuota</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline">
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <form id="formulario-pago">
-                                            <div class="col-lg-12">
-                                                <div id="mensaje-pago"></div>
-                                                <div class="form-group">
-                                                    <label>Valor a pagar</label>
-                                                    <div>
-                                                        <input type="text" id="monto-pagado" name="monto_pagado" class="form-control m-b numerico" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Observación</label>
-                                                    <div>
-                                                        <textarea class="form-control m-b" name="observacion" id="" rows="5"></textarea>
-                                                    </div>
-                                                </div>
-                                                <button class="btn btn-primary btn-guardar" type="button" onClick="Api.Loan.savePaymentLoan()" style="display:none;">
-                                                    <i class="fa fa-floppy-o"></i>&nbsp;
-                                                    Pagar cuota
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-lg-3" id="bloque-pago-valor-superior" style="display: none;">
-                        <div class="ibox float-e-margins">
-                            <div class="ibox-title">
-                                <h5>Pago de valor superior</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link">
-                                        <i class="fa fa-chevron-up"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="ibox-content inspinia-timeline">
-                                <div class="timeline-item">
-                                    <div class="row">
-                                        <form id="formulario-pago-superior">
-                                            <div class="col-lg-12">
-                                                <div id="mensaje-pago-superior"></div>
-                                                <div class="form-group">
-                                                    <label>Saldo a pagar</label>
-                                                    <div>
-                                                        <input type="text" name="saldo" class="form-control m-b" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Observación</label>
-                                                    <div>
-                                                        <textarea class="form-control m-b" name="observacion" id="" rows="5"></textarea>
-                                                    </div>
-                                                </div>
-                                                <button class="btn btn-primary btn-guardar" type="button" onClick="Api.LoanDetail.savePaymentWithHigherValue()" style="display:none;">
-                                                    <i class="fa fa-floppy-o"></i>&nbsp;
-                                                    Pagar
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -529,13 +448,15 @@
                             <div class="form-group">
                                 <label>Observación.</label>
                                 <div>
-                                    <textarea id="observacion" class="form-control" rows="4"></textarea>
+                                    <textarea id="refinanciar-observacion" class="form-control" rows="4"></textarea>
                                 </div>
                             </div>
-                            <button id="btn-guardar-refinanciacion" class="btn btn-primary btn-guardar" type="button" onclick="">
-                                <i class="fa fa-refresh"></i>&nbsp;
-                                Guardar Refinanciación
-                            </button>
+                            @if($op->guardar)
+                                <button id="btn-guardar-refinanciacion" class="btn btn-primary btn-guardar" type="button" onclick="Api.Prestamo.guardarRefinanciacion();">
+                                    <i class="fa fa-refresh"></i>&nbsp;
+                                    Guardar Refinanciación
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -695,6 +616,5 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
-        Api.Prestamo.refinanciar(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Autorizado","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":4,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":0,"total_intereses":204318,"total_mora":0,"total":1252122,"total_pagado":567559,"fecha_pago_inicial":"2018-01-17","fecha_ultimo_pago":"2018-01-21 14:08:26","fecha_ultima_refinanciacion":null,"observacion":null,"estado":1})
     </script>
 @endsection

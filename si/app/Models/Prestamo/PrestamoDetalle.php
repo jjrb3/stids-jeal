@@ -316,16 +316,16 @@ class PrestamoDetalle extends Model
      *
      * @param array     $request:    Peticiones realizadas.
      * @param integer   $idPrestamo: Id del prestamo.
-     * @param integer   $cuota:      cuota.
+     * @param integer   $id:         id.
      *
      * @return array: Resultado de la eliminación
      */
-    public static function eliminarCuotasMayores($request,$idPrestamo,$cuota) {
+    public static function EliminarCuotasMayores($request,$idPrestamo,$id) {
         try {
 
             $resultado = PrestamoDetalle::where('id_empresa',$request->session()->get('idEmpresa'))
                 ->where('id_prestamo',$idPrestamo)
-                ->where('no_cuota','>',$cuota)
+                ->where('id','>',$id)
                 ->update(['estado' => -1]);
 
             if ($resultado > 0) {
@@ -361,27 +361,21 @@ class PrestamoDetalle extends Model
      * @param array     $request:    Peticiones realizadas.
      * @param integer   $idPrestamo: Id del prestamo.
      *
-     * @return integer: Numero de la cuota
+     * @return object
      */
-    public static function generarNumeroRefinanciacion($request,$idPrestamo) {
+    public static function GenerarNumeroRefinanciacion($request,$idPrestamo) {
         try {
-
-            $result = PrestamoDetalle::select(DB::raw('MAX(no_refinanciacion) + 1 AS refinanciacion'))
+            $cantidad = PrestamoDetalle::select(DB::raw('MAX(no_refinanciacion) AS refinanciacion'))
                 ->where('id_empresa',$request->session()->get('idEmpresa'))
                 ->where('id_prestamo',$idPrestamo)
                 ->where('estado',1)
-                ->get()
-                ->toArray();
+                ->get();
 
-            if ($result) {
-                return $result[0]['refinanciacion'];
-            }
-            else {
-                return 0;
-            }
+            return (int)$cantidad[0]->refinanciacion + 1;
 
         } catch (\Exception $e) {
-            return 0;
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'GenerarNumeroRefinanciacion', $e, $request);
         }
     }
 
@@ -532,6 +526,79 @@ class PrestamoDetalle extends Model
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
             return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorEmpPreFM', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-10 - 12:04 PM
+     *
+     * Obtengo la fecha y el saldo atrasado que se tiene que pagar
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param integer   $idEmpresa:     ID empresa.
+     * @param integer   $idPrestamo:    ID prestamo.
+     *
+     * @return object
+     */
+    public static function ObtenerUltimaCuotaPagada($request, $idEmpresa, $idPrestamo) {
+        try {
+
+            return PrestamoDetalle::select(DB::raw('MAX(id) AS id, MAX(no_cuota) AS cuota'))
+                ->where('id_empresa',$idEmpresa)
+                ->where('id_prestamo',$idPrestamo)
+                ->where('valor_pagado', '>', 0)
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ObtenerUltimaCuotaPagada', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-08 - 05:54 PM
+     *
+     * Elimina las cuotas que sean mayores de una cuota dada
+     *
+     * @param array     $request:    Peticiones realizadas.
+     * @param integer   $idPrestamo: Id del prestamo.
+     * @param integer   $id:         ID.
+     *
+     * @return array: Resultado de la eliminación
+     */
+    public static function InactivarCuotas($request,$idPrestamo,$id) {
+        try {
+
+            $resultado = PrestamoDetalle::where('id_empresa',$request->session()->get('idEmpresa'))
+                ->where('id_prestamo',$idPrestamo)
+                ->where('id','<=',$id)
+                ->update(['estado' => 0]);
+
+            if ($resultado > 0) {
+
+                return array(
+                    'resultado' => 1,
+                    'mensaje'   => 'Se eliminó correctamente',
+                );
+            }
+            else {
+                return array(
+                    'resultado' => 0,
+                    'mensaje'   => 'Se encontraron problemas al eliminar',
+                );
+            }
+        }
+        catch (\Exception $e) {
+            return array(
+                'resultado' => -2,
+                'mensaje'   => 'Grave error: ' . $e,
+            );
         }
     }
 }

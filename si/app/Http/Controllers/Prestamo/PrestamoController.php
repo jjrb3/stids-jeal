@@ -77,9 +77,10 @@ class PrestamoController extends Controller
     public static function GuardarRefinanciacion(Request $request) {
 
         $idPrestamo = $request->get('id');
+        $idEmpresa  = $request->session()->get('idEmpresa');
 
         #1. Obtenemos el numero de refinanciación
-        $noRefinanciacion = PrestamoDetalle::generarNumeroRefinanciacion($request,$idPrestamo);
+        $noRefinanciacion = PrestamoDetalle::GenerarNumeroRefinanciacion($request,$idPrestamo);
 
 
         #2. Actualizamos el prestamo
@@ -95,36 +96,46 @@ class PrestamoController extends Controller
         $prestamo->fecha_ultima_refinanciacion  = date('Y-m-d H:i:s');
 
 
-        $mensaje        = ['Se guardó correctamente','Se encontraron problemas al guardar'];
-        $transaccion    = [$request,32,'actualizar','p_prestamo'];
-
-        $rPrestamo =  json_decode(json_encode(HerramientaStidsController::ejecutarSave($prestamo,$mensaje,$transaccion)));
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'actualizar';
 
 
-        #3. Eliminamos el detalle del prestamo
-        PrestamoDetalle::eliminarCuotasMayores($request,$idPrestamo,$request->get('ultima_cuota_pagada'));
+        #3. Guardamos los datos
+        $rPrestamo = self::$hs->ejecutarSave($prestamo, self::$hs->mensajeGuardar, self::$transaccion);
+
+        $ultimaCuota = PrestamoDetalle::ObtenerUltimaCuotaPagada($request, $idEmpresa, $idPrestamo);
 
 
-        #4. Creamos el detalle de la refinanciacion
-        $rDetalle = PrestamoDetalleController::guardarPorCadena(
-            $rPrestamo->original->id,
-            $request->get('cadena_refinaciacion'),
+        #4. Eliminamos y desactivamos
+        if ($ultimaCuota[0]->cuota) {
+
+            PrestamoDetalle::InactivarCuotas($request, $idPrestamo, $ultimaCuota[0]->id);
+            PrestamoDetalle::EliminarCuotasMayores($request, $idPrestamo, $ultimaCuota[0]->id);
+        }
+
+
+        #5. Creamos el detalle de la refinanciacion
+        $prestamoDetalle = new PrestamoDetalleController();
+
+        $rDetalle = $prestamoDetalle->GuardarPorCadena(
             $request,
-            $prestamo->id_cliente,
-            $prestamo->id_forma_pago,
-            $request->get('ultima_cuota_pagada'),
+            $rPrestamo->original['id'],
+            $request->get('cadena_refinaciacion'),
+            $request->get('id_cliente'),
+            $request->get('id_forma_pago'),
+            (int)$ultimaCuota[0]->cuota,
             $noRefinanciacion
         );
 
 
         #5. Actualizamos los datos financieros de este prestamo
-        $rDatosFinancieros = Prestamo::ActualizarDatosFinacieros($request,[$idPrestamo]);
+        $rDatosFinancieros = Prestamo::ActualizarDatosFinacieros($request,[$idPrestamo], false, null, 11);
 
 
         return response()->json([
             'resultado'         => 1,
             'mensaje'           => 'Se guardó la refinanciación correctamente',
-            'id'                => $rPrestamo->original->id,
+            'id'                => $rPrestamo->original['id'],
             'prestamo'          => $rPrestamo->original,
             'prestamo_detalle'  => $rDetalle,
             'datos_financieros' => $rDatosFinancieros
