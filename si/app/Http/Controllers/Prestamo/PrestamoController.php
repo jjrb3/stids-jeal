@@ -256,6 +256,40 @@ class PrestamoController extends Controller
     }
 
 
+
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-2 - 08:26 PM
+     * @see: 1. Prestamo::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function GuardarObservacion($request)
+    {
+        $clase = Prestamo::Find((int)$request->get('id'));
+
+        $clase->observacion = $request->get('observacion');
+
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'actualizar';
+
+        return self::$hs->Guardar(
+            $request,
+            $clase,
+            self::$hs->mensajeGuardar,
+            self::$transaccion
+        );
+    }
+
+
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0

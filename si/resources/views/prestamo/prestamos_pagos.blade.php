@@ -224,7 +224,7 @@
 
     <!-- Modals -->
     <!-- Simular prestamo -->
-    <div id="modal-simular" class="modal fade" aria-hidden="true" style="display: none;">
+    <div id="modal-simular" class="modal fade" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -313,7 +313,7 @@
     <!-- Fin simular prestamo -->
 
     <!-- Realizar pagos -->
-    <div id="modal-pagos" class="modal fade" aria-hidden="true" style="display: none;">
+    <div id="modal-pagos" class="modal fade" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -348,7 +348,7 @@
     <!-- Fin realizar pagos -->
 
     <!-- Refinanciación -->
-    <div id="modal-refinanciar" class="modal fade" aria-hidden="true" style="display: none;">
+    <div id="modal-refinanciar" class="modal fade" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -462,7 +462,7 @@
     <!-- Fin Refinanciación -->
 
     <!-- Ampliacion -->
-    <div id="modal-ampliar" class="modal fade" aria-hidden="true" style="display: none;">
+    <div id="modal-ampliar" class="modal fade" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -513,8 +513,8 @@
     </div>
     <!-- Fin ampliacion -->
 
-    <!-- Ampliacion -->
-    <div id="modal-cambiar-fecha" class="modal fade" aria-hidden="true" style="display: none;">
+    <!-- Cambio de fecha -->
+    <div id="modal-cambiar-fecha" class="modal fade" aria-hidden="true">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -541,7 +541,33 @@
             </div>
         </div>
     </div>
-    <!-- Fin ampliacion -->
+    <!-- Fin cambio de fecha -->
+
+    <!-- Observacion -->
+    <div id="modal-observacion" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="modal-title">Observaciones</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <textarea id="observacion" class="form-control" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer gray-bg centrado">
+                    @if($op->actualizar)
+                        <button id="btn-guardar-observacion" class="btn btn-success" type="button" onClick="">
+                            <i class="fa fa-pencil-square-o"></i>&nbsp;
+                            Guardar observación
+                        </button>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin observacion -->
 
     <!-- Fin Modals -->
 
@@ -556,5 +582,6 @@
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
+        Api.Prestamo.observacion(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Mora","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":1,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":13,"total_intereses":290494,"total_mora":27900,"total":1573031,"total_pagado":567559,"fecha_pago_inicial":"2018-01-23","fecha_ultimo_pago":"2018-01-21 14:08:26","fecha_ultima_refinanciacion":"2018-01-22 12:56:48","observacion":null,"estado":1})
     </script>
 @endsection
