@@ -262,7 +262,7 @@ class PrestamoController extends Controller
     /**
      * @autor: Jeremy Reyes B.
      * @version: 1.0
-     * @date: 2018-01-2 - 08:26 PM
+     * @date: 2018-01-22 - 08:41 PM
      * @see: 1. Prestamo::find.
      *       2. self::$hs->ejecutarSave.
      *

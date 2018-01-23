@@ -435,4 +435,35 @@ class PrestamoDetalleController extends Controller
             'mensaje'   => 'Se realizó la ampliacion de la cuota correctamente.'
         ]);
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-22 - 08:26 PM
+     * @see: 1. PrestamoDetalle::find.
+     *       2. self::$hs->ejecutarSave.
+     *
+     * Elimina un dato por id.
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public function GuardarObservacion($request)
+    {
+        $clase = PrestamoDetalle::Find((int)$request->get('id'));
+
+        $clase->observacion = $request->get('observacion');
+
+        self::$transaccion[0] = $request;
+        self::$transaccion[2] = 'actualizar';
+
+        return self::$hs->Guardar(
+            $request,
+            $clase,
+            self::$hs->mensajeGuardar,
+            self::$transaccion
+        );
+    }
 }

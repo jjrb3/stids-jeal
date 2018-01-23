@@ -577,11 +577,9 @@
     <script type="text/javascript" src="{{asset('js/si/prestamo/calculos.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/si/prestamo/prestamo-detalle.js')}}"></script>
-    <!--<script type="text/javascript" src="{{asset('js/si/prestamo/prestamosPagos.js')}}"></script>-->
 
     <script>
         Api.permisos = [{{$permisos}}];
         Api.Prestamo.constructor();
-        Api.Prestamo.observacion(91,{"cliente":"Alvaro Enrrique Perez Malo","no":"00008","identificacion":"1.234.567.890","forma_pago":"Mensual","estado_pago":"Mora","tipo_prestamo":"Cuota a Saldo","id":91,"id_empresa":1,"id_cliente":7,"id_forma_pago":4,"id_estado_pago":1,"id_tipo_prestamo":2,"no_prestamo":"00008","monto_requerido":1047800,"intereses":3,"mora":0,"no_cuotas":12,"refinanciado":13,"total_intereses":290494,"total_mora":27900,"total":1573031,"total_pagado":567559,"fecha_pago_inicial":"2018-01-23","fecha_ultimo_pago":"2018-01-21 14:08:26","fecha_ultima_refinanciacion":"2018-01-22 12:56:48","observacion":null,"estado":1})
     </script>
 @endsection
