@@ -119,7 +119,7 @@
             <td>
                 <p class="izq">
                     {{$nombre_empresa}} -
-                <span class="generado">Generador por {{$usuario_generador}} {{date('Y-m-d H:i:s')}}</span>.
+                <span class="generado">Generado por {{$usuario_generador}} {{date('Y-m-d H:i:s')}}</span>.
                 </p>
             </td>
             <td>

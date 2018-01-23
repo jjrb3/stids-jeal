@@ -65,11 +65,11 @@
                     <h5><i class="fa fa-file-pdf-o fa-1x azul"></i> &nbsp;Prestamos finalizados</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
-                            <i class="fa fa-chevron-down"></i>
+                            <i class="fa fa-chevron-up"></i>
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content" style="display: none;">
+                <div class="ibox-content">
                     <div class="row">
                         <form id="form-prestamos-finalizados" method=POST action="reportes" onsubmit="return Api.Reportes.prestamosFinalizados();" target="_blank">
                             {{ csrf_field() }}
@@ -96,7 +96,7 @@
                                 </div>
                             </div>
                             <br>
-                            @if($pExportar)
+                            @if($op->exportar)
                                 <div class="text-center">
                                     <button class="btn btn-info">
                                         <i class="fa fa-cloud-download"></i>
@@ -117,11 +117,11 @@
                     <h5><i class="fa fa-file-pdf-o fa-1x azul"></i> &nbsp;Relación de Prestamo</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
-                            <i class="fa fa-chevron-down"></i>
+                            <i class="fa fa-chevron-up"></i>
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content" style="display: none;">
+                <div class="ibox-content">
                     <div class="row">
                         <form id="form-relacion-prestamo" method=POST action="reportes" onsubmit="return Api.Reportes.relacionPrestamo();" target="_blank">
                             {{ csrf_field() }}
@@ -148,7 +148,7 @@
                                 </div>
                             </div>
                             <br>
-                            @if($pExportar)
+                            @if($op->exportar)
                                 <div class="text-center">
                                     <button class="btn btn-info">
                                         <i class="fa fa-cloud-download"></i>
@@ -169,11 +169,11 @@
                     <h5><i class="fa fa-file-pdf-o fa-1x azul"></i> &nbsp;Prestamos sin completar</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
-                            <i class="fa fa-chevron-down"></i>
+                            <i class="fa fa-chevron-up"></i>
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content" style="display: none;">
+                <div class="ibox-content">
                     <div class="row">
                         <form id="form-prestamos-sin-completar" method=POST action="reportes" onsubmit="return Api.Reportes.prestamosSinCompletar();" target="_blank">
                             {{ csrf_field() }}
@@ -200,7 +200,7 @@
                                 </div>
                             </div>
                             <br>
-                            @if($pExportar)
+                            @if($op->exportar)
                                 <div class="text-center">
                                     <button class="btn btn-info">
                                         <i class="fa fa-cloud-download"></i>
@@ -221,11 +221,11 @@
                     <h5><i class="fa fa-file-pdf-o fa-1x azul"></i> &nbsp;Recaudo Diario</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
-                            <i class="fa fa-chevron-down"></i>
+                            <i class="fa fa-chevron-up"></i>
                         </a>
                     </div>
                 </div>
-                <div class="ibox-content" style="display: none;">
+                <div class="ibox-content">
                     <div class="row">
                         <form id="form-recaudo-diario" method=POST action="reportes" onsubmit="return Api.Reportes.recaudoDiario();" target="_blank">
                             {{ csrf_field() }}
@@ -245,7 +245,7 @@
                                 </div>
                             </div>
                             <div class="form-group col-lg-12">
-                                @if($pExportar)
+                                @if($op->exportar)
                                     <div class="text-center">
                                         <button class="btn btn-info">
                                             <i class="fa fa-cloud-download"></i>
@@ -259,6 +259,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="col-lg-12">
+            <br><br>
         </div>
     </div>
     <!-- Fin contenido de la pagina -->

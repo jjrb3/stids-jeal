@@ -52,8 +52,8 @@ class ReportesController extends Controller
             ->setWarnings(false)
             ->save('Reporte.pdf');
 
-        return $pdf->download('Reporte de relación de prestamo.pdf');
-        //return $pdf->stream();
+        //return $pdf->download('Reporte de relación de prestamo.pdf');
+        return $pdf->stream('Reporte de relación de prestamo.pdf');
     }
 
 
@@ -97,8 +97,8 @@ class ReportesController extends Controller
             ->setWarnings(false)
             ->save('Reporte.pdf');
 
-        return $pdf->download('Reporte de relación de prestamo.pdf');
-        //return $pdf->stream();
+        //return $pdf->download('Reporte de relación de prestamo.pdf');
+        return $pdf->stream('Reporte de relación de prestamo.pdf');
     }
 
 
@@ -142,8 +142,8 @@ class ReportesController extends Controller
             ->setWarnings(false)
             ->save('Reporte.pdf');
 
-        return $pdf->download('Reporte de prestamos sin completar.pdf');
-        //return $pdf->stream();
+        //return $pdf->download('Reporte de prestamos sin completar.pdf');
+        return $pdf->stream('Reporte de prestamos sin completar.pdf');
     }
 
 
@@ -184,8 +184,8 @@ class ReportesController extends Controller
             ->setWarnings(false)
             ->save('Reporte.pdf');
 
-        return $pdf->download('Reporte de recaudo diario.pdf');
-        //return $pdf->stream();
+        //return $pdf->download('Reporte de recaudo diario.pdf');
+        return $pdf->stream('Reporte de recaudo diario.pdf');
     }
 
 

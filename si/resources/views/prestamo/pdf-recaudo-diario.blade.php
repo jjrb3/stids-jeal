@@ -105,7 +105,8 @@
         <tr>
             <td>
                 <p class="izq">
-                    {{$nombre_empresa}}
+                    {{$nombre_empresa}} -
+                    <span class="generado">{{date('Y-m-d H:i:s')}}</span>.
                 </p>
             </td>
             <td>
