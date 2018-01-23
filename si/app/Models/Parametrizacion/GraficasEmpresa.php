@@ -58,6 +58,7 @@ class GraficasEmpresa extends Model
                     OR s_graficas.nombre LIKE '%$buscar%')"
                 )
                 ->where('s_modulo_empresa.id_empresa',$idEmpresa)
+                ->where('s_graficas_empresa.id_empresa', $idEmpresa)
                 ->where('s_graficas.estado','1')
                 ->where('s_modulo.estado','1')
                 ->orderBy('s_modulo.nombre','ASC')

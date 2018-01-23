@@ -354,7 +354,7 @@
     <script type="text/javascript" src="{{asset('js/si/parametrizacion/usuario.js')}}"></script>
 
     @if($pg)
-        <script type="text/javascript" src="{{asset('js/si/graficas/parametrizacion/usuario.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/si/graficas/parametrizacion.js')}}"></script>
     @endif
 
     <script>

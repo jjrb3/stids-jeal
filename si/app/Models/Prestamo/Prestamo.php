@@ -239,4 +239,55 @@ class Prestamo extends Model
             return $hs->Log(self::MODULO,self::MODELO,'ActualizarDatosFinacieros', $e, $request);
         }
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-10 - 12:04 PM
+     *
+     * Prestamos realizados
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param integer   $idEmpresa:     ID empresa.
+     *
+     * @return object
+     */
+    public static function Realizados($request, $idEmpresa) {
+        try {
+            return Prestamo::where('id_empresa',$idEmpresa)
+                ->where('estado','>','-1')
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'Realizados', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-10 - 12:04 PM
+     *
+     * Prestamos realizados
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param integer   $idEmpresa:     ID empresa.
+     *
+     * @return object
+     */
+    public static function Completados($request, $idEmpresa) {
+        try {
+            return Prestamo::where('id_empresa',$idEmpresa)
+                ->where('estado','>','-1')
+                ->where('id_estado_pago',3)
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'Completados', $e, $request);
+        }
+    }
 }

@@ -24,6 +24,63 @@
     <div id="bloque-de-graficas" class="row ocultar">
         <div class="col-lg-12">
             <div class="wrapper wrapper-content">
+
+                <div id="bg-prestamo-total-cliente" class="col-lg-3 ocultar">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-success pull-right">Activos</span>
+                            <h5>Clientes</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins valor-total"></h1>
+                            <div class="stat-percent font-bold text-success"><i class="fa fa-bolt"></i></div>
+                            <small>Total general</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bg-prestamo-total-realizados" class="col-lg-3 ocultar">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-info pull-right">Realizados</span>
+                            <h5>Prestamos</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins valor-total"></h1>
+                            <div class="stat-percent font-bold text-info"><i class="fa fa-level-up"></i></div>
+                            <small>Total general</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bg-prestamo-total-completados" class="col-lg-3 ocultar">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-primary pull-right">Completados</span>
+                            <h5>Prestamos</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins valor-total"></h1>
+                            <div class="stat-percent font-bold text-navy"><i class="fa fa-level-up"></i></div>
+                            <small>Total general</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="bg-prestamo-total-sin-completar" class="col-lg-3 ocultar">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <span class="label label-danger pull-right">Sin completar</span>
+                            <h5>Prestamos</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <h1 class="no-margins valor-total"></h1>
+                            <div class="stat-percent font-bold text-danger"><i class="fa fa-level-down"></i></div>
+                            <small>Total general</small>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="bloque-grafica-usuario-transaccion" class="col-lg-8 ocultar">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -69,15 +126,20 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </div>
+    <br>
+    <br>
     <!-- Fin de contenido de graficas -->
 
 @endsection
 
 @section('script')
-    <script type="text/javascript" src="{{asset('js/si/graficas/parametrizacion/usuario.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/graficas/parametrizacion.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/si/graficas/prestamo.js')}}"></script>
 
     <script>
 

@@ -373,4 +373,35 @@ class PrestamoController extends Controller
             'forma_pago'    => $formaPago
         ]);
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-23 - 12:35 PM
+     * @see: 1. Modulo::ConsultarModulosActivos.
+     *
+     * Consulta los totales para estadisticas
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function ConsultarTotales(Request $request) {
+
+        $idEmpresa = $request->session()->get('idEmpresa');
+
+        $totalCliente               = Cliente::ConsultarActivo($request, $idEmpresa)->count();
+        $totalPrestamoRealizados    = Prestamo::Realizados($request, $idEmpresa)->count();
+        $totalPrestamoCompletados   = Prestamo::Completados($request, $idEmpresa)->count();
+        $totalPrestamoSinCompletar  = $totalPrestamoRealizados - $totalPrestamoCompletados;
+
+
+        return response()->json([
+            'clientes'      => $totalCliente,
+            'realizados'    => $totalPrestamoRealizados,
+            'completados'   => $totalPrestamoCompletados,
+            'sin_completar' => $totalPrestamoSinCompletar
+        ]);
+    }
 }

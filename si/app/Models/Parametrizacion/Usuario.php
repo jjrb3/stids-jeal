@@ -281,7 +281,7 @@ class Usuario extends Model
                 "SELECT estado,
                         COUNT(id) AS cantidad
                 FROM s_usuario
-                WHERE id_empresa = 1
+                WHERE id_empresa = {$idEmpresa}
                 GROUP BY estado"
             );
 
