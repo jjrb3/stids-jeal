@@ -520,13 +520,42 @@ class PrestamoDetalle extends Model
             return PrestamoDetalle::where('id_empresa',$idEmpresa)
                 ->where('id_prestamo',$idPrestamo)
                 ->where('estado',1)
-                ->where('fecha_pago', '>', $fecha)
+                ->where(DB::raw("fecha_pago > '$fecha'"))
                 ->orderBy('id')
                 ->get();
 
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
             return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorEmpPreFM', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-02-23 - 08:14 AM
+     *
+     * Obtengo el listado por empresa y prestamo
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param integer   $idEmpresa:     ID empresa.
+     * @param integer   $idPrestamo:    ID prestamo.
+     *
+     * @return object
+     */
+    public static function ConsultarPorEmpresaPrestamo($request, $idEmpresa, $idPrestamo) {
+        try {
+
+            return PrestamoDetalle::where('id_empresa',$idEmpresa)
+                ->where('id_prestamo',$idPrestamo)
+                ->where('estado',1)
+                ->orderBy('id')
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarPorEmpresaPrestamo', $e, $request);
         }
     }
 
@@ -551,6 +580,34 @@ class PrestamoDetalle extends Model
                 ->where('id_empresa',$idEmpresa)
                 ->where('id_prestamo',$idPrestamo)
                 ->where('valor_pagado', '>', 0)
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ObtenerUltimaCuotaPagada', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2017-11-10 - 12:04 PM
+     *
+     * Consulta todos los datos por empresa, prestamo y ID mayor
+     *
+     * @param array     $request:       Peticiones realizadas.
+     * @param integer   $idEmpresa:     ID empresa.
+     * @param integer   $idPrestamo:    ID prestamo.
+     * @param integer   $id:            ID.
+     *
+     * @return object
+     */
+    public static function ConsultarPorIdMayor($request, $idEmpresa, $idPrestamo, $id) {
+        try {
+            return PrestamoDetalle::where('id_empresa',$idEmpresa)
+                ->where('id_prestamo',$idPrestamo)
+                ->where('id', '>', $id)
                 ->get();
 
         } catch (\Exception $e) {

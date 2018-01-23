@@ -190,7 +190,6 @@ class Prestamo extends Model
 
             $listaPrestamo = $listaPrestamo->toArray();
 
-
             $resultado = [];
 
             # Actualizamos todo los datos

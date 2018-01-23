@@ -261,13 +261,22 @@ class PrestamoDetalleController extends Controller
         #3. Si paga mas de la cuenta o el pago es mayor de la fecha actual
         if ($valor > 0) {
 
-            $cuotas = PrestamoDetalle::ConsultarPorEmpPreFecMay($request, $idEmpresa, $idPrestamo, $saldoAtrasado->fecha_pago);
+            if (!$saldoAtrasado->fecha_pago) {
+
+                $cuotas = PrestamoDetalle::ConsultarPorEmpresaPrestamo($request, $idEmpresa, $idPrestamo);
+            }
+            else {
+
+                $cuotas = PrestamoDetalle::ConsultarPorEmpPreFecMay($request, $idEmpresa, $idPrestamo, $saldoAtrasado->fecha_pago);
+            }
+
 
             if ($cuotas->count() > 0) {
 
                 foreach ($cuotas as $cuota) {
 
                     if ($valor > 0 && $cuota->valor_pagado < $cuota->cuota) {
+
 
                         $calculo = 0;
 
@@ -301,7 +310,6 @@ class PrestamoDetalleController extends Controller
                 }
             }
         }
-
 
         #4. Actualizamos los datos de la tabla prestamo
         Prestamo::ActualizarDatosFinacieros($request, [$idPrestamo], false, date('Y-m-d H:i:s'), $estado);
