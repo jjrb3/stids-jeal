@@ -241,79 +241,80 @@
                 </div>
             </div>
             <!-- Fin del Modal de Eliminar -->
-
-            <!-- Clonar -->
-            <!-- Input -->
-            <div id="clonar-input" class="ocultar">
-                <input>
-            </div>
-            <!-- Fin Input -->
-            <!-- Select -->
-            <div id="clonar-select" class="ocultar">
-                <select></select>
-            </div>
-            <!-- Fin Select -->
-            <!-- Select -->
-            <div id="clonar-tabla" class="ocultar">
-                <div class="table-responsive">
-                    <table>
-                        <thead></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- Fin Select -->
-            <!-- Select -->
-            <div id="clonar-grupo-menu" class="ocultar">
-                <div class="btn-group">
-                    <button></button>
-                    <ul></ul>
-                </div>
-            </div>
-            <!-- Fin Select -->
-            <!-- Clonar cargando -->
-            <div id="clonar-cargando" class="ocultar">
-                <div class="sk-spinner sk-spinner-chasing-dots" align="center">
-                    <div class="sk-dot1"></div>
-                    <div class="sk-dot2"></div>
-                </div>
-            </div>
-            <!-- Fin clonar cargando -->
-            <!-- Clonar checkbox -->
-            <div id="clonar-checkbox" class="ocultar">
-                <label class="control control-checkbox">                    &nbsp;
-                    <input type="checkbox">
-                    <div class="control_indicator"></div>
-                </label>
-            </div>
-            <!-- Fin clonar checkbox -->
-            <!-- Boton -->
-            <div id="clonar-boton" class="ocultar">
-                <button></button>
-            </div>
-            <!-- Fin Boton -->
-            <!-- Boton -->
-            <div id="clonar-etiqueta" class="ocultar">
-                <div class="col-lg-3">
-                    <a id="href" href="" class="etiqueta">
-                        <div class="ibox float-e-margins centrado">
-                            <div class="ibox-title">
-                                <i id="icono" class="fa  fa-2x"></i>
-                            </div>
-                            <div class="ibox-content ibox-heading">
-                                <span>
-                                    <h3 id="titulo"></h3>
-                                    <small id="descripcion"></small>
-                                </span>
-                            </div>
-                            <div class="ibox-content inspinia-timeline"></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <!-- Fin Boton -->
-            <!-- Fin de clonar -->
         @endif
+
+        <!-- Clonar -->
+        <!-- Input -->
+        <div id="clonar-input" class="ocultar">
+            <input>
+        </div>
+        <!-- Fin Input -->
+        <!-- Select -->
+        <div id="clonar-select" class="ocultar">
+            <select></select>
+        </div>
+        <!-- Fin Select -->
+        <!-- Select -->
+        <div id="clonar-tabla" class="ocultar">
+            <div class="table-responsive">
+                <table>
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Fin Select -->
+        <!-- Select -->
+        <div id="clonar-grupo-menu" class="ocultar">
+            <div class="btn-group">
+                <button></button>
+                <ul></ul>
+            </div>
+        </div>
+        <!-- Fin Select -->
+        <!-- Clonar cargando -->
+        <div id="clonar-cargando" class="ocultar">
+            <div class="sk-spinner sk-spinner-chasing-dots" align="center">
+                <div class="sk-dot1"></div>
+                <div class="sk-dot2"></div>
+            </div>
+        </div>
+        <!-- Fin clonar cargando -->
+        <!-- Clonar checkbox -->
+        <div id="clonar-checkbox" class="ocultar">
+            <label class="control control-checkbox">                    &nbsp;
+                <input type="checkbox">
+                <div class="control_indicator"></div>
+            </label>
+        </div>
+        <!-- Fin clonar checkbox -->
+        <!-- Boton -->
+        <div id="clonar-boton" class="ocultar">
+            <button></button>
+        </div>
+        <!-- Fin Boton -->
+        <!-- Boton -->
+        <div id="clonar-etiqueta" class="ocultar">
+            <div class="col-lg-3">
+                <a id="href" href="" class="etiqueta">
+                    <div class="ibox float-e-margins centrado">
+                        <div class="ibox-title">
+                            <i id="icono" class="fa  fa-2x"></i>
+                        </div>
+                        <div class="ibox-content ibox-heading">
+                            <span>
+                                <h3 id="titulo"></h3>
+                                <small id="descripcion"></small>
+                            </span>
+                        </div>
+                        <div class="ibox-content inspinia-timeline"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- Fin Boton -->
+        <!-- Fin de clonar -->
+
 
         <!-- Fin Modals -->
 
