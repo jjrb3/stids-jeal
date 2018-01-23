@@ -1,5 +1,4 @@
 <html>
-<head>
     <style>
         @page {
             margin: 160px 50px;

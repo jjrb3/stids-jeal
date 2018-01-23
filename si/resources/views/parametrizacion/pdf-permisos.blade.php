@@ -1,5 +1,4 @@
 <html>
-<head>
     <link rel="shortcut icon" href="{{asset('temas/stids/img/ico/favicon.png')}}">
     <style>
         @page {
