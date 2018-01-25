@@ -261,6 +261,58 @@
             </div>
         </div>
 
+        <div class="col-lg-4" id="contenedor-prestamo-sin-completar">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5><i class="fa fa-file-pdf-o fa-1x azul"></i> &nbsp;Total recaudado</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <form id="form-prestamos-total-recaudado" method=POST action="reportes" onsubmit="return Api.Reportes.prestamosTotalRecaudado();" target="_blank">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="crud" value="true">
+                            <input type="hidden" name="controlador" value="Reportes">
+                            <input type="hidden" name="carpetaControlador" value="Prestamo">
+                            <input type="hidden" name="funcionesVariables" value="TotalRecaudado">
+                            <div class="col-lg-12">
+                                Reporte del total de recaudos por rango de fecha.
+                                <br>
+                                <br>
+                            </div>
+                            <div align="center">
+                                <div class="col-lg-6">
+                                    <label>Fecha Inicial</label>
+                                </div>
+                                <div class="col-lg-5">
+                                    <label>Fecha Final</label>
+                                </div>
+                                <div class="rangedatepicker input-group col-lg-10" id="datepicker" align="center">
+                                    <input type="text" class="form-control fecha-inicio" name="fecha_inicio" id="fecha-inicio">
+                                    <span class="input-group-addon">a</span>
+                                    <input type="text" class="form-control fecha-fin" name="fecha_fin" id="fecha-fin">
+                                </div>
+                            </div>
+                            <br>
+                            @if($op->exportar)
+                                <div class="text-center">
+                                    <button class="btn btn-info">
+                                        <i class="fa fa-cloud-download"></i>
+                                        &nbsp;
+                                        Generar Reporte
+                                    </button>
+                                </div>
+                            @endif
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-lg-12">
             <br><br>
         </div>

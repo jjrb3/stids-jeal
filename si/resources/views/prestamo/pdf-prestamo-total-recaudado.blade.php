@@ -92,8 +92,8 @@
     @if($logo_empresa)
         <img src="{{asset("recursos/imagenes/empresa_logo/$logo_empresa")}}" height="100" width="280" class="float-right">
     @endif
-    <div class="titulo">Prestamos Finalizados</div>
-    <div class="subtitulo">Reporte de prestamos finalizados por rango de fecha.</div>
+    <div class="titulo">Total recaudado</div>
+    <div class="subtitulo">Reporte del total de recaudos por rango de fecha.</div>
     <br>
     <div class="texto">
         <strong>Fecha inicial:</strong> {{$fecha_inicial}}.
@@ -126,59 +126,49 @@
         <thead>
         <tr>
             <th>#</th>
+            <th>No. Prestamo</th>
             <th>Identificación</th>
             <th>Clientes</th>
-            <th>Telefono</th>
-            <th>Fecha prestamo</th>
-            <th>Cuotas</th>
-            <th>Fecha de vencimiento</th>
-            <th>Creado por</th>
+            <th>Celular</th>
             <th>Estado</th>
-            <th>Valor</th>
-            <th>Interes</th>
-            <th>Valor total</th>
-            <th>Deuda</th>
+            <th>Fecha ultimo pago</th>
+            <th>Intereses</th>
+            <th>Abono a capital</th>
+            <th>Total</th>
         </tr>
         </thead>
         <tbody>
-            @php($totalValor = 0)
             @php($totalInteres = 0)
-            @php($totalGeneral = 0)
-            @php($totalDeuda = 0)
+            @php($totalAbono = 0)
+            @php($total = 0)
             @php($cnt = 1)
             @foreach($tabla as $r)
                 <tr>
                     <td align="center">{{$cnt}}</td>
+                    <td align="center">{{$r->no_prestamo}}</td>
                     <td align="center">{{$r->identificacion}}</td>
                     <td>{{$r->cliente}}</td>
-                    <td align="center">{{$r->telefono}}</td>
-                    <td align="center">{{$r->fecha_prestamo}}</td>
-                    <td align="center">{{$r->cuotas}}</td>
-                    <td align="center">{{$r->fecha_vencimiento}}</td>
-                    <td>{{$r->creado_por}}</td>
+                    <td align="center">{{$r->celular}}</td>
                     <td align="center">{{$r->estado}}</td>
-                    <td align="center">${{number_format($r->valor)}}</td>
+                    <td align="center">{{$r->fecha_ultimo_pago}}</td>
                     <td align="center">${{number_format($r->intereses)}}</td>
-                    <td align="center">${{number_format($r->valor_total)}}</td>
-                    <td align="center">${{number_format($r->deuda)}}</td>
+                    <td align="center">${{number_format($r->abono_capital)}}</td>
+                    <td align="center">${{number_format($r->total_pagado)}}</td>
                 </tr>
-                @php($totalValor += $r->valor)
                 @php($totalInteres += $r->intereses)
-                @php($totalGeneral += $r->valor_total)
-                @php($totalDeuda += $r->deuda)
+                @php($totalAbono += $r->abono_capital)
+                @php($total += $r->total_pagado)
                 @php($cnt++)
             @endforeach
         <tr>
-            <td colspan="9" class="pie-tabla">Total</td>
-            <td align="center">${{number_format($totalValor)}}</td>
+            <td colspan="7" class="pie-tabla">Total</td>
             <td align="center">${{number_format($totalInteres)}}</td>
-            <td align="center">${{number_format($totalGeneral)}}</td>
-            <td align="center">${{number_format($totalDeuda)}}</td>
+            <td align="center">${{number_format($totalAbono)}}</td>
+            <td align="center">${{number_format($total)}}</td>
         </tr>
         </tbody>
     </table>
     @else
-
         <div class="subtitulo">No se encontraron resultados para esta busqueda.</div>
     @endif
 </div>

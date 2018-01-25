@@ -100,7 +100,9 @@
     </style>
 <body>
 <header>
-    <img src="{{asset("recursos/imagenes/empresa_logo/$logo_empresa")}}" height="100" width="280" class="float-right">
+    @if($logo_empresa)
+        <img src="{{asset("recursos/imagenes/empresa_logo/$logo_empresa")}}" height="100" width="280" class="float-right">
+    @endif
     <div class="titulo">Listado de permisos</div>
     <div class="subtitulo">Información de todos los permisos que tiene una empresa. </div>
 </header>

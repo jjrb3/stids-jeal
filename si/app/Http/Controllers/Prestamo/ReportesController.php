@@ -269,4 +269,49 @@ class ReportesController extends Controller
         //return $pdf->download('Simulación.pdf');
         return $pdf->stream('Simulación.pdf');
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-25 - 10:15 AM
+     * @see: 1. Empresa::Find.
+     *       2. App::make.
+     *       3. Reportes::ConsultarRelacionPrestamoPorFechas
+     *
+     * Consulta el total de recaudo hecho por rango de fecha
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return pdf
+     */
+    public static function TotalRecaudado(Request $request) {
+
+        $pdf     = App::make('dompdf.wrapper');
+
+        $empresa = Empresa::Find($request->session()->get('idEmpresa'));
+        $tabla   = Reportes::ConsultarTotalRecaudado(
+            $request,
+            $request->session()->get('idEmpresa'),
+            $request->get('fecha_inicio'),
+            $request->get('fecha_fin')
+        );
+
+        $pdf->loadHTML(
+            View('prestamo.pdf-prestamo-total-recaudado',[
+                'nombre_empresa'    => $empresa->nombre,
+                'logo_empresa'      => $empresa->imagen_logo,
+                'fecha_inicial'     => $request->get('fecha_inicio'),
+                'fecha_final'       => $request->get('fecha_fin'),
+                'usuario_generador' => $request->session()->get('nombres'),
+                'tabla'             => $tabla,
+            ])
+        )
+            ->setPaper('a4', 'landscape')
+            ->setWarnings(false)
+            ->save('Reporte.pdf');
+
+        //return $pdf->download('Reporte de prestamos sin completar.pdf');
+        return $pdf->stream('Reporte total recaudado.pdf');
+    }
 }

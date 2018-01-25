@@ -89,7 +89,9 @@
     </style>
 <body>
 <header>
-    <img src="{{asset("recursos/imagenes/empresa_logo/$logo_empresa")}}" height="100" width="280" class="float-right">
+    @if($logo_empresa)
+        <img src="{{asset("recursos/imagenes/empresa_logo/$logo_empresa")}}" height="100" width="280" class="float-right">
+    @endif
     <div class="titulo">Recaudo Diario</div>
     <div class="subtitulo">Reporte de Recaudo por día seleccinado. </div>
     <br>
