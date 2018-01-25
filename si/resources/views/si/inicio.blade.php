@@ -81,15 +81,14 @@
                     </div>
                 </div>
 
-                <div id="bg-prestamo-detalle-recaudo" class="col-lg-12">
+                <div id="bg-prestamo-detalle-recaudo" class="col-lg-12 ocultar">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
                             <h5>Detalle general del recaudo de los prestamos</h5>
                             <div class="pull-right">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-xs btn-white ocultar">Hoy</button>
                                     <button type="button" class="btn btn-xs btn-white ocultar">Semanal</button>
-                                    <button type="button" class="btn btn-xs btn-white active">Mensual</button>
+                                    <button type="button" class="btn btn-xs btn-white active" onclick="Api.Graficas.Prestamo.detalleRecaudo('si/')">Mensual</button>
                                     <button type="button" class="btn btn-xs btn-white ocultar">Anual</button>
                                 </div>
                             </div>

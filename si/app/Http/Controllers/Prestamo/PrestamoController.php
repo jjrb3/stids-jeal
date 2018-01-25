@@ -425,10 +425,36 @@ class PrestamoController extends Controller
         $fecha = self::$hs->ObtenerInicioFinPorMes(date('m'),date('Y'));
 
         $totales = Prestamo::ConsultarTotalRecaudado($request, $idEmpresa, $fecha['fecha_inicial'], $fecha['fecha_final']);
+        $detalle = Prestamo::ConsultarDetallePagosPorDia($request, $idEmpresa, $fecha['fecha_inicial'], $fecha['fecha_final']);
+
+
+        if (isset($detalle[0]) && $detalle[0]->fecha !== $fecha['fecha_inicial']) {
+
+            foreach ($detalle as $k => $i) {
+                $detalle[$k + 1] = $i;
+            }
+
+            $detalle[0] = [
+                'fecha' => $fecha['fecha_inicial'],
+                'interes' => 0,
+                'capital' => 0,
+                'total' => 0
+            ];
+        }
+
+        if (!isset($detalle[$fecha['final']-1])) {
+            $detalle[] = [
+                'fecha' => $fecha['fecha_final'],
+                'interes' => null,
+                'capital' => null,
+                'total' => null
+            ];
+        }
 
 
         return response()->json([
             'totales'   => $totales ? $totales[0] : '',
+            'detalle'   => $detalle
         ]);
     }
 }
