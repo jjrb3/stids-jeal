@@ -420,12 +420,27 @@ class PrestamoController extends Controller
      */
     public static function DetalleRecaudo(Request $request) {
 
+        $insertar  = false;
         $idEmpresa = $request->session()->get('idEmpresa');
 
         $fecha = self::$hs->ObtenerInicioFinPorMes(date('m'),date('Y'));
 
-        $totales = Prestamo::ConsultarTotalRecaudado($request, $idEmpresa, $fecha['fecha_inicial'], $fecha['fecha_final']);
+        $totales = Prestamo::ConsultarTotalRecaudado($request, $idEmpresa);
         $detalle = Prestamo::ConsultarDetallePagosPorDia($request, $idEmpresa, $fecha['fecha_inicial'], $fecha['fecha_final']);
+
+        if (!$totales[0]->total_general) {
+
+            $total = Prestamo::ConsultarTotalGeneralAPagar($request, $idEmpresa);;
+
+            $totales[0]->total_general  = $total[0]->total;
+            $totales[0]->total_recaudar = $total[0]->total;
+            $totales[0]->total_pagado = 0;
+            $totales[0]->intereses = 0;
+            $totales[0]->porcentaje_capital = 0;
+            $totales[0]->porcentaje_interes = 0;
+            $totales[0]->porcentaje_pagado = 0;
+            $totales[0]->porcentaje_recaudar = 100;
+        }
 
 
         if (isset($detalle[0]) && $detalle[0]->fecha !== $fecha['fecha_inicial']) {
@@ -433,6 +448,11 @@ class PrestamoController extends Controller
             foreach ($detalle as $k => $i) {
                 $detalle[$k + 1] = $i;
             }
+
+            $insertar = true;
+        }
+
+        if (!$detalle || $insertar) {
 
             $detalle[0] = [
                 'fecha' => $fecha['fecha_inicial'],
@@ -453,7 +473,7 @@ class PrestamoController extends Controller
 
 
         return response()->json([
-            'totales'   => $totales ? $totales[0] : '',
+            'totales'   => $totales[0],
             'detalle'   => $detalle
         ]);
     }

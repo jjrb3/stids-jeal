@@ -134,7 +134,7 @@
                                             </div>
                                         </li>
                                         <li>
-                                            <h2 class="no-margins precio-general">$10,930,039,300</h2>
+                                            <h2 class="no-margins precio-general">$0</h2>
                                             <small>Total General</small>
                                             <div class="stat-percent"><span class="proncentaje-general">0%</span> <i class="fa fa-warning text-warning"></i></div>
                                             <div class="progress progress-mini">

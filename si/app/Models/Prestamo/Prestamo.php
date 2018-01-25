@@ -301,12 +301,10 @@ class Prestamo extends Model
      *
      * @param request $request:         Peticiones.
      * @param integer $idEmpresa:       ID empresa.
-     * @param string  $fechaInicial:    Fecha inicial.
-     * @param string  $fechaFinal:      Fecha final.
      *
      * @return object
      */
-    public static function ConsultarTotalRecaudado($request, $idEmpresa, $fechaInicial, $fechaFinal)
+    public static function ConsultarTotalRecaudado($request, $idEmpresa)
     {
         try {
             return DB::select(
@@ -325,7 +323,10 @@ class Prestamo extends Model
                              0
                           )                                               AS abono_capital,
                           SUM(ppd.valor_pagado)                           AS total_pagado,
-                          SUM(pp.total) - SUM(ppd.valor_pagado)           AS total_recaudar,
+                          IF(SUM(pp.total) - SUM(ppd.valor_pagado) > 0,
+                              SUM(pp.total) - SUM(ppd.valor_pagado),
+                              0
+                          )                                               AS total_recaudar,
                           SUM(pp.total)                                   AS total_general
                           
                     FROM p_prestamo pp
@@ -343,7 +344,6 @@ class Prestamo extends Model
                                                             AND st.nombre_tabla   = 'p_prestamo_detalle_pago'
                 
                     WHERE pp.id_empresa = {$idEmpresa}
-                    AND st.fecha_alteracion BETWEEN '{$fechaInicial}' AND '{$fechaFinal}'
                 ) transacciones"
             );
 
@@ -407,6 +407,33 @@ class Prestamo extends Model
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
             return $hs->Log(self::MODULO,self::MODELO,'ConsultarDetallePagosPorDia', $e, $request);
+        }
+    }
+
+
+    /**
+     * @autor Jeremy Reyes B.
+     * @version 1.0
+     * @date 2017-10-27 - 12:40 PM
+     *
+     * Consulta total general a pagar
+     *
+     * @param request $request:         Peticiones.
+     * @param integer $idEmpresa:       ID empresa.
+     *
+     * @return object
+     */
+    public static function ConsultarTotalGeneralAPagar($request, $idEmpresa)
+    {
+        try {
+            return Prestamo::select(DB::raw('SUM(total) AS total'))
+                ->where('id_empresa',$idEmpresa)
+                ->where('estado',1)
+                ->get();
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTotalGeneralAPagar', $e, $request);
         }
     }
 }
