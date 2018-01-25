@@ -270,8 +270,7 @@ class PrestamoDetalleController extends Controller
                 $cuotas = PrestamoDetalle::ConsultarPorEmpPreFecMay($request, $idEmpresa, $idPrestamo, $saldoAtrasado->fecha_pago);
             }
 
-
-            if ($cuotas->count() > 0) {
+            if ($cuotas) {
 
                 foreach ($cuotas as $cuota) {
 

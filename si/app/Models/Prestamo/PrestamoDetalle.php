@@ -517,12 +517,15 @@ class PrestamoDetalle extends Model
     public static function ConsultarPorEmpPreFecMay($request, $idEmpresa, $idPrestamo, $fecha) {
         try {
 
-            return PrestamoDetalle::where('id_empresa',$idEmpresa)
-                ->where('id_prestamo',$idPrestamo)
-                ->where('estado',1)
-                ->where(DB::raw("fecha_pago > '$fecha'"))
-                ->orderBy('id')
-                ->get();
+            return DB::select(
+                "SELECT *
+                FROM p_prestamo_detalle
+                WHERE id_empresa = {$idEmpresa}
+                      AND id_prestamo = {$idPrestamo}
+                      AND estado = 1
+                      AND fecha_pago > '{$fecha}'
+                ORDER BY id ASC"
+            );
 
         } catch (\Exception $e) {
             $hs = new HerramientaStidsController();
