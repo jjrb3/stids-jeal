@@ -81,6 +81,75 @@
                     </div>
                 </div>
 
+                <div id="bg-prestamo-detalle-recaudo" class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>Detalle general del recaudo de los prestamos</h5>
+                            <div class="pull-right">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-xs btn-white ocultar">Hoy</button>
+                                    <button type="button" class="btn btn-xs btn-white ocultar">Semanal</button>
+                                    <button type="button" class="btn btn-xs btn-white active">Mensual</button>
+                                    <button type="button" class="btn btn-xs btn-white ocultar">Anual</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <div id="chartdiv" style="width: 100%; height: 400px;margin-top: -16px;">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <ul id="lista-prestamo-totales" class="stat-list">
+                                        <li>
+                                            <h2 class="no-margins precio-interes">$0</h2>
+                                            <small>Total G. Intereses pagados</small>
+                                            <div class="stat-percent"><span class="proncentaje-interes">0%</span> <i class="fa fa-level-up text-success"></i></div>
+                                            <div class="progress progress-mini">
+                                                <div style="background-color: #1c84c6" class="progress-bar pb-interes"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h2 class="no-margins precio-capital">$0</h2>
+                                            <small>Total G. Abono a capital</small>
+                                            <div class="stat-percent"><span class="proncentaje-capital">0%</span> <i class="fa fa-level-up text-info"></i></div>
+                                            <div class="progress progress-mini">
+                                                <div style="background-color:#23c6c8;" class="progress-bar pb-capital"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h2 class="no-margins precio-total-pagado">$0</h2>
+                                            <small>Total G. Recaudado</small>
+                                            <div class="stat-percent"><span class="proncentaje-total-pagado">0%</span> <i class="fa fa-level-up text-navy"></i></div>
+                                            <div class="progress progress-mini">
+                                                <div class="progress-bar pb-total-pagado"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h2 class="no-margins precio-por-recaudar">$0</h2>
+                                            <small>Total G. Por recaudar</small>
+                                            <div class="stat-percent"><span class="proncentaje-por-recaudar">0%</span> <i class="fa fa-level-down text-danger"></i></div>
+                                            <div class="progress progress-mini">
+                                                <div style="background-color: #ed5565" class="progress-bar pb-por-recaudar"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <h2 class="no-margins precio-general">$10,930,039,300</h2>
+                                            <small>Total General</small>
+                                            <div class="stat-percent"><span class="proncentaje-general">0%</span> <i class="fa fa-warning text-warning"></i></div>
+                                            <div class="progress progress-mini">
+                                                <div style="background-color: #f8ac59" class="progress-bar pb-general"></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div id="bloque-grafica-usuario-transaccion" class="col-lg-8 ocultar">
                     <div class="ibox float-e-margins">
                         <div class="ibox-title">
@@ -126,7 +195,6 @@
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </div>

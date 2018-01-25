@@ -447,4 +447,29 @@ class HerramientaStidsController extends Controller
 
         return null;
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-26 - 02:29 PM
+     *
+     * Obtiene el dia de inicio y el dia final del mes
+     *
+     * @param integer $mes:     Numero del mes a buscar.
+     * @param integer $anhio:   Año.
+     *
+     * @return array
+     */
+    public function ObtenerInicioFinPorMes($mes, $anhio) {
+
+        $ultimoDia = date("d",(mktime(0,0,0,$mes + 1,1,$anhio) -1));
+
+        return [
+            'inicial'       => 1,
+            'final'         => $ultimoDia,
+            'fecha_inicial' => date("{$anhio}-{$mes}-01"),
+            'fecha_final'   => date("{$anhio}-{$mes}-{$ultimoDia}")
+        ];
+    }
 }

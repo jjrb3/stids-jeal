@@ -235,6 +235,7 @@ class Reportes extends Model
      * Consulta los prestamos que estan sin completar por rango de fecha
      *
      * @param request $request:         Peticiones.
+     * @param integer $idEmpresa:       ID empresa.
      * @param string  $fechaInicial:    Fecha inicial.
      * @param string  $fechaFinal:      Fecha final.
      *

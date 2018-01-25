@@ -290,4 +290,66 @@ class Prestamo extends Model
             return $hs->Log(self::MODULO,self::MODELO,'Completados', $e, $request);
         }
     }
+
+
+    /**
+     * @autor Jeremy Reyes B.
+     * @version 1.0
+     * @date 2017-10-27 - 12:40 PM
+     *
+     * Consulta los prestamos que estan sin completar por rango de fecha
+     *
+     * @param request $request:         Peticiones.
+     * @param integer $idEmpresa:       ID empresa.
+     * @param string  $fechaInicial:    Fecha inicial.
+     * @param string  $fechaFinal:      Fecha final.
+     *
+     * @return object
+     */
+    public static function ConsultarTotalRecaudado($request, $idEmpresa, $fechaInicial, $fechaFinal)
+    {
+        try {
+            return DB::select(
+                "SELECT *,
+                        ROUND(intereses/total_pagado * 100,2)       AS porcentaje_interes,
+                        ROUND(abono_capital/total_pagado * 100,2)   AS porcentaje_capital,
+                        ROUND(total_pagado/total_general * 100,2)   AS porcentaje_pagado,
+                        ROUND(total_recaudar/total_general * 100,2) AS porcentaje_recaudar
+                FROM (
+                    SELECT IF(SUM(ppd.intereses) < SUM(ppd.valor_pagado),
+                             SUM(ppd.intereses),
+                             SUM(ppd.valor_pagado)
+                          )                                               AS intereses,
+                          IF(SUM(ppd.intereses) < SUM(ppd.valor_pagado),
+                             SUM(ppd.valor_pagado) - SUM(ppd.intereses),
+                             0
+                          )                                               AS abono_capital,
+                          SUM(ppd.valor_pagado)                           AS total_pagado,
+                          SUM(pp.total) - SUM(ppd.valor_pagado)           AS total_recaudar,
+                          SUM(pp.total)                                   AS total_general
+                          
+                    FROM p_prestamo pp
+                    INNER JOIN p_prestamo_detalle ppd       ON  pp.id             = ppd.id_prestamo
+                                                            AND pp.id_empresa     = ppd.id_empresa
+                                                            AND ppd.estado        > -1
+                    INNER JOIN p_prestamo_detalle_pago ppdp ON  ppd.id            = ppdp.id_prestamo_detalle
+                                                            AND ppd.id_empresa    = ppdp.id_empresa
+                                                            AND ppdp.estado       = 1
+                    INNER JOIN p_cliente pc                 ON  pp.id_cliente     = pc.id
+                    INNER JOIN p_estado_pago pep            ON  pp.id_estado_pago = pep.id
+                    INNER JOIN s_transacciones st           ON  ppdp.id           = st.id_alterado
+                                                            AND st.id_permiso     = 1
+                                                            AND st.id_modulo      = 32
+                                                            AND st.nombre_tabla   = 'p_prestamo_detalle_pago'
+                
+                    WHERE pp.id_empresa = {$idEmpresa}
+                    AND st.fecha_alteracion BETWEEN '{$fechaInicial}' AND '{$fechaFinal}'
+                ) transacciones"
+            );
+
+        } catch (\Exception $e) {
+            $hs = new HerramientaStidsController();
+            return $hs->Log(self::MODULO,self::MODELO,'ConsultarTotalRecaudado', $e, $request);
+        }
+    }
 }

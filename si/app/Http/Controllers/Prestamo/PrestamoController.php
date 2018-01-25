@@ -404,4 +404,31 @@ class PrestamoController extends Controller
             'sin_completar' => $totalPrestamoSinCompletar
         ]);
     }
+
+
+    /**
+     * @autor: Jeremy Reyes B.
+     * @version: 1.0
+     * @date: 2018-01-23 - 12:35 PM
+     * @see: 1. Modulo::ConsultarModulosActivos.
+     *
+     * Consulta los totales para estadisticas
+     *
+     * @param request $request: Peticiones realizadas.
+     *
+     * @return object
+     */
+    public static function DetalleRecaudo(Request $request) {
+
+        $idEmpresa = $request->session()->get('idEmpresa');
+
+        $fecha = self::$hs->ObtenerInicioFinPorMes(date('m'),date('Y'));
+
+        $totales = Prestamo::ConsultarTotalRecaudado($request, $idEmpresa, $fecha['fecha_inicial'], $fecha['fecha_final']);
+
+
+        return response()->json([
+            'totales'   => $totales ? $totales[0] : '',
+        ]);
+    }
 }

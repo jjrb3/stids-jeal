@@ -38,6 +38,9 @@
     <!-- Dropzone -->
     <link rel="stylesheet" href="{{asset('temas/stids/librerias/dropzone/basic.css')}}">
 
+    <!-- Amcharts -->
+    <link rel="stylesheet" href="{{asset('temas/stids/librerias/amcharts/export.css')}}">
+
 
     <link rel="stylesheet" href="{{asset('temas/stids/librerias/jquery-mask/mask.css')}}" type="text/css" media="all">
 
@@ -360,6 +363,12 @@
 
         <!-- Dropzone -->
         <script src="{{asset('temas/stids/librerias/dropzone/dropzone.js')}}" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Amcharts -->
+        <script src="{{asset('temas/stids/librerias/amcharts/amcharts.js')}}"></script>
+        <script src="{{asset('temas/stids/librerias/amcharts/export.min.js')}}"></script>
+        <script src="{{asset('temas/stids/librerias/amcharts/light.js')}}"></script>
+        <script src="{{asset('temas/stids/librerias/amcharts/serial.js')}}"></script>
 
 
         <!-- Stids -->
